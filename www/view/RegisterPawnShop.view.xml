@@ -1,0 +1,16 @@
+<mvc:View xmlns:unified="sap.ui.unified"
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns:l="sap.ui.layout"
+          xmlns:f="sap.ui.layout.form"
+          xmlns:core="sap.ui.core"
+          xmlns="sap.m"
+          controllerName="mortgage.pawnshop.controller.RegisterPawnShop">
+  <Page>
+      <content>
+          <f:Form >
+
+
+          </f:Form>
+      </content>
+  </Page>
+</mvc:View>

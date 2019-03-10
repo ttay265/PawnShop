@@ -1,5 +1,5 @@
 sap.ui.define([
-    "mortgage.pawnshop/controller/BaseController"
+    "mortgage/pawnshop/controller/BaseController"
 ], function (BaseController) {
     "use strict";
     return {

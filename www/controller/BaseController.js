@@ -13,8 +13,8 @@ sap.ui.define([
     'sap/m/ActionSheet',
     'sap/m/library',
     'sap/m/MessageBox'
-], function(Controller, UIComponent, Device, JSONModel, BusyDialog, Button, MessageToast, ResponsivePopover, syncStyleClass,
-            NotificationListItem, CustomData, ActionSheet, mobileLibrary, MessageBox) {
+], function (Controller, UIComponent, Device, JSONModel, BusyDialog, Button, MessageToast, ResponsivePopover, syncStyleClass,
+             NotificationListItem, CustomData, ActionSheet, mobileLibrary, MessageBox) {
     "use strict";
 
     // shortcut for sap.m.PlacementType
@@ -24,7 +24,7 @@ sap.ui.define([
 
     return Controller.extend("mortgage.pawnshop.controller.BaseController", {
 
-        openBusyDialog: function(oSetting) {
+        openBusyDialog: function (oSetting) {
             if (!this.busyDialog) {
                 this.busyDialog = new BusyDialog(oSetting);
             } else {
@@ -34,7 +34,7 @@ sap.ui.define([
             }
             this.busyDialog.open();
         },
-        closeBusyDialog: function() {
+        closeBusyDialog: function () {
             if (this.busyDialog) {
                 this.busyDialog.close();
             }
@@ -45,13 +45,13 @@ sap.ui.define([
          * @param {string} sId id of the control
          * @returns {sap.m.control} the control
          */
-        getId: function() {
+        getId: function () {
             return this.getView().getId();
         },
-        byId: function(sId) {
+        byId: function (sId) {
             return this.getView().byId(sId);
         },
-        getSId: function(id) {
+        getSId: function (id) {
             return this.getView().getId() + "--" + id;
         },
         /**
@@ -60,18 +60,18 @@ sap.ui.define([
          * @param {string} sId id of the control
          * @returns {sap.m.control} the control
          */
-        toast: function(sMessage) {
+        toast: function (sMessage) {
             return MessageToast.show(sMessage);
         },
 
-        back: function() {
+        back: function () {
             window.history.back();
         },
 
-        getDevice: function() {
+        getDevice: function () {
             return Device;
         },
-        dialogClose: function(oSource) {
+        dialogClose: function (oSource) {
             oSource.close();
         },
         /**
@@ -79,7 +79,7 @@ sap.ui.define([
          * @public
          * @returns {sap.ui.core.routing.Router} the router for this component
          */
-        getRouter: function() {
+        getRouter: function () {
             return this.getOwnerComponent().getRouter();
         },
 
@@ -89,7 +89,7 @@ sap.ui.define([
          * @param {string} sName the model name
          * @returns {sap.ui.model.Model} the model instance
          */
-        getModel: function(sName) {
+        getModel: function (sName) {
             // if (sName === null || sName === "") {
             // 	return this.getOwnerComponent().getModel("i18n");
             // }
@@ -102,7 +102,7 @@ sap.ui.define([
          * @param {string} sName the model name
          * @returns {sap.ui.model.Model} the model instance
          */
-        createModel: function(sName) {
+        createModel: function (sName) {
             var model = new JSONModel();
             this.getView().setModel(model, sName);
         },
@@ -114,10 +114,10 @@ sap.ui.define([
          * @param {string} sName the model name
          * @returns {sap.ui.mvc.View} the view instance
          */
-        setModel: function(oModel, sName) {
+        setModel: function (oModel, sName) {
             return this.getView().setModel(oModel, sName);
         },
-        onDialogClose: function(e) {
+        onDialogClose: function (e) {
             e.getSource().getParent().close();
         },
         /**
@@ -125,35 +125,35 @@ sap.ui.define([
          * @public
          * @returns {sap.ui.model.resource.ResourceModel} the resource model of the component
          */
-        getResourceBundle: function() {
+        getResourceBundle: function () {
             return this.getOwnerComponent().getModel("i18n").getResourceBundle();
         },
         /**
          * Convenience method to get the global model containing the global state of the app.
          * @returns {object} the global Propery model
          */
-        getGlobalModel: function() {
-            return this.getOwnerComponent().getModel("globalProperties");
+        getGlobalModel: function () {
+            return this.getOwnerComponent().getModel("global");
         },
         /**
          * Convenience method to get the global model containing the global state of the app.
          * @returns {object} the global Propery model
          */
-        getFilterParmeter: function() {
+        getFilterParmeter: function () {
             return this.getOwnerComponent().getModel("globalFilterParam");
         },
         /**
          * Convenience method to get the global model containing the global state of the app.
          * @returns {object} the global Propery model
          */
-        getCartModel: function() {
+        getCartModel: function () {
             return this.getOwnerComponent().getModel("CartProperties");
         },
         /**
          * Convenience method
          * @returns {object} the application controller
          */
-        getApplication: function() {
+        getApplication: function () {
             return this.getGlobalModel().getProperty("/application");
         },
 
@@ -162,19 +162,19 @@ sap.ui.define([
          * @returns {object} the application controller
          */
 
-        checkLogin: function(username, password) {
+        checkLogin: function (username, password) {
             //Set Busy before check login
             var that = this;
             var logonData = {
                 username: username,
                 password: password
             };
-            var onSuccess = function(res, status, xhr) {
+            var returnCall = false;
+            var onSuccess = function (res, status, xhr) {
                     console.log(res);
-                    // var logonresult = res.id !== "" && res.password !== "";
-                    var logonresult = true;
+                    var logonResult = res.id !== "" && res.password !== "";
                     //process after login
-                    if (logonresult && res.role.roleName === "ROLE_PAWNER") {
+                    if (logonResult && res.role.roleName === "ROLE_PAWNSHOP") {
                         //post-process
                         that.getGlobalModel().setProperty("/accountId", res.id);
                         that.getGlobalModel().setProperty("/username", res.username);
@@ -184,11 +184,13 @@ sap.ui.define([
                         //save_login
                         localStorage.setItem("username", res.username);
                     } else {
+                        logonResult = false;
                         //if login = false
                     }
                     //Off-Busy after proceed
+                    returnCall = logonResult;
                 },
-                onError = function(jqXHR, textStatus, errorThrown) {
+                onError = function (jqXHR, textStatus, errorThrown) {
                     //Mock-backend test login
 
                     // that._LoginDialog.getModel("loginResult").setProperty("/failed", true);
@@ -204,23 +206,25 @@ sap.ui.define([
                 //local
                 url: "model/account.json",
                 type: "GET",
+                async: false,
                 //end-local
                 dataType: "json",
                 success: onSuccess,
                 error: onError
             });
+            return returnCall;
         },
 
-        backToHome: function() {
+        backToHome: function () {
             this.getRouter().navTo("home");
         },
 
-        sellItems: function() {
+        sellItems: function () {
             this.getRouter().navTo("sellItem");
         },
 
         /*************************************************************************************************/
-        openDialogLogin: function() {
+        openDialogLogin: function () {
             if (!this._LoginDialog) {
                 this._LoginDialog = sap.ui.xmlfragment(this.getId(), "sap.ui.demo.basicTemplate.fragment.Login",
                     this);
@@ -237,7 +241,7 @@ sap.ui.define([
             this._LoginDialog.open();
         },
 
-        openDialogRegister: function() {
+        openDialogRegister: function () {
             if (!this._RegisterDialog) {
                 this._RegisterDialog = sap.ui.xmlfragment(this.getId(), "sap.ui.demo.basicTemplate.fragment.Register",
                     this);
@@ -255,7 +259,7 @@ sap.ui.define([
         /**
          * Event handler for the continue button
          */
-        checkInputRegister: function() {
+        checkInputRegister: function () {
             var that = this;
             // collect input controls
             var registerModel = this._RegisterDialog.getModel("registerResult");
@@ -272,12 +276,13 @@ sap.ui.define([
                 url: "http://192.168.0.6:8080/dang-ky",
                 dataType: "json",
                 success: onSuccess,
-                error: function(jqXHR, textStatus, errorThrown) {}
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
 
             });
         },
 
-        dialogAfterclose: function() {
+        dialogAfterclose: function () {
             if (this._oDialog) {
                 this._oDialog.destroy(); //destroy only the content inside the Dialog
             }
@@ -288,7 +293,7 @@ sap.ui.define([
          * @param {sap.ui.base.Event} oEvent the button press event
          * @public
          */
-        onNotificationPress: function(oEvent) {
+        onNotificationPress: function (oEvent) {
             // close message popover
             var oMessagePopover = this.byId("errorMessagePopover");
             if (oMessagePopover && oMessagePopover.isOpen()) {
@@ -300,7 +305,7 @@ sap.ui.define([
             alertPo.openBy(placement);
         },
 
-        onUserNamePress: function(oEvent) {
+        onUserNamePress: function (oEvent) {
             if (!this.oActionSheet) {
                 this.oActionSheet = this.byId("userMessageActionSheet");
             }
@@ -308,7 +313,7 @@ sap.ui.define([
             this.oActionSheet.setVisible(true);
         },
 
-        logout: function() {
+        logout: function () {
             this.getGlobalModel().setProperty("/accountId", "");
             this.getGlobalModel().setProperty("/username", "");
             this.getGlobalModel().setProperty("/role", "");
@@ -318,12 +323,12 @@ sap.ui.define([
             localStorage.removeItem("username");
         },
 
-        filterTable: function(aCurrentFilterValues) {
+        filterTable: function (aCurrentFilterValues) {
             this.getTableItems().filter(this.getFilters(aCurrentFilterValues));
             this.updateFilterCriterias(this.getFilterCriteria(aCurrentFilterValues));
         },
 
-        onSearch: function(oEvent) {
+        onSearch: function (oEvent) {
             var value = oEvent.getParameter("query");
         }
     });

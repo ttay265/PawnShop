@@ -3,12 +3,12 @@ sap.ui.define([
     "sap/m/MessageToast",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
-    "mortgage.pawnshop/model/formatter",
+    "mortgage/pawnshop/model/formatter",
     "sap/m/BusyDialog"
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog) {
     "use strict";
 
-    return BaseController.extend("mortgage.pawnshop.controller.CreateCustomer", {
+    return BaseController.extend("mortgage.pawnshop.controller.CreateTransaction", {
         formatter: formatter,
         onInit: function () {
             this.busyDialog = new BusyDialog();
@@ -150,9 +150,9 @@ sap.ui.define([
             var source = oEvent.getSource();
             this.doNav("OrderList", source);
         },
-        navToCreateCustomer: function (oEvent) {
+        navToRegisterPawnShop: function (oEvent) {
             var source = oEvent.getSource();
-            this.doNav("createCustomer", source);
+            this.doNav("RegisterPawnShop", source);
         },
         __cancel: function () {
             var status = this.getGlobalModel().getProperty("/status");

@@ -23,23 +23,7 @@ sap.ui.define([
             // call the base component's init function
             UIComponent.prototype.init.apply(this, arguments);
             var lblHome = this.getModel("i18n").getResourceBundle().getText("navToHome");
-            var CartModel = new JSONModel({
-                "salePerson": "",
-                "TransactionType": "SALE",
-                "TotalQuantity": 0,
-                "CustomerId": "",
-                "CustomerName": "",
-                "Mobile": "",
-                "Cslab": "",
-                "ShippingMethod": "In-Store",
-                "ShippingAddress": "",
-                "ShipDate": null,
-                "ShipTime": null,
-                "DeliveryNotes": "",
-                "CartItems": []
-            });
             this.setModel(models.createGlobalModel(), "global");
-            this.setModel(CartModel, "CartProperties");
             this.getRouter().getTargetHandler().setCloseDialogs(false);
             this.getModel().attachRequestFailed(this.requestFailed, this);
             this.getRouter().initialize();

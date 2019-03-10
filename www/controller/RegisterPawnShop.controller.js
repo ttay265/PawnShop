@@ -8,7 +8,7 @@ sap.ui.define([
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog) {
     "use strict";
 
-    return BaseController.extend("mortgage.pawnshop.controller.MainApp", {
+    return BaseController.extend("mortgage.pawnshop.controller.RegisterPawnShop", {
         formatter: formatter,
         onInit: function () {
             this.busyDialog = new BusyDialog();

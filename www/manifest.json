@@ -95,62 +95,17 @@
         {
           "pattern": "home",
           "name": "home",
-          "target": "product"
+          "target": "home"
         },
         {
-          "pattern": "proDetail/{Matnr}",
-          "name": "productDetail",
-          "target": "prodetail"
+          "pattern": "regPawnShop",
+          "name": "regPawnShop",
+          "target": "regPawnShop"
         },
         {
-          "pattern": "proList/{Mtart}",
-          "name": "proList",
-          "target": "product"
-        },
-        {
-          "pattern": "cusList",
-          "name": "cusList",
-          "target": "customer"
-        },
-        {
-          "pattern": "saleIncomeMaster",
-          "name": "saleIncomeMaster",
-          "target": "saleIncMaster"
-        },
-        {
-          "pattern": "saleIncome/{Audat}",
-          "name": "saleIncome",
-          "target": "saleInc"
-        },
-        {
-          "pattern": "saleIncomeDetail/{Vbeln}",
-          "name": "saleIncomeDetail",
-          "target": "saleIncDetail"
-        },
-        {
-          "pattern": "Order-list",
-          "name": "OrderList",
-          "target": "saleOrder"
-        },
-        {
-          "pattern": "OrderDetail/{Vbeln}",
-          "name": "OrderDetail",
-          "target": "orderDetail"
-        },
-        {
-          "pattern": "cart",
-          "name": "cart",
-          "target": "cart"
-        },
-        {
-          "pattern": "creCustomer",
-          "name": "createCustomer",
-          "target": "creCustomer"
-        },
-        {
-          "pattern": "updateCustomer/{CustomerId}",
-          "name": "updateCustomer",
-          "target": "updateCustomer"
+          "pattern": "createTransaction",
+          "name": "creTrans",
+          "target": "creTrans"
         }
       ],
       "targets": {
@@ -166,75 +121,21 @@
           "controlId": "rootApp",
           "controlAggregation": "pages"
         },
-        "product": {
+        "home": {
           "parent": "mainApp",
-          "viewName": "Product",
+          "viewName": "Home",
           "viewLevel": 2,
           "controlId": "mainApp",
           "controlAggregation": "pages"
         },
-        "customer": {
-          "parent": "mainApp",
-          "viewName": "Customer",
-          "viewLevel": 2,
-          "controlId": "mainApp",
-          "controlAggregation": "pages"
-        },
-        "prodetail": {
-          "viewName": "ProductDetail",
+        "regPawnShop": {
+          "viewName": "RegisterPawnShop",
           "viewLevel": 2,
           "controlId": "rootApp",
           "controlAggregation": "pages"
         },
-        "saleIncMaster": {
-          "parent": "mainApp",
-          "viewName": "SaleIncomeMaster",
-          "viewLevel": 2,
-          "controlId": "mainApp",
-          "controlAggregation": "pages"
-        },
-        "saleInc": {
-          "parent": "mainApp",
-          "viewName": "SaleIncome",
-          "viewLevel": 3,
-          "controlId": "mainApp",
-          "controlAggregation": "pages"
-        },
-        "saleIncDetail": {
-          "parent": "mainApp",
-          "viewName": "SaleIncomeItem",
-          "viewLevel": 4,
-          "controlId": "mainApp",
-          "controlAggregation": "pages"
-        },
-        "saleOrder": {
-          "parent": "mainApp",
-          "viewName": "OrderList",
-          "viewLevel": 2,
-          "controlId": "mainApp",
-          "controlAggregation": "pages"
-        },
-        "cart": {
-          "viewName": "Transaction",
-          "viewLevel": 2,
-          "controlId": "rootApp",
-          "controlAggregation": "pages"
-        },
-        "orderDetail": {
-          "parent": "mainApp",
-          "viewName": "OrderDetail",
-          "viewLevel": 3,
-          "controlId": "mainApp",
-          "controlAggregation": "pages"
-        },
-        "creCustomer": {
-          "viewName": "CreateCustomer",
-          "viewLevel": 2,
-          "controlId": "rootApp",
-          "controlAggregation": "pages"
-        },
-        "updateCustomer": {
-          "viewName": "CreateCustomer",
+        "creTrans": {
+          "viewName": "CreateTransaction",
           "viewLevel": 2,
           "controlId": "rootApp",
           "controlAggregation": "pages"

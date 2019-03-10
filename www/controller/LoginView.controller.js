@@ -10,14 +10,14 @@ sap.ui.define([
          * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
          * @memberOf mortgage.pawnshop.view.LoginView
          */
-            onInit: function () {
-                // this.logon = this.checkLogin();
-                var text = this.getResourceBundle().getText("txtLoginWaitingText");
-                var title = this.getResourceBundle().getText("txtLoginWaitingTitle");
-                this.busyDialog = new sap.m.BusyDialog({
-                    text: text, title: title
-                });
-                this.getRouter().getRoute("login").attachPatternMatched(this.onAfterRendering, this);
+        onInit: function () {
+            // this.logon = this.checkLogin();
+            var text = this.getResourceBundle().getText("txtLoginWaitingText");
+            var title = this.getResourceBundle().getText("txtLoginWaitingTitle");
+            this.busyDialog = new sap.m.BusyDialog({
+                text: text, title: title
+            });
+            this.getRouter().getRoute("login").attachPatternMatched(this.onAfterRendering, this);
             this.txtUsername = this.getView().byId("_txtUsername");
             this.txtPassword = this.getView().byId("_txtPassword");
             this.txtPassword.setValue("");
@@ -45,27 +45,18 @@ sap.ui.define([
                 }
             }
         },
-        login: function (pernr, password) {
-            var that = this;
-            var Pernr = pernr;
-            var onSucccess = function (odata) {
-                    that.processLoginResult(odata);
-                },
-                onError = function (error) {
-                    that.busyDialog.close();
-                    var msg = that.getResourceBundle().getText("LOGIN_ERROR");
-                    MessageToast.show(msg);
-                };
-            var parameters = {
-                Pernr: pernr,
-                Passcode: password
-            };
-            this.getModel().callFunction("/Login", {
-                method: "POST",
-                urlParameters: parameters,
-                success: onSucccess,
-                error: onError
-            });
+        login: function (username, password) {
+            this.busyDialog.open();
+            var result = this.checkLogin(username, password);
+            if (result) {
+                this.getRouter().navTo("home", true);
+            } else {
+                var msg;
+                msg = this.getResourceBundle().getText("msgWrongPass");
+                this.txtPassword.setValueState("Error");
+                this.txtPassword.setValueStateText(msg);
+            }
+
         },
         processLoginResult: function (odata) {
             var msg = "";

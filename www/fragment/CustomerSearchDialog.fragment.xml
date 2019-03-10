@@ -10,7 +10,7 @@
                 <Button icon="sap-icon://add-contact"
                         width="{ ${device>/system/phone} ? '310dpx' : '30%' }"
                         text="{i18n>LBL_CREATE_CUSTOMER}"
-                        press="onCreateCustomerPress"/>
+                        press="onRegisterPawnShopPress"/>
             </Toolbar>
         </customHeader>
         <subHeader>

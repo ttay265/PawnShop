@@ -1,0 +1,252 @@
+{
+  "_version": "1.1.0",
+  "sap.app": {
+    "_version": "1.1.0",
+    "id": "mortgage.pawnshop",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "sourceTemplate": {
+      "id": "ui5template.basicSAPUI5ApplicationProject",
+      "version": "1.32.0"
+    }
+  },
+  "sap.ui": {
+    "_version": "1.1.0",
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "@res/icon.png",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    },
+    "supportedThemes": [
+      "sap_belize",
+      "sap_bluecrystal"
+    ]
+  },
+  "sap.ui5": {
+    "_version": "1.1.0",
+    "rootView": {
+      "viewName": "mortgage.pawnshop.view.InitView",
+      "type": "XML"
+    },
+    "dependencies": {
+      "minUI5Version": "1.30.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.ui.layout": {},
+        "sap.tnt": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "mortgage.pawnshop.i18n.i18n"
+        }
+      },
+      "": {
+        "type": "sap.ui.model.odata.v2.ODataModel",
+        "settings": {
+          "useBatch": false,
+          "user": "abapleader",
+          "password": "TH!@#$%^789",
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "None",
+          "setRefreshAfterChange": true,
+          "headers": {
+            "sap-client": 950
+          }
+        },
+        "uri": "http://appmobile.dienmaythienhoa.vn:8004/sap/opu/odata/SAP/mortgage.pawnshop_SRV"
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "mortgage.pawnshop.view",
+        "targetAggregation": "pages",
+        "clearTarget": false
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "login",
+          "target": "login"
+        },
+        {
+          "pattern": "home",
+          "name": "home",
+          "target": "product"
+        },
+        {
+          "pattern": "proDetail/{Matnr}",
+          "name": "productDetail",
+          "target": "prodetail"
+        },
+        {
+          "pattern": "proList/{Mtart}",
+          "name": "proList",
+          "target": "product"
+        },
+        {
+          "pattern": "cusList",
+          "name": "cusList",
+          "target": "customer"
+        },
+        {
+          "pattern": "saleIncomeMaster",
+          "name": "saleIncomeMaster",
+          "target": "saleIncMaster"
+        },
+        {
+          "pattern": "saleIncome/{Audat}",
+          "name": "saleIncome",
+          "target": "saleInc"
+        },
+        {
+          "pattern": "saleIncomeDetail/{Vbeln}",
+          "name": "saleIncomeDetail",
+          "target": "saleIncDetail"
+        },
+        {
+          "pattern": "Order-list",
+          "name": "OrderList",
+          "target": "saleOrder"
+        },
+        {
+          "pattern": "OrderDetail/{Vbeln}",
+          "name": "OrderDetail",
+          "target": "orderDetail"
+        },
+        {
+          "pattern": "cart",
+          "name": "cart",
+          "target": "cart"
+        },
+        {
+          "pattern": "creCustomer",
+          "name": "createCustomer",
+          "target": "creCustomer"
+        },
+        {
+          "pattern": "updateCustomer/{CustomerId}",
+          "name": "updateCustomer",
+          "target": "updateCustomer"
+        }
+      ],
+      "targets": {
+        "login": {
+          "viewName": "LoginView",
+          "viewLevel": 1,
+          "controlId": "rootApp",
+          "controlAggregation": "pages"
+        },
+        "mainApp": {
+          "viewName": "MainApp",
+          "viewLevel": 1,
+          "controlId": "rootApp",
+          "controlAggregation": "pages"
+        },
+        "product": {
+          "parent": "mainApp",
+          "viewName": "Product",
+          "viewLevel": 2,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "customer": {
+          "parent": "mainApp",
+          "viewName": "Customer",
+          "viewLevel": 2,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "prodetail": {
+          "viewName": "ProductDetail",
+          "viewLevel": 2,
+          "controlId": "rootApp",
+          "controlAggregation": "pages"
+        },
+        "saleIncMaster": {
+          "parent": "mainApp",
+          "viewName": "SaleIncomeMaster",
+          "viewLevel": 2,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "saleInc": {
+          "parent": "mainApp",
+          "viewName": "SaleIncome",
+          "viewLevel": 3,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "saleIncDetail": {
+          "parent": "mainApp",
+          "viewName": "SaleIncomeItem",
+          "viewLevel": 4,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "saleOrder": {
+          "parent": "mainApp",
+          "viewName": "OrderList",
+          "viewLevel": 2,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "cart": {
+          "viewName": "Transaction",
+          "viewLevel": 2,
+          "controlId": "rootApp",
+          "controlAggregation": "pages"
+        },
+        "orderDetail": {
+          "parent": "mainApp",
+          "viewName": "OrderDetail",
+          "viewLevel": 3,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "creCustomer": {
+          "viewName": "CreateCustomer",
+          "viewLevel": 2,
+          "controlId": "rootApp",
+          "controlAggregation": "pages"
+        },
+        "updateCustomer": {
+          "viewName": "CreateCustomer",
+          "viewLevel": 2,
+          "controlId": "rootApp",
+          "controlAggregation": "pages"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    }
+  }
+}

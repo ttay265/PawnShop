@@ -1,0 +1,95 @@
+<mvc:View
+        xmlns:core="sap.ui.core"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:unified="sap.ui.unified"
+        xmlns:sem="sap.m.semantic"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="sap.m"
+        controllerName="mortgage.pawnshop.controller.OrderList">
+    <sem:FullscreenPage
+            title="{i18n>tt_Orders} "
+            id="__page0"
+            showFooter="false">
+        <sem:content>
+            <HBox
+                    class="sapUiTinyMarginBeginEnd"
+                    width="100%"
+                    wrap="NoWrap"
+                    justifyContent="SpaceAround">
+                <items>
+                    <VBox width="{= ${device>/system/phone} ? '90%' : '300px' }">
+                        <DatePicker
+                                change="_doFilter"
+                                id="__fromDate"
+                                placeholder="{i18n>fromDate}"
+                                width="90%"
+                                displayFormat="dd/MM/yyyy"/>
+                    </VBox>
+                    <VBox width="{= ${device>/system/phone} ? '90%' : '300px' }">
+                        <DatePicker
+                                change="_doFilter"
+                                id="__toDate"
+                                placeholder="{i18n>toDate}"
+                                width="90%"
+                                displayFormat="dd/MM/yyyy"/>
+                    </VBox>
+                </items>
+            </HBox>
+            <List
+                    id="_listOrder"
+                    includeItemInSelection="true"
+                    mode="SingleSelectMaster"
+                    growingScrollToLoad="true"
+                    items="{path: '/OrderSet', length: '20' }"
+                    noDataText="{i18n>ORDER_NO_DATA}"
+                    itemPress="_onOrderPress">
+                <CustomListItem type="Active" id="_OrdersTemp">
+                    <content>
+                        <VBox class="sapUiTinyMarginBeginEnd">
+                            <items>
+                                <HBox
+                                        width="100%"
+                                        alignItems="Center"
+                                        fitContainer="true"
+                                        justifyContent="SpaceBetween"
+                                        height="40px">
+                                    <items>
+                                        <HBox
+                                                class="cusLine"
+                                                width="100%"
+                                                justifyContent="SpaceBetween">
+                                            <items>
+                                                <Text design="Bold" id="HD" text="{Fname}"/>
+                                                <Label text="{Vbeln}" id="Vbeln" visible="false"/>
+                                            </items>
+                                        </HBox>
+                                        <Button text="{Phone}" type="Transparent" enabled="false"/>
+                                    </items>
+                                </HBox>
+                                <HBox
+                                        width="100%"
+                                        alignItems="Center"
+                                        fitContainer="true"
+                                        justifyContent="SpaceBetween"
+                                        height="40px">
+                                    <items>
+                                        <HBox width="100%" justifyContent="SpaceBetween">
+                                            <items>
+                                                <Text id="HD1" text="SO[{Vbeln}]"/>
+                                                <unified:Currency
+                                                        class="sapUiTinyMarginBeginEnd"
+                                                        currency="{Waerk}"
+                                                        value="{= parseFloat(${Amount}) }"
+                                                        maxPrecision="0" id="_titleTotal"/>
+                                            </items>
+                                        </HBox>
+                                    </items>
+                                </HBox>
+                            </items>
+                        </VBox>
+                    </content>
+                </CustomListItem>
+            </List>
+        </sem:content>
+    </sem:FullscreenPage>
+</mvc:View>

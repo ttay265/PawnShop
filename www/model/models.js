@@ -20,9 +20,10 @@ sap.ui.define([
                 "appTitleIcon": "sap-icon://home"
             });
 			return globalModel;
-		}
-
-
+		},
+        createTransactionModel: function() {
+            return new JSONModel();
+        }
 	};
 
 });

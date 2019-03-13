@@ -1,0 +1,52 @@
+<mvc:View
+        xmlns:core="sap.ui.core"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:unified="sap.ui.unified"
+        xmlns:sem="sap.m.semantic"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="sap.m"
+        controllerName="mortgage.pawnshop.controller.Transaction">
+    <Page>
+        <Button text="{i18n>btn_register_pawnshop}" press="onRegister"/>
+        <Button text="{i18n>btn_create_transaction}" press="onCreateTransaction"/>
+        <Table items="{trans>/}">
+            <columns>
+                <Column>
+                    <Label text="{i18n>bl_tranid}"/>
+                </Column>
+                <Column>
+                    <Label text="{i18n>pawnee_name}"/>
+                </Column>
+                <Column>
+                    <Label text="{i18n>item}"/>
+                </Column>
+                <Column>
+                    <Label text="{i18n>item_cat}"/>
+                </Column>
+                <Column>
+                    <Label text="{i18n>date}"/>
+                </Column>
+                <Column>
+                    <Label text="{i18n>next_date}"/>
+                </Column>
+                <Column>
+                    <Label text="{i18n>status}"/>
+                </Column>
+
+            </columns>
+            <items>
+                <ColumnListItem press="onTransDetailPress" type="Active">
+                    <cells>
+                        <Text text="{trans>id}"/>
+                        <Text text="{trans>pawnee_name}"/>
+                        <Text text="{trans>item}"/>
+                        <Text text="{trans>item_cat/catDesc}"/>
+                        <Text text="{trans>date}"/>
+                        <Text text="{trans>next_date}"/>
+                        <Text text="{trans>status}"/>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
+</mvc:View>

@@ -132,7 +132,7 @@ sap.ui.define([
         onAfterRendering: function () {
             this.logon = this.checkLogin();
             if (this.logon) {
-                this.getRouter().navTo("home", true);
+                this.getRouter().navTo("transaction", true);
             } else {
                 this.getView().setBusy(false);
                 this.txtPassword.setValue("");

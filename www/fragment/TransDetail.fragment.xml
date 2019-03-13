@@ -1,0 +1,26 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m"
+                         xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" displayBlock="true">
+    <Dialog type="Standard" stretch="{device>/system/phone}" id="AddressDialog" title="{i18n>TITLE_POST_ADD_ITEM}">
+        <buttons>
+            <Button class="closebtn" text="{i18n>close}" press="onDialogClose" type="Reject"/>
+            <Button id="btn_cartItemDialogSubmit" text="Ok" press="_cartItemDialogSubmit" type="Accept"
+            />
+        </buttons>
+        <content>
+            <ObjectHeader responsive="true" condensed="true" title="{CartProperties>ProductName}"/>
+            <IconTabBar>
+                <items>
+                    <IconTabFilter id="1" text="{i18n>payment}">
+                        <Text text="a"/>
+                    </IconTabFilter>
+                    <IconTabFilter id="2" text="{i18n>history}">
+
+                    </IconTabFilter>
+                    <IconTabFilter id="3" text="{i18n>attachment}">
+
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

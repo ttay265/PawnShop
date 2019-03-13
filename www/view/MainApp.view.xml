@@ -16,15 +16,15 @@
                         <OverflowToolbarLayoutData priority="Disappear"/>
                     </layoutData>
                 </Title>
-                <ToolbarSpacer/>
-                <Button press="__toViewCart"
-                        text="{CartProperties>/TotalQuantity}"
-                        type="Transparent"
-                        icon="sap-icon://cart-3">
-                    <layoutData>
-                        <OverflowToolbarLayoutData priority="NeverOverflow"/>
-                    </layoutData>
-                </Button>
+                <!--<ToolbarSpacer/>-->
+                <!--<Button press="__toViewCart"-->
+                <!--text="{CartProperties>/TotalQuantity}"-->
+                <!--type="Transparent"-->
+                <!--icon="sap-icon://cart-3">-->
+                <!--<layoutData>-->
+                <!--<OverflowToolbarLayoutData priority="NeverOverflow"/>-->
+                <!--</layoutData>-->
+                <!--</Button>-->
             </tnt:ToolHeader>
         </tnt:header>
         <tnt:sideContent>
@@ -35,7 +35,7 @@
                                 icon="sap-icon://home"
                                 id="navToHome"
                                 select="navToHome"
-                                text="{i18n>navToHome}"/>
+                                text="{i18n>navTransaction}"/>
                         <!--<tnt:NavigationListItem                                -->
                         <!--icon="sap-icon://product"-->
                         <!--expanded="false"-->
@@ -51,7 +51,7 @@
                                 icon="sap-icon://customer"
                                 id="navCustomer"
                                 select="navCustomer"
-                                text="{i18n>navCustomer}"/>
+                                text="{i18n>navShopConfig}"/>
                         <tnt:NavigationListItem
                                 icon="sap-icon://loan"
                                 id="navSaleIncomeMaster"
@@ -64,19 +64,19 @@
                     <tnt:NavigationList>
                         <tnt:NavigationListItem select="" enabled="false"
                                                 text="{globalProperties>/name}"
-                        icon="sap-icon://employee"></tnt:NavigationListItem>
+                                                icon="sap-icon://employee"/>
                         <tnt:NavigationListItem select="" enabled="false"
                                                 text="{globalProperties>/SiteDesc}"
-                        icon="sap-icon://building"></tnt:NavigationListItem>
+                                                icon="sap-icon://building"/>
                         <tnt:NavigationListItem select="onUpdateAppPressed"
                                                 text="{i18n>LBL_UPDATE_APP}"
                                                 icon="sap-icon://download-from-cloud"/>
                         <tnt:NavigationListItem select="changePasswordPress"
                                                 text="{i18n>navChangePass}"
-                                                icon="sap-icon://user-edit"></tnt:NavigationListItem>
+                                                icon="sap-icon://user-edit"/>
                         <tnt:NavigationListItem select="logout"
                                                 text="{i18n>logout}"
-                                                icon="sap-icon://log"></tnt:NavigationListItem>
+                                                icon="sap-icon://log"/>
                     </tnt:NavigationList>
                 </tnt:fixedItem>
             </tnt:SideNavigation>

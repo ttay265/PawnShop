@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "pawnee_name": "Ngô Quốc Tuấn",
+    "item": "SH150i",
+    "item_cat": {
+      "catId": 1,
+      "catDesc": "Xe máy"
+    },
+    "date": "13-03-2019",
+    "next_date": "20-03-2019",
+    "status": "đang cầm"
+  },
+  {
+    "id": 2,
+    "pawnee_name": "Ngô Quốc Tèo",
+    "item": "IPhone XS Max",
+    "item_cat": {
+      "catId": 2,
+      "catDesc": "Điện thoại"
+    },
+    "date": "13-03-2019",
+    "next_date": "20-03-2019",
+    "status": "đang cầm"
+  },
+  {
+    "id": 3,
+    "pawnee_name": "Ngô Quốc Tủn",
+    "item": "Nhà Q7",
+    "item_cat": {
+      "catId": 3,
+      "catDesc": "Nhà sổ hồng"
+    },
+    "date": "13-03-2019",
+    "next_date": "20-03-2019",
+    "status": "trễ hạn"
+  }
+]

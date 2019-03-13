@@ -24,11 +24,14 @@ sap.ui.define([
             UIComponent.prototype.init.apply(this, arguments);
             var lblHome = this.getModel("i18n").getResourceBundle().getText("navToHome");
             this.setModel(models.createGlobalModel(), "global");
+            this.setModel(new JSONModel(), "trans");
+            this.setModel(models.createDeviceModel(), "device");
             this.getRouter().getTargetHandler().setCloseDialogs(false);
             this.getModel().attachRequestFailed(this.requestFailed, this);
             this.getRouter().initialize();
             // set the device model
-            this.setModel(models.createDeviceModel(), "device");
+
+
         },
         requestFailed: function (oEvent) {
 

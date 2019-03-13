@@ -93,9 +93,9 @@
           "target": "login"
         },
         {
-          "pattern": "home",
-          "name": "home",
-          "target": "home"
+          "pattern": "transaction",
+          "name": "transaction",
+          "target": "transaction"
         },
         {
           "pattern": "regPawnShop",
@@ -121,9 +121,9 @@
           "controlId": "rootApp",
           "controlAggregation": "pages"
         },
-        "home": {
+        "transaction": {
           "parent": "mainApp",
-          "viewName": "Home",
+          "viewName": "Transaction",
           "viewLevel": 2,
           "controlId": "mainApp",
           "controlAggregation": "pages"

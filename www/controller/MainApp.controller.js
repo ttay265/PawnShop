@@ -42,7 +42,7 @@ sap.ui.define([
             //     this._selectWard = this.byId("_selectWard");
             // }
             //Attachment matched
-            this.getRouter().getRoute("home").attachPatternMatched(this._onObjectMatched, this);
+            this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
         },
 
 

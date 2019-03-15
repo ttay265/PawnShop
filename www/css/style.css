@@ -177,3 +177,14 @@ sapMFlexBoxAlignContentStretch1 {
 .Right {
     width: 150px;
 }
+
+
+
+/*NEW PROJECT*/
+.longTextIconTabBar .sapMITBHorizontalWrapper {
+    max-width: 10rem;
+}
+
+.longTextIconTabBar .sapMITBHorizontal.sapMITBFilter>.sapMITBHorizontalWrapper>.sapMITBText {
+    max-width: 10rem;
+}

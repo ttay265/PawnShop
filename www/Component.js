@@ -22,6 +22,7 @@ sap.ui.define([
         init: function () {
             // call the base component's init function
             UIComponent.prototype.init.apply(this, arguments);
+
             var lblHome = this.getModel("i18n").getResourceBundle().getText("navToHome");
             this.setModel(models.createGlobalModel(), "global");
             this.setModel(new JSONModel(), "trans");
@@ -32,6 +33,16 @@ sap.ui.define([
             // set the device model
 
 
+        },
+        getContentDensityClass: function () {
+            if (!this._sContentDensityClass) {
+                if (!Device.support.touch) {
+                    this._sContentDensityClass = "sapUiSizeCompact";
+                } else {
+                    this._sContentDensityClass = "sapUiSizeCozy";
+                }
+            }
+            return this._sContentDensityClass;
         },
         requestFailed: function (oEvent) {
 

@@ -1,15 +1,17 @@
 <mvc:View
-        xmlns:core="sap.ui.core"
         xmlns:mvc="sap.ui.core.mvc"
-        xmlns:unified="sap.ui.unified"
-        xmlns:sem="sap.m.semantic"
-        xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="sap.m"
         controllerName="mortgage.pawnshop.controller.Transaction">
-    <Page>
-        <Button text="{i18n>btn_register_pawnshop}" press="onRegister"/>
-        <Button text="{i18n>btn_create_transaction}" press="onCreateTransaction"/>
-        <Table items="{trans>/}">
+    <Page showHeader="false">
+        <!--<Button text="{i18n>btn_register_pawnshop}" press="onRegister"/>-->
+        <Table inset="{= !${device>/system/phone}}" items="{trans>/}">
+            <headerToolbar>
+                <Toolbar>
+                    <content>
+                        <Button icon="sap-icon://add" text="{i18n>btn_create_transaction}" press="onCreateTransaction"/>
+                    </content>
+                </Toolbar>
+            </headerToolbar>
             <columns>
                 <Column>
                     <Label text="{i18n>bl_tranid}"/>
@@ -43,6 +45,12 @@
                         <Text text="{trans>item_cat/catDesc}"/>
                         <Text text="{trans>date}"/>
                         <Text text="{trans>next_date}"/>
+                        <ObjectStatus
+                                text="{trans>status/description}"
+                                state="{
+							path: 'trans>status/id',
+							formatter: '.formatter.status'
+						}"/>
                         <Text text="{trans>status}"/>
                     </cells>
                 </ColumnListItem>

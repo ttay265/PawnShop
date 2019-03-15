@@ -9,7 +9,10 @@
     },
     "date": "13-03-2019",
     "next_date": "20-03-2019",
-    "status": "đang cầm"
+    "status": {
+      "id": 1,
+      "description": "đang cầm"
+    }
   },
   {
     "id": 2,
@@ -21,7 +24,10 @@
     },
     "date": "13-03-2019",
     "next_date": "20-03-2019",
-    "status": "đang cầm"
+    "status": {
+      "id": 1,
+      "description": "đang cầm"
+    }
   },
   {
     "id": 3,
@@ -33,6 +39,9 @@
     },
     "date": "13-03-2019",
     "next_date": "20-03-2019",
-    "status": "trễ hạn"
+    "status": {
+      "id": 2,
+      "description": "trễ hạn"
+    }
   }
 ]

@@ -23,7 +23,16 @@ sap.ui.define([
     var ButtonType = mobileLibrary.ButtonType;
 
     return Controller.extend("mortgage.pawnshop.controller.BaseController", {
-
+        onInit: function () {
+            this.getView().addStyleClass(this.getOwnerComponent().getContentDensityClass());
+        },
+        initFragment: function (sFragName) {
+            var fragment = sap.ui.xmlfragment(this.getView().getId(), sFragName, this);
+            this.getView().addDependent(fragment);
+            fragment.setModel(new JSONModel());
+            fragment.addStyleClass(this.getOwnerComponent().getContentDensityClass());
+            return fragment;
+        },
         openBusyDialog: function (oSetting) {
             if (!this.busyDialog) {
                 this.busyDialog = new BusyDialog(oSetting);

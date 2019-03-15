@@ -1,23 +1,272 @@
-<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m"
-                         xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" displayBlock="true">
-    <Dialog type="Standard" stretch="{device>/system/phone}" id="AddressDialog" title="{i18n>TITLE_POST_ADD_ITEM}">
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+                         displayBlock="true">
+    <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="1000px" type="Standard"
+            stretch="{device>/system/phone}" id="AddressDialog" title="{i18n>TITLE_POST_ADD_ITEM}">
         <buttons>
+            <Button id="btn_cartItemDialogSubmit" text="Ok" press="_cartItemDialogSubmit" type="Accept"/>
             <Button class="closebtn" text="{i18n>close}" press="onDialogClose" type="Reject"/>
-            <Button id="btn_cartItemDialogSubmit" text="Ok" press="_cartItemDialogSubmit" type="Accept"
-            />
         </buttons>
         <content>
-            <ObjectHeader responsive="true" condensed="true" title="{CartProperties>ProductName}"/>
-            <IconTabBar>
+            <ObjectHeader intro="{id}" title="{item}"/>
+
+            <IconTabBar applyContentPadding="{= !${device>/system/phone}}" expandable="false" expanded="true"
+                        tabDensityMode="{= !${device>/system/phone} ? 'Compact' : 'Cozy'}" class="longTextIconTabBar">
                 <items>
-                    <IconTabFilter id="1" text="{i18n>payment}">
-                        <Text text="a"/>
-                    </IconTabFilter>
-                    <IconTabFilter id="2" text="{i18n>history}">
+                    <IconTabFilter id="1" text="{i18n>transDetail}">
+                        <content>
+                            <f:Form editable="{/editMode}">
+                                <f:title>
+                                    <core:Title text="{i18n>CT_FORM_CREATE_TRANSACTION}"/>
+                                </f:title>
+                                <f:toolbar>
+                                    <Toolbar>
+                                        <Title id="Title1" text="Address" level="H4" titleStyle="H4"/>
+                                        <ToolbarSpacer/>
+                                        <Button visible="{= !${/editMode} }" press="onTransEditPressed"
+                                                icon="sap-icon://edit"
+                                                text="{i18n>edit}"/>
+                                        <Button visible="{/editMode}" icon="sap-icon://save" text="{i18n>save}"/>
+                                        <Button visible="{/editMode}" text="{i18n>cancel}"/>
+                                    </Toolbar>
+                                </f:toolbar>
+                                <f:layout>
+                                    <f:ResponsiveGridLayout
+                                            labelSpanXL="3"
+                                            labelSpanL="3"
+                                            labelSpanM="4"
+                                            labelSpanS="12"
+                                            adjustLabelSpan="false"
+                                            emptySpanXL="1"
+                                            emptySpanL="1"
+                                            emptySpanM="1"
+                                            emptySpanS="0"
+                                            columnsXL="2"
+                                            columnsL="2"
+                                            columnsM="2"
+                                            columnsS="1"
+                                            singleContainerFullSize="false"/>
+                                </f:layout>
+                                <f:formContainers>
+                                    <f:FormContainer title="{i18n>CT_PAWNEE}">
+                                        <f:formElements>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="true" text="{i18n>NAME}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <Input visible="{/editMode}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>IDNO}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <Input visible="{/editMode}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>ID_DATE_PLACE}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <DatePicker visible="{/editMode}" displayFormat="dd/MM/yyyy"
+                                                                placeholder="{i18n>ID_DATE}">
+                                                        <layoutData>
+                                                            <l:GridData span="XL3 L4 M7 S6"/>
+                                                        </layoutData>
+                                                    </DatePicker>
+                                                    <Input visible="{/editMode}" placeholder="{i18n>ID_PLACE}">
+                                                        <layoutData>
+                                                            <l:GridData indentM="4" span="XL5 L4 M7 S6"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>PHONE_NO}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <Input visible="{/editMode}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>ADDRESS}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <ComboBox visible="{/editMode}" placeholder="{i18n>CITY}">
+                                                        <layoutData>
+                                                            <l:GridData span="XL4 L4 M7 S6"/>
+                                                        </layoutData>
+                                                    </ComboBox>
+                                                    <ComboBox visible="{/editMode}" placeholder="{i18n>DISTRICT}">
+                                                        <layoutData>
+                                                            <l:GridData indentM="4" span="XL4 L4 M7 S6"/>
+                                                        </layoutData>
+                                                    </ComboBox>
+                                                    <Input visible="{/editMode}" placeholder="{i18n>STREET_NAME}">
+                                                        <layoutData>
+                                                            <l:GridData indentXL="4"
+                                                                        indentL="3"
+                                                                        indentM="4" span="XL8 L8 M7 S12"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </f:fields>
+                                            </f:FormElement>
+                                        </f:formElements>
+                                    </f:FormContainer>
+                                    <f:FormContainer title="{i18n>CT_ITEM}">
+                                        <f:formElements>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>ITEM}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <ComboBox visible="{/editMode}" placeholder="{i18n>ITEM_TYPE}">
+                                                        <layoutData>
+                                                            <l:GridData span="XL3 L3 M7 S6"/>
+                                                        </layoutData>
+                                                    </ComboBox>
+                                                    <Input visible="{/editMode}" placeholder="{i18n>ITEM_NAME}">
+                                                        <layoutData>
+                                                            <l:GridData indentM="4" span="XL5 L5 M7 S6"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>ATTRIBUTE_1}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <Input visible="{/editMode}" placeholder="{i18n>ATTRIBUTE_1_DESC}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>ATTRIBUTE_2}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <Input visible="{/editMode}" placeholder="{i18n>ATTRIBUTE_2_DESC}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>ATTRIBUTE_3}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <Input visible="{/editMode}" placeholder="{i18n>ATTRIBUTE_3_DESC}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>ATTRIBUTE_4}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <Input visible="{/editMode}" placeholder="{i18n>ATTRIBUTE_4_DESC}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                        </f:formElements>
+                                    </f:FormContainer>
 
+                                </f:formContainers>
+                            </f:Form>
+                        </content>
                     </IconTabFilter>
-                    <IconTabFilter id="3" text="{i18n>attachment}">
+                    <IconTabFilter id="2" text="{i18n>payment}">
+                        <content>
+                            <f:Form editable="true">
+                                <f:layout>
+                                    <f:ResponsiveGridLayout
+                                            labelSpanXL="3"
+                                            labelSpanL="3"
+                                            labelSpanM="4"
+                                            labelSpanS="12"
+                                            adjustLabelSpan="false"
+                                            emptySpanXL="0"
+                                            emptySpanL="0"
+                                            emptySpanM="0"
+                                            emptySpanS="0"
+                                            columnsXL="2"
+                                            columnsL="2"
+                                            columnsM="2"
+                                            columnsS="1"
+                                            singleContainerFullSize="false"/>
+                                </f:layout>
+                                <f:formContainers>
+                                    <f:FormContainer>
+                                        <f:formElements>
+                                            <f:FormElement label="{i18n>next_date}">
+                                                <f:fields>
+                                                    <Text text="{next_date}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement label="{i18n>PAY_DAY}">
+                                                <f:fields>
+                                                    <DatePicker displayFormat="dd/MM/yyyy"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                        </f:formElements>
+                                    </f:FormContainer>
+                                    <f:FormContainer>
+                                        <f:formElements>
+                                            <f:FormElement label="{i18n>NOTE}">
+                                                <f:fields>
+                                                    <TextArea/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:fields>
 
+                                                </f:fields>
+                                            </f:FormElement>
+                                        </f:formElements>
+                                    </f:FormContainer>
+                                </f:formContainers>
+                            </f:Form>
+                            <Toolbar height="3rem">
+                                <content>
+                                    <ToolbarSpacer/>
+                                    <Button type="Accept" icon="sap-icon://paid-leave"
+                                            text="{i18n>btn_pay_deb}"/>
+                                    <ToolbarSpacer width="0.75rem"/>
+                                </content>
+
+                            </Toolbar>
+                            <Table>
+                                <columns>
+                                    <Column>
+                                        <Label text="{i18n>stt}"/>
+                                    </Column>
+                                    <Column>
+                                        <Label text="{i18n>date}"/>
+                                    </Column>
+                                    <Column>
+                                        <Label text="{i18n>stt}"/>
+                                    </Column>
+                                    <Column>
+                                        <Label text="{i18n>stt}"/>
+                                    </Column>
+                                    <Column>
+                                        <Label text="{i18n>stt}"/>
+                                    </Column>
+                                </columns>
+                                <items>
+
+                                </items>
+                            </Table>
+                        </content>
+                    </IconTabFilter>
+                    <IconTabFilter id="3"
+                                   text="{i18n>history}">
+                        <!--<core:Fragment id="fragHistory" fragmentName="mortgage.pawnshop.fragment.ViewCreate"-->
+                        <!--type="XML"/>-->
+                    </IconTabFilter>
+                    <IconTabFilter id="4"
+                                   text="{i18n>attachment}">
+                        <!--<core:Fragment id="fragAttachment" fragmentName="mynamespace.view.ViewCreate" type="XML"/>-->
                     </IconTabFilter>
                 </items>
             </IconTabBar>

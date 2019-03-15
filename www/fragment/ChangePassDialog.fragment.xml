@@ -3,8 +3,8 @@
     true"
             state="{= ${globalProperties>/status} === 'N' ? 'Warning' : 'None'}">
         <buttons>
-            <Button class="closebtn" text="{i18n>cancel}" id="__button2" press="__cancel"/>
             <Button id="btnOk" text="Ok" press="__submitChangePassword" type="Accept"/>
+            <Button class="closebtn" text="{i18n>cancel}" id="__button2" press="__cancel"/>
         </buttons>
         <content>
             <HBox justifyContent="Center" alignItems="End" height="25px"

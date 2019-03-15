@@ -4,7 +4,7 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "mortgage/pawnshop/model/formatter",
-    "sap/m/BusyDialog"
+    "sap/m/BusyDialog",
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog) {
     "use strict";
 
@@ -12,8 +12,9 @@ sap.ui.define([
         formatter: formatter,
         onInit: function () {
             var transModel = this.getModel("trans");
-            console.log(transModel);
+
             this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
+
         },
         _onObjectMatched: function (arg) {
             var transModel = this.getModel("trans");
@@ -29,11 +30,13 @@ sap.ui.define([
         },
         onTransDetailPress: function () {
             if (!this.TransDetailDialog) {
-                this.TransDetailDialog = sap.ui.xmlfragment(this.getView().getId(), "mortgage.pawnshop.fragment.TransDetail", this);
-                this.getView().addDependent(this.TransDetailDialog);
+                this.TransDetailDialog = this.initFragment("mortgage.pawnshop.fragment.TransDetail");
             }
+            this.TransDetailDialog.getModel().setProperty("/editMode", false);
             this.TransDetailDialog.open();
-
+        },
+        onTransEditPressed: function (oE) {
+            this.TransDetailDialog.getModel().setProperty("/editMode", true);
         }
     });
 });

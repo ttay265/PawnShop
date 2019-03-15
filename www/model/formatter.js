@@ -1,40 +1,24 @@
-sap.ui.define([
-    "mortgage/pawnshop/controller/BaseController"
-], function (BaseController) {
+sap.ui.define([], function () {
     "use strict";
     return {
-        StockingText: function (toStock) {
-        },
-        isSaleAvailable: function () {
-            var cartItems = this.getCartModel().getProperty("/CartItems");
-            var assignedSite = this.getGlobalModel().getProperty("/AssignedSite");
-            for (var i = 0; i < cartItems.length; i++) {
-                if (cartItems[i].Site !== assignedSite) {
-                    return false;
-                }
-            }
-            return true;
-        },
-        CartTotalQuantity: function (CartItems) {
-            console.log(CartItems);
-            CartItems.forEach(function (item, index) {
-            });
-        },
-        DeliveryStatusState: function (DlvStatus) {
-            switch (DlvStatus) {
-                case " ":
-                    return "None";
-                case "A":
-                    return "Error";
-                case "B":
-                    return "Warning";
-                case "C":
-                    return "Success";
+        status: function (sStatus) {
+            console.log(sStatus);
+            switch (sStatus) {
+                case 1:
+                    return sap.ui.core.ValueState.Success;
+                case 2:
+                    return sap.ui.core.ValueState.Warning;
+                case 3:
+                    return sap.ui.core.ValueState.Error;
+                default:
+                    return sap.ui.core.ValueState.None
             }
         },
-        AddressText: function (address) {
-            var addressObj = JSON.parse(address);
-            return addressObj.fullAdd;
+        intBoolRandomizer: function (iRandom) {
+            return iRandom % 2 === 0;
+        },
+        favorite: function (sStatus) {
+            return sStatus.length % 2 === 0;
         }
     };
 });

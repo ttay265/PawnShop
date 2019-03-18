@@ -1,0 +1,50 @@
+[
+  {
+    "cat": {
+      "catId": 1,
+      "categoryName": "Xe máy"
+    },
+    "name": "HONDA",
+    "value1": "Name 1",
+    "value2": "Name 2",
+    "value3": "Name 3",
+    "value4": "Name 4",
+    "paymentTerm": "2",
+    "paymentType": 1,
+    "liquidateAfter": 5,
+    "status": 1
+  },
+  {
+    "catId": 2,
+    "name": "IPHONE",
+    "value1": "Name 1",
+    "value2": "Name 2",
+    "value3": "Name 3",
+    "value4": "Name 4",
+    "paymentTerm": "2",
+    "paymentType": 1,
+    "liquidateAfter": 5,
+    "status": 1
+  },
+  {
+    "catId": 3,
+    "name": "SAMSUNG",
+    "value1": "Name 1",
+    "value2": "Name 2",
+    "value3": "Name 3",
+    "value4": "Name 4",
+    "paymentTerm": "2",
+    "paymentType": 1,
+    "liquidateAfter": 5,
+    "status": 1
+  },
+  {
+    "catId": 4,
+    "name": "ASUS LAPTOP",
+    "value1": "Name 1",
+    "value2": "Name 2",
+    "value3": "Name 3",
+    "value4": "Name 4",
+    "status": 1
+  }
+]

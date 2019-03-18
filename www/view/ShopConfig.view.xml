@@ -1,0 +1,72 @@
+<mvc:View
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns="sap.m"
+        xmlns:l="sap.ui.layout"
+        controllerName="mortgage.pawnshop.controller.ShopConfig">
+    <Page showHeader="false">
+        <!--<Button text="{i18n>btn_register_pawnshop}" press="onRegister"/>-->
+        <l:VerticalLayout>
+            <l:content>
+                <PullToRefresh visible="{device>/system/phone}" refresh="onRefresh"/>
+                <Table mode="MultiSelect" inset="{= !${device>/system/phone}}" items="{shopConfig>/}">
+                    <headerToolbar>
+                        <Toolbar>
+                            <content>
+                                <ToolbarSpacer/>
+                                <Button icon="sap-icon://refresh" visible="{= !${device>/system/phone} }"
+                                        text="{i18n>btn_refresh}" press="onRefresh"/>
+                                <ToolbarSeparator/>
+                                <Button icon="sap-icon://add" text="{i18n>btn_create_cate_config}"
+                                        press="onCreateTransaction"/>
+                            </content>
+                        </Toolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column width="3rem" minScreenWidth="tablet">
+                            <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>stt}"/>
+                        </Column>
+                        <Column>
+                            <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>category_name}"/>
+                        </Column>
+                        <Column minScreenWidth="Tablet" popinDisplay="Inline" demandPopin="true" popinHAlign="Begin">
+                            <Label text="{i18n>name}"/>
+                        </Column>
+                        <Column minScreenWidth="Tablet" popinDisplay="Inline" demandPopin="true" popinHAlign="Begin">
+                            <Label text="{i18n>paymentTerm}"/>
+                        </Column>
+                        <Column hAlign="Right" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+                                popinHAlign="End">
+                            <Label text="{i18n>paymentType}"/>
+                        </Column>
+                        <Column hAlign="Right">
+                            <Label wrapping="true" textAlign="End" wrappingType="Normal" text="{i18n>liquidateAfter}"/>
+                        </Column>
+                        <Column width="5rem">
+                            <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>status}"/>
+                        </Column>
+
+                    </columns>
+                    <items>
+                        <ColumnListItem press="onTransDetailPress" type="DetailAndActive">
+                            <cells>
+                                <Text text="{shopConfig>id}"/>
+                                <Text text="{shopConfig>pawnee_name}"/>
+                                <Text text="{shopConfig>item}"/>
+                                <Text text="{shopConfig>item_cat/catDesc}"/>
+                                <Text text="{shopConfig>date}"/>
+                                <Text text="{shopConfig>next_date}"/>
+                                <ObjectStatus
+                                        text="{shopConfig>status/description}"
+                                        state="{
+							                path: 'trans>status/id',
+							                formatter: '.formatter.status'
+						                    }"/>
+                                <Text text="{trans>status}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </l:content>
+        </l:VerticalLayout>
+    </Page>
+</mvc:View>

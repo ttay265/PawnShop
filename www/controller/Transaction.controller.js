@@ -20,7 +20,6 @@ sap.ui.define([
             var transModel = this.getModel("trans");
 
             transModel.loadData("model/transaction.json");
-            console.log(transModel);
         },
         onRegister: function (e) {
             this.getRouter().navTo("regPawnShop");

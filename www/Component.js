@@ -28,7 +28,7 @@ sap.ui.define([
             this.setModel(new JSONModel(), "trans");
             this.setModel(models.createDeviceModel(), "device");
             this.getRouter().getTargetHandler().setCloseDialogs(false);
-            this.getModel().attachRequestFailed(this.requestFailed, this);
+            // this.getModel().attachRequestFailed(this.requestFailed, this);
             this.getRouter().initialize();
             // set the device model
 

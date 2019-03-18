@@ -4,35 +4,37 @@
         controllerName="mortgage.pawnshop.controller.Transaction">
     <Page showHeader="false">
         <!--<Button text="{i18n>btn_register_pawnshop}" press="onRegister"/>-->
-        <Table inset="{= !${device>/system/phone}}" items="{trans>/}">
+        <Table alternateRowColors="true" inset="{= !${device>/system/phone}}" items="{trans>/}">
             <headerToolbar>
                 <Toolbar>
                     <content>
+                        <ToolbarSpacer/>
                         <Button icon="sap-icon://add" text="{i18n>btn_create_transaction}" press="onCreateTransaction"/>
                     </content>
                 </Toolbar>
             </headerToolbar>
             <columns>
-                <Column>
-                    <Label text="{i18n>bl_tranid}"/>
+                <Column width="3rem" minScreenWidth="tablet">
+                    <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>bl_tranid}"/>
                 </Column>
                 <Column>
-                    <Label text="{i18n>pawnee_name}"/>
+                    <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>pawnee_name}"/>
                 </Column>
-                <Column>
+                <Column minScreenWidth="Tablet" popinDisplay="Inline" demandPopin="true" popinHAlign="Begin">
                     <Label text="{i18n>item}"/>
                 </Column>
-                <Column>
+                <Column minScreenWidth="Tablet" popinDisplay="Inline" demandPopin="true" popinHAlign="Begin">
                     <Label text="{i18n>item_cat}"/>
                 </Column>
-                <Column>
+                <Column hAlign="Right" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+                        popinHAlign="End">
                     <Label text="{i18n>date}"/>
                 </Column>
-                <Column>
-                    <Label text="{i18n>next_date}"/>
+                <Column hAlign="Right">
+                    <Label wrapping="true" textAlign="End" wrappingType="Normal" text="{i18n>next_date}"/>
                 </Column>
-                <Column>
-                    <Label text="{i18n>status}"/>
+                <Column width="5rem">
+                    <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>status}"/>
                 </Column>
 
             </columns>

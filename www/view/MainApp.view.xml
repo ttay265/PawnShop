@@ -36,21 +36,10 @@
                                 id="navToHome"
                                 select="navToHome"
                                 text="{i18n>navTransaction}"/>
-                        <!--<tnt:NavigationListItem                                -->
-                        <!--icon="sap-icon://product"-->
-                        <!--expanded="false"-->
-                        <!--text="{i18n>navSortByNganh}"-->
-                        <!--items="{/ArticletypeSet}">-->
-                        <!--<tnt:NavigationListItem-->
-                        <!--select="navToArtTypeItems"-->
-                        <!--text="{Mtbez}"-->
-                        <!--key="{Mtart}">-->
-                        <!--</tnt:NavigationListItem>-->
-                        <!--</tnt:NavigationListItem>-->
                         <tnt:NavigationListItem
                                 icon="sap-icon://customer"
                                 id="navCustomer"
-                                select="navCustomer"
+                                select="navShopConfig"
                                 text="{i18n>navShopConfig}"/>
                         <tnt:NavigationListItem
                                 icon="sap-icon://loan"

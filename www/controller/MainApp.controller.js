@@ -97,9 +97,9 @@ sap.ui.define([
             this.getGlobalModel().setProperty("/appTitleIcon", icon);
             this.headerTitle.getText(text);
         },
-        navToHome: function (oEvent) {
-            var source = oEvent.getSource();
-            this.doNav("home", source);
+            navToHome: function (oEvent) {
+                var source = oEvent.getSource();
+                this.doNav("transaction", source);
         },
         onUpdateAppPressed: function () {
             var fileTransfer;
@@ -129,18 +129,18 @@ sap.ui.define([
                             that.closeBusyDialog();
                         },
                         function () {
-                            alert('Failed to open URL via Android Intent.');
-                            console.log("Failed to open URL via Android Intent. URL: " + entry.fullPath);
+                            // alert('Failed to open URL via Android Intent.');
+                            // console.log("Failed to open URL via Android Intent. URL: " + entry.fullPath);
                         });
                 }, function (error) {
-                    console.log("download error source " + error.source);
-                    console.log("download error target " + error.target);
-                    console.log("upload error code" + error.code);
+                    // console.log("download error source " + error.source);
+                    // console.log("download error target " + error.target);
+                    // console.log("upload error code" + error.code);
                 }, true);
         },
-        navCustomer: function (oEvent) {
+        navShopConfig: function (oEvent) {
             var source = oEvent.getSource();
-            this.doNav("cusList", source);
+            this.doNav("shopConfig", source);
         },
         navSaleIncomeMaster: function (oEvent) {
             var source = oEvent.getSource();
@@ -302,7 +302,7 @@ sap.ui.define([
         //             this._selectWard.bindElement({
         //                 path: this.sPath
         //             });
-        //         }
+        //         }navToHome
         //     }
         // },
         // onWardChange: function (oEvent) {

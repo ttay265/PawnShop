@@ -61,21 +61,6 @@
         "settings": {
           "bundleName": "mortgage.pawnshop.i18n.i18n"
         }
-      },
-      "": {
-        "type": "sap.ui.model.odata.v2.ODataModel",
-        "settings": {
-          "useBatch": false,
-          "user": "abapleader",
-          "password": "TH!@#$%^789",
-          "defaultBindingMode": "TwoWay",
-          "defaultCountMode": "None",
-          "setRefreshAfterChange": true,
-          "headers": {
-            "sap-client": 950
-          }
-        },
-        "uri": "http://appmobile.dienmaythienhoa.vn:8004/sap/opu/odata/SAP/mortgage.pawnshop_SRV"
       }
     },
     "routing": {
@@ -96,6 +81,11 @@
           "pattern": "transaction",
           "name": "transaction",
           "target": "transaction"
+        },
+        {
+          "pattern": "shopConfig",
+          "name": "shopConfig",
+          "target": "shopConfig"
         },
         {
           "pattern": "regPawnShop",
@@ -124,6 +114,13 @@
         "transaction": {
           "parent": "mainApp",
           "viewName": "Transaction",
+          "viewLevel": 2,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "shopConfig": {
+          "parent": "mainApp",
+          "viewName": "ShopConfig",
           "viewLevel": 2,
           "controlId": "mainApp",
           "controlAggregation": "pages"

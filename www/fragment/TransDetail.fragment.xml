@@ -1,9 +1,8 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
                          displayBlock="true">
-    <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="1000px" type="Standard"
+    <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="700px" type="Standard"
             stretch="{device>/system/phone}" id="AddressDialog" title="{i18n>TITLE_POST_ADD_ITEM}">
         <buttons>
-            <Button id="btn_cartItemDialogSubmit" text="Ok" press="_cartItemDialogSubmit" type="Accept"/>
             <Button class="closebtn" text="{i18n>close}" press="onDialogClose" type="Reject"/>
         </buttons>
         <content>
@@ -170,7 +169,6 @@
                                             </f:FormElement>
                                         </f:formElements>
                                     </f:FormContainer>
-
                                 </f:formContainers>
                             </f:Form>
                         </content>
@@ -214,7 +212,7 @@
                                         <f:formElements>
                                             <f:FormElement label="{i18n>NOTE}">
                                                 <f:fields>
-                                                    <TextArea/>
+                                                    <TextArea rows="3"/>
                                                 </f:fields>
                                             </f:FormElement>
                                             <f:FormElement>
@@ -244,13 +242,12 @@
                                         <Label text="{i18n>date}"/>
                                     </Column>
                                     <Column>
-                                        <Label text="{i18n>stt}"/>
+                                        <Label text="{i18n>pay_day}"/>
                                     </Column>
                                     <Column>
-                                        <Label text="{i18n>stt}"/>
+                                        <Label text="{i18n>note}"/>
                                     </Column>
                                     <Column>
-                                        <Label text="{i18n>stt}"/>
                                     </Column>
                                 </columns>
                                 <items>
@@ -267,6 +264,21 @@
                     <IconTabFilter id="4"
                                    text="{i18n>attachment}">
                         <!--<core:Fragment id="fragAttachment" fragmentName="mynamespace.view.ViewCreate" type="XML"/>-->
+                    </IconTabFilter>
+                    <IconTabFilter id="5"
+                                   text="{i18n>chuoc_do}">
+                        <VBox width="100%">
+                            <items>
+                                <f:SimpleForm width="400px">
+                                    <Label text="{i18n>chuoc_date}"/>
+                                    <DatePicker/>
+                                    <Label text="{i18n>Note}"/>
+                                    <TextArea/>
+                                </f:SimpleForm>
+                                <Button text="{i18n>chuoc}" type="Accept"/>
+                            </items>
+                        </VBox>
+
                     </IconTabFilter>
                 </items>
             </IconTabBar>

@@ -1,33 +1,45 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
                          displayBlock="true">
     <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="700px" type="Standard"
-            stretch="{device>/system/phone}" id="AddressDialog" title="{i18n>TITLE_POST_ADD_ITEM}">
+            stretch="{device>/system/phone}" id="AddressDialog" title="{i18n>title_transDetail}">
         <buttons>
             <Button class="closebtn" text="{i18n>close}" press="onDialogClose" type="Reject"/>
         </buttons>
         <content>
-            <ObjectHeader intro="{id}" title="{item}"/>
+            <f:SimpleForm>
+                <Label text="{i18n>bl_tranid}"/>
+                <Text text="{transDetail>/transaction/maHD}"/>
+                <Label text="{i18n>date}"/>
+                <Text text="{transDetail>/transaction/startDate}"/>
+                <Label text="{i18n>status}"/>
+                <ObjectStatus
+                        text="{transDetail>status/description}"
+                        state="{
+							path: 'transDetail>status/id',
+							formatter: '.formatter.status'
+						}"/>
+            </f:SimpleForm>
 
             <IconTabBar applyContentPadding="{= !${device>/system/phone}}" expandable="false" expanded="true"
                         tabDensityMode="{= !${device>/system/phone} ? 'Compact' : 'Cozy'}" class="longTextIconTabBar">
                 <items>
-                    <IconTabFilter id="1" text="{i18n>transDetail}">
+                    <IconTabFilter id="1" text="{i18n>general}">
                         <content>
                             <f:Form editable="{/editMode}">
                                 <f:title>
                                     <core:Title text="{i18n>CT_FORM_CREATE_TRANSACTION}"/>
                                 </f:title>
-                                <f:toolbar>
-                                    <Toolbar>
-                                        <Title id="Title1" text="Address" level="H4" titleStyle="H4"/>
-                                        <ToolbarSpacer/>
-                                        <Button visible="{= !${/editMode} }" press="onTransEditPressed"
-                                                icon="sap-icon://edit"
-                                                text="{i18n>edit}"/>
-                                        <Button visible="{/editMode}" icon="sap-icon://save" text="{i18n>save}"/>
-                                        <Button visible="{/editMode}" text="{i18n>cancel}"/>
-                                    </Toolbar>
-                                </f:toolbar>
+                                <!--<f:toolbar>-->
+                                    <!--<Toolbar>-->
+                                        <!--<Title id="Title1" text="Address" level="H4" titleStyle="H4"/>-->
+                                        <!--<ToolbarSpacer/>-->
+                                        <!--&lt;!&ndash;<Button visible="{= !${/editMode} }" press="onTransEditPressed"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;icon="sap-icon://edit"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;text="{i18n>edit}"/>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<Button visible="{/editMode}" icon="sap-icon://save" text="{i18n>save}"/>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<Button visible="{/editMode}" text="{i18n>cancel}"/>&ndash;&gt;-->
+                                    <!--</Toolbar>-->
+                                <!--</f:toolbar>-->
                                 <f:layout>
                                     <f:ResponsiveGridLayout
                                             labelSpanXL="3"
@@ -53,7 +65,7 @@
                                                     <Label required="true" text="{i18n>NAME}"/>
                                                 </f:label>
                                                 <f:fields>
-                                                    <Input visible="{/editMode}"/>
+                                                    <Text text="{transDetail>/transaction/pawneeInfo/name}"/>
                                                 </f:fields>
                                             </f:FormElement>
                                             <f:FormElement>
@@ -61,25 +73,7 @@
                                                     <Label required="false" text="{i18n>IDNO}"/>
                                                 </f:label>
                                                 <f:fields>
-                                                    <Input visible="{/editMode}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>ID_DATE_PLACE}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <DatePicker visible="{/editMode}" displayFormat="dd/MM/yyyy"
-                                                                placeholder="{i18n>ID_DATE}">
-                                                        <layoutData>
-                                                            <l:GridData span="XL3 L4 M7 S6"/>
-                                                        </layoutData>
-                                                    </DatePicker>
-                                                    <Input visible="{/editMode}" placeholder="{i18n>ID_PLACE}">
-                                                        <layoutData>
-                                                            <l:GridData indentM="4" span="XL5 L4 M7 S6"/>
-                                                        </layoutData>
-                                                    </Input>
+                                                    <Text text="{transDetail>/transaction/pawneeInfo/identityNumber}"/>
                                                 </f:fields>
                                             </f:FormElement>
                                             <f:FormElement>
@@ -87,7 +81,7 @@
                                                     <Label required="false" text="{i18n>PHONE_NO}"/>
                                                 </f:label>
                                                 <f:fields>
-                                                    <Input visible="{/editMode}"/>
+                                                    <Text text="{transDetail>/transaction/pawneeInfo/phoneNumber}"/>
                                                 </f:fields>
                                             </f:FormElement>
                                             <f:FormElement>
@@ -95,23 +89,15 @@
                                                     <Label required="false" text="{i18n>ADDRESS}"/>
                                                 </f:label>
                                                 <f:fields>
-                                                    <ComboBox visible="{/editMode}" placeholder="{i18n>CITY}">
-                                                        <layoutData>
-                                                            <l:GridData span="XL4 L4 M7 S6"/>
-                                                        </layoutData>
-                                                    </ComboBox>
-                                                    <ComboBox visible="{/editMode}" placeholder="{i18n>DISTRICT}">
-                                                        <layoutData>
-                                                            <l:GridData indentM="4" span="XL4 L4 M7 S6"/>
-                                                        </layoutData>
-                                                    </ComboBox>
-                                                    <Input visible="{/editMode}" placeholder="{i18n>STREET_NAME}">
-                                                        <layoutData>
-                                                            <l:GridData indentXL="4"
-                                                                        indentL="3"
-                                                                        indentM="4" span="XL8 L8 M7 S12"/>
-                                                        </layoutData>
-                                                    </Input>
+                                                    <Text text="{transDetail>/transaction/pawneeInfo/address}"/>
+                                                </f:fields>
+                                            </f:FormElement>
+                                            <f:FormElement>
+                                                <f:label>
+                                                    <Label required="false" text="{i18n>email}"/>
+                                                </f:label>
+                                                <f:fields>
+                                                    <Text text="{transDetail>/transaction/pawneeInfo/email}"/>
                                                 </f:fields>
                                             </f:FormElement>
                                         </f:formElements>
@@ -123,16 +109,7 @@
                                                     <Label required="false" text="{i18n>ITEM}"/>
                                                 </f:label>
                                                 <f:fields>
-                                                    <ComboBox visible="{/editMode}" placeholder="{i18n>ITEM_TYPE}">
-                                                        <layoutData>
-                                                            <l:GridData span="XL3 L3 M7 S6"/>
-                                                        </layoutData>
-                                                    </ComboBox>
-                                                    <Input visible="{/editMode}" placeholder="{i18n>ITEM_NAME}">
-                                                        <layoutData>
-                                                            <l:GridData indentM="4" span="XL5 L5 M7 S6"/>
-                                                        </layoutData>
-                                                    </Input>
+                                                    <Text wrapping="true" text="{transDetail>/transaction/itemName} ({transDetail>/transaction/category/categoryName})"/>
                                                 </f:fields>
                                             </f:FormElement>
                                             <f:FormElement>
@@ -239,7 +216,7 @@
                                         <Label text="{i18n>stt}"/>
                                     </Column>
                                     <Column>
-                                        <Label text="{i18n>date}"/>
+                                        <Label text="{i18n>next_date}"/>
                                     </Column>
                                     <Column>
                                         <Label text="{i18n>pay_day}"/>
@@ -270,6 +247,14 @@
                         <VBox width="100%">
                             <items>
                                 <f:SimpleForm width="400px">
+                                    <Label text="{i18n>action}"/>
+                                    <Select>
+                                        <items>
+                                            <core:Item text="{i18n>chuoc_do}"/>
+                                            <core:Item text="{i18n>huy_phieu}"/>
+                                            <core:Item text="{i18n>thay_the_phieu}"/>
+                                        </items>
+                                    </Select>
                                     <Label text="{i18n>chuoc_date}"/>
                                     <DatePicker/>
                                     <Label text="{i18n>Note}"/>

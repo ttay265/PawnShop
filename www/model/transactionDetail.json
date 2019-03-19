@@ -1,0 +1,59 @@
+{
+  "transaction": {
+    "id": 29,
+    "startDate": "2019-03-19T07:36:45.000+0000",
+    "nextPaymentDate": "2019-10-19T07:36:45.000+0000",
+    "price": 500,
+    "status": 1,
+    "pawneeId": 4,
+    "shopId": 1,
+    "paymentTerm": 7,
+    "paymentType": 3,
+    "liquidateAfter": 5,
+    "attribute1Value": "1",
+    "attribute2Value": "2",
+    "attribute3Value": "3",
+    "attribute4Value": "4",
+    "categoryItemId": 1,
+    "itemName": "Hondahuy2",
+    "pawneeInfoId": 1,
+    "category": {
+      "id": 1,
+      "categoryName": "HONDA",
+      "description": null
+    },
+    "pawneeInfo": {
+      "id": 1,
+      "name": "huy",
+      "email": "huy@gmail.com",
+      "phoneNumber": "07070707070",
+      "identityNumber": "0101023202",
+      "address": "123 quang trung hcm"
+    }
+  },
+  "pictureList": [
+    {
+      "id": 9,
+      "pictureUrl": "\"https://www.google.com.vn/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=2ahUKEwiLvpP_2I3hAhXsY98KHabJDo4QjRx6BAgBEAU&url=http%3A%2F%2Fcongdongimages.weebly.com%2Fpornnppan-pornpenpipat-4.html&psig=AOvVaw1QMWR9ELSmcTL5xLafo22S&ust=1553067379830495\"",
+      "descrition": null,
+      "shopId": null,
+      "transactionId": 29
+    },
+    {
+      "id": 10,
+      "pictureUrl": "\"https://www.google.com.vn/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiGt8GF2Y3hAhXQnuAKHQVuB_IQjRx6BAgBEAU&url=http%3A%2F%2Fcongdongimages.weebly.com%2Fpornnppan-pornpenpipat-4.html&psig=AOvVaw1QMWR9ELSmcTL5xLafo22S&ust=1553067379830495\"",
+      "descrition": null,
+      "shopId": null,
+      "transactionId": 29
+    }
+  ],
+  "transactionLogs": [
+    {
+      "id": 11,
+      "startDate": "2019-03-19T07:36:45.000+0000",
+      "endDate": "2019-10-19T07:36:45.000+0000",
+      "status": 2,
+      "transactionId": 29
+    }
+  ]
+}

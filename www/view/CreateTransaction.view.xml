@@ -29,7 +29,14 @@
                             singleContainerFullSize="false"/>
                 </f:layout>
                 <f:formContainers>
-                    <f:FormContainer title="{i18n>CT_PAWNEE}">
+                    <f:FormContainer title="">
+                        <f:toolbar>
+                            <Toolbar>
+                                <Title text="{i18n>CT_PAWNEE}" />
+                                <ToolbarSpacer />
+                                <Button text="{i18n>check_pawnee}" icon="sap-icon://drop-down-list" />
+                            </Toolbar>
+                        </f:toolbar>
                         <f:formElements>
                             <f:FormElement>
                                 <f:label>

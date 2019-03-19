@@ -11,7 +11,6 @@ sap.ui.define([
     return BaseController.extend("mortgage.pawnshop.controller.Transaction", {
         formatter: formatter,
         onInit: function () {
-            var transModel = this.getModel("trans");
 
             this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
 

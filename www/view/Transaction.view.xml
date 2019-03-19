@@ -8,6 +8,7 @@
             <headerToolbar>
                 <Toolbar>
                     <content>
+                        <Title level="H2" text="{i18n>title_transaction}"/>
                         <ToolbarSpacer/>
                         <Button icon="sap-icon://add" text="{i18n>btn_create_transaction}" press="onCreateTransaction"/>
                     </content>
@@ -51,9 +52,8 @@
                                 text="{trans>status/description}"
                                 state="{
 							path: 'trans>status/id',
-							formatter: '.formatter.status'
+							formatter: '.formatter.transStatus'
 						}"/>
-                        <Text text="{trans>status}"/>
                     </cells>
                 </ColumnListItem>
             </items>

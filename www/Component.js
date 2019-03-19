@@ -26,6 +26,7 @@ sap.ui.define([
             var lblHome = this.getModel("i18n").getResourceBundle().getText("navToHome");
             this.setModel(models.createGlobalModel(), "global");
             this.setModel(new JSONModel(), "trans");
+            this.setModel(new JSONModel(), "shopConfig");
             this.setModel(models.createDeviceModel(), "device");
             this.getRouter().getTargetHandler().setCloseDialogs(false);
             // this.getModel().attachRequestFailed(this.requestFailed, this);

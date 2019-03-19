@@ -1,72 +1,69 @@
 <mvc:View
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m"
-        xmlns:l="sap.ui.layout"
+        xmlns:core="sap.ui.core"
         controllerName="mortgage.pawnshop.controller.ShopConfig">
     <Page showHeader="false">
         <!--<Button text="{i18n>btn_register_pawnshop}" press="onRegister"/>-->
-        <l:VerticalLayout>
-            <l:content>
-                <PullToRefresh visible="{device>/system/phone}" refresh="onRefresh"/>
-                <Table mode="MultiSelect" inset="{= !${device>/system/phone}}" items="{shopConfig>/}">
+        <PullToRefresh visible="{device>/system/phone}" refresh="onRefresh"/>
+        <Table fixedLayout="false" alternateRowColors="true" inset="{= !${device>/system/phone}}"
+               items="{shopConfig>/}">
                     <headerToolbar>
-                        <Toolbar>
+                        <OverflowToolbar>
                             <content>
+                                <Title level="H2" text="{i18n>cate_config}"/>
                                 <ToolbarSpacer/>
-                                <Button icon="sap-icon://refresh" visible="{= !${device>/system/phone} }"
-                                        text="{i18n>btn_refresh}" press="onRefresh"/>
+                                <Label text="{i18n>status}:"/>
+                                <Select change="onFilterByStatus" selectedKey="1">
+                                    <items>
+                                        <core:Item key="0" text="{i18n>status_all}"/>
+                                        <core:Item key="1" text="{i18n>status_active}"/>
+                                        <core:Item key="2" text="{i18n>status_locked}"/>
+                                    </items>
+                                </Select>
                                 <ToolbarSeparator/>
-                                <Button icon="sap-icon://add" text="{i18n>btn_create_cate_config}"
+                                <Button icon="sap-icon://add"
+                                        text="{= ${device>/system/phone} ? '' : ${i18n>btn_create_cate_config} }"
                                         press="onCreateTransaction"/>
                             </content>
-                        </Toolbar>
+                        </OverflowToolbar>
                     </headerToolbar>
                     <columns>
-                        <Column width="3rem" minScreenWidth="tablet">
-                            <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>stt}"/>
-                        </Column>
                         <Column>
                             <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>category_name}"/>
                         </Column>
                         <Column minScreenWidth="Tablet" popinDisplay="Inline" demandPopin="true" popinHAlign="Begin">
                             <Label text="{i18n>name}"/>
                         </Column>
-                        <Column minScreenWidth="Tablet" popinDisplay="Inline" demandPopin="true" popinHAlign="Begin">
+                        <Column hAlign="Right" minScreenWidth="Tablet" popinDisplay="Inline" demandPopin="true"
+                                popinHAlign="Begin">
                             <Label text="{i18n>paymentTerm}"/>
                         </Column>
-                        <Column hAlign="Right" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
+                        <Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"
                                 popinHAlign="End">
                             <Label text="{i18n>paymentType}"/>
                         </Column>
-                        <Column hAlign="Right">
+                        <Column>
                             <Label wrapping="true" textAlign="End" wrappingType="Normal" text="{i18n>liquidateAfter}"/>
                         </Column>
-                        <Column width="5rem">
+                        <Column>
                             <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>status}"/>
                         </Column>
-
                     </columns>
                     <items>
-                        <ColumnListItem press="onTransDetailPress" type="DetailAndActive">
+                        <ColumnListItem press="onTransDetailPress" type="Active">
                             <cells>
-                                <Text text="{shopConfig>id}"/>
-                                <Text text="{shopConfig>pawnee_name}"/>
-                                <Text text="{shopConfig>item}"/>
-                                <Text text="{shopConfig>item_cat/catDesc}"/>
-                                <Text text="{shopConfig>date}"/>
-                                <Text text="{shopConfig>next_date}"/>
+                                <Title level="H1" text="{shopConfig>cat/categoryName}"/>
+                                <Text text="{shopConfig>name}"/>
+                                <Text text="{shopConfig>paymentTerm}"/>
+                                <Text text="{ path: 'shopConfig>paymentType', formatter: '.formatter.paymentType' }"/>
+                                <Text text="{ path:'shopConfig>liquidateAfter', formatter: '.formatter.liquidateAfter'}"/>
                                 <ObjectStatus
-                                        text="{shopConfig>status/description}"
-                                        state="{
-							                path: 'trans>status/id',
-							                formatter: '.formatter.status'
-						                    }"/>
-                                <Text text="{trans>status}"/>
+                                        text="{= ${shopConfig>status} === 1 ? ${i18n>status_active} : ${i18n>status_locked} }"
+                                        state="{= ${shopConfig>status} === 1 ? 'Success' : 'None' }"/>
                             </cells>
                         </ColumnListItem>
                     </items>
-                </Table>
-            </l:content>
-        </l:VerticalLayout>
+        </Table>
     </Page>
 </mvc:View>

@@ -51,9 +51,8 @@
                                 text="{trans>status/description}"
                                 state="{
 							path: 'trans>status/id',
-							formatter: '.formatter.status'
+							formatter: '.formatter.transStatus'
 						}"/>
-                        <Text text="{trans>status}"/>
                     </cells>
                 </ColumnListItem>
             </items>

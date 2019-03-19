@@ -11,11 +11,14 @@
     "value4": "Name 4",
     "paymentTerm": "2",
     "paymentType": 1,
-    "liquidateAfter": 5,
+    "liquidateAfter": 99,
     "status": 1
   },
   {
-    "catId": 2,
+    "cat": {
+      "catId": 3,
+      "categoryName": "Điện thoại"
+    },
     "name": "IPHONE",
     "value1": "Name 1",
     "value2": "Name 2",
@@ -27,7 +30,10 @@
     "status": 1
   },
   {
-    "catId": 3,
+    "cat": {
+      "catId": 3,
+      "categoryName": "Điện thoại"
+    },
     "name": "SAMSUNG",
     "value1": "Name 1",
     "value2": "Name 2",
@@ -39,7 +45,10 @@
     "status": 1
   },
   {
-    "catId": 4,
+    "cat": {
+      "catId": 2,
+      "categoryName": "Laptop"
+    },
     "name": "ASUS LAPTOP",
     "value1": "Name 1",
     "value2": "Name 2",

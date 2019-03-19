@@ -11,14 +11,13 @@ sap.ui.define([
     return BaseController.extend("mortgage.pawnshop.controller.ShopConfig", {
         formatter: formatter,
         onInit: function () {
-            var transModel = this.getModel("trans");
 
             this.getRouter().getRoute("shopConfig").attachPatternMatched(this._onObjectMatched, this);
 
         },
         _onObjectMatched: function (arg) {
-            var transModel = this.getModel("trans");
-            transModel.loadData("model/transaction.json");
+            var model = this.getModel("shopConfig");
+            model.loadData("model/categoryConfig.json");
             // console.log(transModel);
         }
     });

@@ -11,17 +11,16 @@
                     <headerToolbar>
                         <OverflowToolbar>
                             <content>
+                                <Title level="H2" text="{i18n>cate_config}"/>
+                                <ToolbarSpacer/>
                                 <Label text="{i18n>status}:"/>
-                                <Select>
+                                <Select change="onFilterByStatus" selectedKey="1">
                                     <items>
+                                        <core:Item key="0" text="{i18n>status_all}"/>
                                         <core:Item key="1" text="{i18n>status_active}"/>
                                         <core:Item key="2" text="{i18n>status_locked}"/>
                                     </items>
                                 </Select>
-
-
-                                <ToolbarSpacer/>
-
                                 <ToolbarSeparator/>
                                 <Button icon="sap-icon://add"
                                         text="{= ${device>/system/phone} ? '' : ${i18n>btn_create_cate_config} }"

@@ -19,6 +19,9 @@ sap.ui.define([
             var model = this.getModel("shopConfig");
             model.loadData("model/categoryConfig.json");
             // console.log(transModel);
+        },
+        onFilterByStatus: function (e) {
+
         }
     });
 });

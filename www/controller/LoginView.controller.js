@@ -40,7 +40,6 @@ sap.ui.define([
          * (NOT before the first rendering! onInit() is used for that one!).
          * @memberOf mortgage.pawnshop.view.LoginView
          */
-
         onLoginPressed: function (e) {
             this.busyDialog.open();
             var verified = this.verifyUser();
@@ -49,11 +48,12 @@ sap.ui.define([
                 var username = this.txtUsername.getValue();
                 var password = this.txtPassword.getValue();
                 var result = this.login(username, password);
-
                 if (result) {
                     //check authorization
                     authorized = this.checkAuthorization();
-
+                    if (authorized) {
+                        this.getRouter().navTo("transaction", true);
+                    }
                 } else {
                     var msg;
                     msg = this.getResourceBundle().getText("msgWrongPass");
@@ -69,9 +69,6 @@ sap.ui.define([
                 }
             }
             this.busyDialog.close();
-            if (this.checkAuthorization()) {
-                this.getRouter().navTo("transaction", true);
-            }
         },
 
         checkAuthorization: function () {

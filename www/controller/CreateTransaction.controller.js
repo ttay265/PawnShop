@@ -35,7 +35,7 @@ sap.ui.define([
                 itemName: "",
                 pawneeInfoId: "4",
                 paymentTerm: "",
-                paymentType: "",
+                paymentType: "1",
                 startDate: new Date(),
                 liquidateAfter: "",
                 categoryId: "",

@@ -6,7 +6,7 @@ sap.ui.define([
     const serverInfo = {
         url: "http://192.168.2.74:8080",
         localUrl: "model",
-        useLocal: false
+        useLocal: true
     };
     return {
 

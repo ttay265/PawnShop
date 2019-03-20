@@ -1,59 +1,70 @@
 [
   {
-    "cat": {
-      "catId": 1,
-      "categoryName": "Xe máy"
-    },
-    "name": "HONDA",
-    "value1": "Name 1",
-    "value2": "Name 2",
-    "value3": "Name 3",
-    "value4": "Name 4",
-    "paymentTerm": "2",
-    "paymentType": 1,
-    "liquidateAfter": 99,
-    "status": 1
-  },
-  {
-    "cat": {
-      "catId": 3,
-      "categoryName": "Điện thoại"
-    },
+    "id": 3,
     "name": "IPHONE",
-    "value1": "Name 1",
-    "value2": "Name 2",
-    "value3": "Name 3",
-    "value4": "Name 4",
-    "paymentTerm": "2",
+    "value1": "mat khau",
+    "value2": "IMEI",
+    "value3": null,
+    "value4": null,
+    "paymentTerm": 30,
     "paymentType": 1,
     "liquidateAfter": 5,
-    "status": 1
+    "category": {
+      "id": 3,
+      "categoryName": "Điện Thoại",
+      "description": null,
+      "iconUrl": "https://static.vietmoney.vn/vietmoney/2018/12/44d27cdb-dien-thoai.png"
+    }
   },
   {
-    "cat": {
-      "catId": 3,
-      "categoryName": "Điện thoại"
-    },
+    "id": 3,
     "name": "SAMSUNG",
-    "value1": "Name 1",
-    "value2": "Name 2",
-    "value3": "Name 3",
-    "value4": "Name 4",
-    "paymentTerm": "2",
+    "value1": "mat khau",
+    "value2": "IMEI",
+    "value3": null,
+    "value4": null,
+    "paymentTerm": 30,
     "paymentType": 1,
     "liquidateAfter": 5,
-    "status": 1
+    "category": {
+      "id": 3,
+      "categoryName": "Điện Thoại",
+      "description": null,
+      "iconUrl": "https://static.vietmoney.vn/vietmoney/2018/12/44d27cdb-dien-thoai.png"
+    }
   },
   {
-    "cat": {
-      "catId": 2,
-      "categoryName": "Laptop"
-    },
-    "name": "ASUS LAPTOP",
-    "value1": "Name 1",
-    "value2": "Name 2",
-    "value3": "Name 3",
-    "value4": "Name 4",
-    "status": 1
+    "id": 4,
+    "name": "MACBOOK",
+    "value1": "mat khau",
+    "value2": "version",
+    "value3": null,
+    "value4": null,
+    "paymentTerm": 1,
+    "paymentType": 2,
+    "liquidateAfter": 5,
+    "category": {
+      "id": 4,
+      "categoryName": "Máy Tính",
+      "description": null,
+      "iconUrl": "https://static.vietmoney.vn/vietmoney/2018/12/9a2fe623-may-tinh.png"
+    }
+  },
+  {
+    "id": 4,
+    "name": "ASUS",
+    "value1": "mat khau",
+    "value2": "version",
+    "value3": null,
+    "value4": null,
+    "paymentTerm": 1,
+    "paymentType": 2,
+    "liquidateAfter": 5,
+    "category": {
+      "id": 4,
+      "categoryName": "Máy Tính",
+      "description": null,
+      "iconUrl": "https://static.vietmoney.vn/vietmoney/2018/12/9a2fe623-may-tinh.png"
+    }
   }
 ]

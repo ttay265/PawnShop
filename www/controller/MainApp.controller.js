@@ -21,7 +21,7 @@ sap.ui.define([
             this.page = this.byId("_pageCustomer");
             this.headerTitle = this.byId("_titleMain");
             this.headerIcon = this.byId("_iconMain");
-            this.logon = this.checkLogin();
+            this.logon = this.login();
             var text = "";
             var title = "";
             var cancel = "";
@@ -42,7 +42,7 @@ sap.ui.define([
             //     this._selectWard = this.byId("_selectWard");
             // }
             //Attachment matched
-            this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
+            // this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
         },
 
 
@@ -56,17 +56,18 @@ sap.ui.define([
         //     //     MessageToast.show("The operation has been completed");
         //     // }
         // },
-        _onObjectMatched: function () {
-            if (!this.checkLogin()) {
-                this.getRouter().navTo("login", true);
-            } else {
-                this.Pernr = this.getGlobalModel().getProperty("/user");
-                var status = this.getGlobalModel().getProperty("/status");
-                if (status === "N") {
-                    this.forceChangePass();
-                }
-            }
-        },
+        // _onObjectMatched: function () {
+        //     var accountModel = this.getModel("account");
+        //     var logon = false;
+        //     if (accountModel) {
+        //         var accountId = accountModel.getProperty("/accountId");
+        //         if (accountId) {
+        //             logon = true;
+        //         }
+        //     }
+        //     if (logon) {
+        //     }
+        // },
         forceChangePass: function () {
             this.changePasswordPress();
         },
@@ -74,13 +75,13 @@ sap.ui.define([
             this.changePassDialog.open();
         },
         onAfterRendering: function () {
-            if (!this.changePassDialog) {
-                this.changePassDialog = sap.ui.xmlfragment(this.getView().getId(), "mortgage.pawnshop.fragment.ChangePassDialog", this);
-                this.getView().addDependent(this.changePassDialog);
-                this.txtOldPass = this.byId("_txtOldPass");
-                this.txtNewPass = this.byId("_txtNewPass");
-                this.txtConfirmNewPass = this.byId("_txtConfirmNewPass");
-            }
+            // if (!this.changePassDialog) {
+            //     this.changePassDialog = sap.ui.xmlfragment(this.getView().getId(), "mortgage.pawnshop.fragment.ChangePassDialog", this);
+            //     this.getView().addDependent(this.changePassDialog);
+            //     this.txtOldPass = this.byId("_txtOldPass");
+            //     this.txtNewPass = this.byId("_txtNewPass");
+            //     this.txtConfirmNewPass = this.byId("_txtConfirmNewPass");
+            // }
             //dialog initialization
             // if (!this.AddressDialog) {
             //     this.AddressDialog = sap.ui.xmlfragment(this.getView().getId(), "mortgage.pawnshop.fragment.Address", this);
@@ -97,47 +98,47 @@ sap.ui.define([
             this.getGlobalModel().setProperty("/appTitleIcon", icon);
             this.headerTitle.getText(text);
         },
-            navToHome: function (oEvent) {
-                var source = oEvent.getSource();
-                this.doNav("transaction", source);
+        navToHome: function (oEvent) {
+            var source = oEvent.getSource();
+            this.doNav("transaction", source);
         },
-        onUpdateAppPressed: function () {
-            var fileTransfer;
-            var titleUpdateApp = this.getResourceBundle().getText("LBL_UPDATE_APP");
-            var msgDownloading = this.getResourceBundle().getText("MSG_DOWNLOAD_APP");
-            var cancel = true;
-            this.openBusyDialog({
-                title: titleUpdateApp,
-                text: msgDownloading,
-                showCancelButton: cancel
-            });
-            function onDeviceReady() {
-                fileTransfer = new FileTransfer();
-            }
-
-            var that = this;
-            document.addEventListener("deviceready", onDeviceReady, false);
-            fileTransfer.download(encodeURI("http://appmobile.dienmaythienhoa.vn:1090/ContentServer/ContentServer.dll?get&pVersion=0046&contRep=W1&docId=123123&compId=android-debug.apk"),
-                "cdvfile://localhost/temporary/th-salesman.apk",
-                function (entry) {
-                    window.plugins.webintent.startActivity({
-                            action: window.plugins.webintent.ACTION_VIEW,
-                            url: entry.toNativeURL(),
-                            type: 'application/vnd.android.package-archive'
-                        },
-                        function () {
-                            that.closeBusyDialog();
-                        },
-                        function () {
-                            // alert('Failed to open URL via Android Intent.');
-                            // console.log("Failed to open URL via Android Intent. URL: " + entry.fullPath);
-                        });
-                }, function (error) {
-                    // console.log("download error source " + error.source);
-                    // console.log("download error target " + error.target);
-                    // console.log("upload error code" + error.code);
-                }, true);
-        },
+        // onUpdateAppPressed: function () {
+        //     var fileTransfer;
+        //     var titleUpdateApp = this.getResourceBundle().getText("LBL_UPDATE_APP");
+        //     var msgDownloading = this.getResourceBundle().getText("MSG_DOWNLOAD_APP");
+        //     var cancel = true;
+        //     this.openBusyDialog({
+        //         title: titleUpdateApp,
+        //         text: msgDownloading,
+        //         showCancelButton: cancel
+        //     });
+        //     function onDeviceReady() {
+        //         fileTransfer = new FileTransfer();
+        //     }
+        //
+        //     var that = this;
+        //     document.addEventListener("deviceready", onDeviceReady, false);
+        //     fileTransfer.download(encodeURI("http://appmobile.dienmaythienhoa.vn:1090/ContentServer/ContentServer.dll?get&pVersion=0046&contRep=W1&docId=123123&compId=android-debug.apk"),
+        //         "cdvfile://localhost/temporary/th-salesman.apk",
+        //         function (entry) {
+        //             window.plugins.webintent.startActivity({
+        //                     action: window.plugins.webintent.ACTION_VIEW,
+        //                     url: entry.toNativeURL(),
+        //                     type: 'application/vnd.android.package-archive'
+        //                 },
+        //                 function () {
+        //                     that.closeBusyDialog();
+        //                 },
+        //                 function () {
+        //                     // alert('Failed to open URL via Android Intent.');
+        //                     // console.log("Failed to open URL via Android Intent. URL: " + entry.fullPath);
+        //                 });
+        //         }, function (error) {
+        //             // console.log("download error source " + error.source);
+        //             // console.log("download error target " + error.target);
+        //             // console.log("upload error code" + error.code);
+        //         }, true);
+        // },
         navShopConfig: function (oEvent) {
             var source = oEvent.getSource();
             this.doNav("shopConfig", source);

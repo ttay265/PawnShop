@@ -11,16 +11,29 @@ sap.ui.define([
          * @memberOf mortgage.pawnshop.view.LoginView
          */
         onInit: function () {
-            // this.logon = this.checkLogin();
+            // this.logon = this.login();
             var text = this.getResourceBundle().getText("txtLoginWaitingText");
             var title = this.getResourceBundle().getText("txtLoginWaitingTitle");
             this.busyDialog = new sap.m.BusyDialog({
                 text: text, title: title
             });
-            this.getRouter().getRoute("login").attachPatternMatched(this.onAfterRendering, this);
+            // this.getRouter().getRoute("login").attachPatternMatched(this.onAfterRendering, this);
             this.txtUsername = this.getView().byId("_txtUsername");
             this.txtPassword = this.getView().byId("_txtPassword");
             this.txtPassword.setValue("");
+
+        },
+        doAutoLogin: function () {
+            var loginInfo = this.getSavedLoginData();
+            var logon = this.login(loginInfo.username, loginInfo.password);
+            if (logon) {
+                this.getRouter().navTo("transaction", true);
+            } else {
+                this.getView().setBusy(false);
+                this.txtPassword.setValue("");
+            }
+            this.busyDialog.close();
+            return logon;
         },
         /**
          * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -28,80 +41,58 @@ sap.ui.define([
          * @memberOf mortgage.pawnshop.view.LoginView
          */
 
-        verifyUser: function () {
-            if (this.validateUsername() && this.validatePassword()) {
-                this.busyDialog.open();
-                var pernr = this.txtUsername.getValue();
-                var password = this.txtPassword.getValue();
-                this.login(pernr, password);
-            } else {
-                if (this.txtUsername.getValueState() === "Error") {
-                    MessageToast.show(this.txtUsername.getValueStateText());
-                    return;
-                }
-                if (this.txtPassword.getValueState() === "Error") {
-                    MessageToast.show(this.txtPassword.getValueStateText());
-                    return;
-                }
-            }
-        },
-        login: function (username, password) {
+        onLoginPressed: function (e) {
             this.busyDialog.open();
-            var result = this.checkLogin(username, password);
-            if (result) {
-                this.getRouter().navTo("home", true);
-            } else {
-                var msg;
-                msg = this.getResourceBundle().getText("msgWrongPass");
-                this.txtPassword.setValueState("Error");
-                this.txtPassword.setValueStateText(msg);
-            }
+            var verified = this.verifyUser();
+            var authorized = false;
+            if (verified) {
+                var username = this.txtUsername.getValue();
+                var password = this.txtPassword.getValue();
+                var result = this.login(username, password);
 
-        },
-        processLoginResult: function (odata) {
-            var msg = "";
-            switch (odata.ReturnValue) {
-                case "O": {
-                    this.busyDialog.close();
+                if (result) {
+                    //check authorization
+                    authorized = this.checkAuthorization();
+
+                } else {
+                    var msg;
                     msg = this.getResourceBundle().getText("msgWrongPass");
                     this.txtPassword.setValueState("Error");
                     this.txtPassword.setValueStateText(msg);
-                    break;
                 }
-                case "-": {
-                    this.busyDialog.close();
-                    msg = this.getResourceBundle().getText("msgNoUser");
-                    this.txtUsername.setValueState("Error");
-                    this.txtUsername.setValueStateText(msg);
-                    break;
+            } else {
+                if (this.txtUsername.getValueState() === "Error") {
+                    MessageToast.show(this.txtUsername.getValueStateText());
                 }
-                case "X": {
-                    this.busyDialog.close();
-                    this.getGlobalModel().setProperty("/user", odata.Pernr, null, true);
-                    this.getGlobalModel().setProperty("/name", odata.Ename, null, true);
-                    this.getGlobalModel().setProperty("/AssignedSite", odata.AssignedSite, null, true);
-                    this.getGlobalModel().setProperty("/SiteDesc", odata.SiteDesc, null, true);
-                    this.getGlobalModel().setProperty("/status", odata.Status, null, true);
-                    this.getGlobalModel().setProperty("/token", this.txtPassword.getValue(), null, true);
-                    this.getRouter().navTo("home", true);
-                    msg = this.getResourceBundle().getText("msgLoginSuccessfully");
-                    break;
+                if (this.txtPassword.getValueState() === "Error") {
+                    MessageToast.show(this.txtPassword.getValueStateText());
                 }
-                default:
-                    return;
             }
+            this.busyDialog.close();
+            if (this.checkAuthorization()) {
+                this.getRouter().navTo("transaction", true);
+            }
+        },
+
+        checkAuthorization: function () {
+            var role = this.getModel("account").getProperty("/role");
+            return role.id === 2;  // 2: ROLE_PAWNSHOP
+        },
+
+        verifyUser: function () {
+            return this.validateUsername() && this.validatePassword();
         },
 
         validateUsername: function (oEvent) {
             var source = oEvent ? oEvent.getSource() : this.txtUsername;
             var value = source.getValue();
-            var regex = /d+/;
-            if (value && value !== "" && !regex.test(value)) {
+            var regex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
+            if (value && value !== "" && regex.test(value)) {
                 source.setValueState("None");
                 return true;
             } else {
                 source.setValueState("Error");
-                var msg = this.getResourceBundle().getText("msgNoUser");
+                var msg = this.getResourceBundle().getText("msgWrongEmailFormat");
                 source.setValueStateText(msg);
                 return false;
             }
@@ -120,8 +111,6 @@ sap.ui.define([
             }
         },
         onBeforeRendering: function () {
-            this.getView().setBusy(true);
-
         },
 
         /**
@@ -130,13 +119,15 @@ sap.ui.define([
          * @memberOf mortgage.pawnshop.view.LoginView
          */
         onAfterRendering: function () {
-            this.logon = this.checkLogin();
-            if (this.logon) {
-                this.getRouter().navTo("transaction", true);
-            } else {
-                this.getView().setBusy(false);
-                this.txtPassword.setValue("");
-            }
+            this.busyDialog.open();
+            this.autologin = this.doAutoLogin();
+            this.busyDialog.close();
+        },
+        getSavedLoginData: function () {
+            return {
+                username: localStorage.getItem("username"),
+                password: localStorage.getItem("password")
+            };
         },
 
         /**

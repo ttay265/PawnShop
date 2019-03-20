@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form"
                          displayBlock="true">
     <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="700px" type="Standard"
             stretch="{device>/system/phone}" id="AddressDialog" title="{i18n>title_transDetail}">
@@ -6,40 +6,74 @@
             <Button class="closebtn" text="{i18n>close}" press="onDialogClose" type="Reject"/>
         </buttons>
         <content>
-            <f:SimpleForm>
-                <Label text="{i18n>bl_tranid}"/>
-                <Text text="{transDetail>/transaction/maHD}"/>
-                <Label text="{i18n>date}"/>
-                <Text text="{transDetail>/transaction/startDate}"/>
-                <Label text="{i18n>status}"/>
-                <ObjectStatus
-                        text="{transDetail>status/description}"
-                        state="{
+            <f:Form>
+                <f:layout>
+                    <f:ResponsiveGridLayout
+                            adjustLabelSpan="false"
+                            emptySpanXL="1"
+                            emptySpanL="1"
+                            emptySpanM="1"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            columnsS="2"
+                            singleContainerFullSize="false"/>
+                </f:layout>
+                <f:formContainers>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label text="{i18n>bl_tranid}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Text text="{transDetail>/transaction/id}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label text="{i18n>date}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Text text="{ path : 'transDetail>/transaction/startDate',
+                                                  type: 'sap.ui.model.type.Date',
+                                                  formatOptions: {
+                                                                  source: {
+                                                                           pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                                                                           },
+                                                                  pattern: 'dd-MM-yyyy'
+                                                                  }
+                                                  }"/>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label text="{i18n>status}"/>
+                                </f:label>
+                                <f:fields>
+                                    <ObjectStatus
+                                            text="{transDetail>/transaction/status/description}"
+                                            state="{
 							path: 'transDetail>status/id',
 							formatter: '.formatter.status'
 						}"/>
-            </f:SimpleForm>
-
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                </f:formContainers>
+            </f:Form>
             <IconTabBar applyContentPadding="{= !${device>/system/phone}}" expandable="false" expanded="true"
                         tabDensityMode="{= !${device>/system/phone} ? 'Compact' : 'Cozy'}" class="longTextIconTabBar">
                 <items>
                     <IconTabFilter id="1" text="{i18n>general}">
                         <content>
                             <f:Form editable="{/editMode}">
-                                <f:title>
-                                    <core:Title text="{i18n>CT_FORM_CREATE_TRANSACTION}"/>
-                                </f:title>
-                                <!--<f:toolbar>-->
-                                    <!--<Toolbar>-->
-                                        <!--<Title id="Title1" text="Address" level="H4" titleStyle="H4"/>-->
-                                        <!--<ToolbarSpacer/>-->
-                                        <!--&lt;!&ndash;<Button visible="{= !${/editMode} }" press="onTransEditPressed"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;icon="sap-icon://edit"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;text="{i18n>edit}"/>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<Button visible="{/editMode}" icon="sap-icon://save" text="{i18n>save}"/>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<Button visible="{/editMode}" text="{i18n>cancel}"/>&ndash;&gt;-->
-                                    <!--</Toolbar>-->
-                                <!--</f:toolbar>-->
                                 <f:layout>
                                     <f:ResponsiveGridLayout
                                             labelSpanXL="3"
@@ -109,7 +143,8 @@
                                                     <Label required="false" text="{i18n>ITEM}"/>
                                                 </f:label>
                                                 <f:fields>
-                                                    <Text wrapping="true" text="{transDetail>/transaction/itemName} ({transDetail>/transaction/category/categoryName})"/>
+                                                    <Text wrapping="true"
+                                                          text="{transDetail>/transaction/itemName} ({transDetail>/transaction/category/categoryName})"/>
                                                 </f:fields>
                                             </f:FormElement>
                                             <f:FormElement>

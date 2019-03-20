@@ -12,9 +12,10 @@ sap.ui.define([
     'sap/ui/core/CustomData',
     'sap/m/ActionSheet',
     'sap/m/library',
-    'sap/m/MessageBox'
+    'sap/m/MessageBox',
+    'mortgage/pawnshop/model/models'
 ], function (Controller, UIComponent, Device, JSONModel, BusyDialog, Button, MessageToast, ResponsivePopover, syncStyleClass,
-             NotificationListItem, CustomData, ActionSheet, mobileLibrary, MessageBox) {
+             NotificationListItem, CustomData, ActionSheet, mobileLibrary, MessageBox, models) {
     "use strict";
 
     // shortcut for sap.m.PlacementType
@@ -171,33 +172,29 @@ sap.ui.define([
          * @returns {object} the application controller
          */
 
-        checkLogin: function (username, password) {
-            //Set Busy before check login
+        login: function (username, password) {
             var that = this;
             var logonData = {
                 username: username,
                 password: password
             };
-            var returnCall = false;
+            var returnCallback = false;
             var onSuccess = function (res, status, xhr) {
-                    console.log(res);
-                    var logonResult = res.id !== "" && res.password !== "";
+                    var logonResult = res.username !== "" && res.password !== "";
                     //process after login
-                    if (logonResult && res.role.roleName === "ROLE_PAWNSHOP") {
+                    if (logonResult) {
                         //post-process
-                        that.getGlobalModel().setProperty("/accountId", res.id);
-                        that.getGlobalModel().setProperty("/username", res.username);
-                        that.getGlobalModel().setProperty("/role", res.role);
-                        that.getGlobalModel().setProperty("/password", res.password);
-                        //Navigate to any page???
-                        //save_login
-                        localStorage.setItem("username", res.username);
+                        this.setAccountModel(res);
+                        // save_login
+                        localStorage.setItem("accountId", res.accountId);
+                        localStorage.setItem("username", username);
+                        localStorage.setItem("password", password);
                     } else {
                         logonResult = false;
                         //if login = false
                     }
                     //Off-Busy after proceed
-                    returnCall = logonResult;
+                    returnCallback = logonResult;
                 },
                 onError = function (jqXHR, textStatus, errorThrown) {
                     //Mock-backend test login
@@ -206,22 +203,41 @@ sap.ui.define([
                     // console.log("Got an error response: " + textStatus + errorThrown);
                     // //Off-Busy after proceed
                 };
-            $.ajax({
+            var serverInfo = models.getServerInfo();
+            var url = "",
+                method = "GET";
+            if (serverInfo.useLocal) {
+                url = serverInfo.localUrl + "/account.json";
+            } else {
+                method = "POST";
+                url = serverInfo.url + "/dang-nhap-shop";
+            }
 
-                // data: logonData,
-                // type: "POST",
-                // crossDomain: true,
-                // url: "http://192.168.2.97:8080/dang-nhap",
-                //local
-                url: "model/account.json",
-                type: "GET",
+            $.ajax({
+                data: logonData,
+                url: url,
+                type: method,
                 async: false,
                 //end-local
                 dataType: "json",
+                context: this,
                 success: onSuccess,
                 error: onError
             });
-            return returnCall;
+            return returnCallback;
+        },
+        checkLogin: function () {
+            return true;
+        },
+
+        setAccountModel: function (d) {
+            var accountModel = this.getModel("account");
+            if (!accountModel) {
+                accountModel = new JSONModel();
+                this.getOwnerComponent().setModel(accountModel, "account");
+            }
+            accountModel.setProperty("/", d);
+            return accountModel;
         },
 
         backToHome: function () {
@@ -231,6 +247,7 @@ sap.ui.define([
         sellItems: function () {
             this.getRouter().navTo("sellItem");
         },
+
 
         /*************************************************************************************************/
         openDialogLogin: function () {
@@ -320,6 +337,24 @@ sap.ui.define([
             }
             this.oActionSheet.openBy(oEvent.getSource());
             this.oActionSheet.setVisible(true);
+        },
+        getSavedLoginData: function () {
+            return {
+                username: localStorage.getItem("username"),
+                password: localStorage.getItem("password")
+            };
+        },
+        doAutoLogin: function () {
+            var loginInfo = this.getSavedLoginData();
+            var logon = this.login(loginInfo.username, loginInfo.password);
+            if (logon) {
+                this.getRouter().navTo("transaction", true);
+            } else {
+                this.getView().setBusy(false);
+                this.txtPassword.setValue("");
+            }
+            this.busyDialog.close();
+            return logon;
         },
 
         logout: function () {

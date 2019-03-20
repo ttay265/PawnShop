@@ -43,16 +43,35 @@
                 <ColumnListItem press="onTransDetailPress" type="Active">
                     <cells>
                         <Text text="{trans>id}"/>
-                        <Text text="{trans>pawnee_name}"/>
-                        <Text text="{trans>item}"/>
-                        <Text text="{trans>item_cat/catDesc}"/>
-                        <Text text="{trans>date}"/>
-                        <Text text="{trans>next_date}"/>
+                        <Text text="{trans>pawneeInfo/name}"/>
+                        <Text text="{trans>itemName}"/>
+                        <Text text="{trans>category/categoryName}"/>
+                        <Text text="{ path : 'trans>/startDate',
+                                      type: 'sap.ui.model.type.Date',
+                                      formatOptions: {
+                                                      source: {
+                                                               pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                                                               },
+                                                      pattern: 'dd-MM-yyyy'
+                                                      }
+                                                  }"/>
+                        <Text text="{ path: 'trans>nextPaymentDate',
+                                      type: '',
+                                      formatOptions: {
+                                                       source: {
+                                                                pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                                                                },
+                                                       pattern: 'dd-MM-yyyy'
+                                                      }
+                                        }"/>
                         <ObjectStatus
-                                text="{trans>status/description}"
+                                text="{
+							path: 'trans>status',
+							formatter: '.formatter.transStatusDesc'
+						}"
                                 state="{
-							path: 'trans>status/id',
-							formatter: '.formatter.transStatus'
+							path: 'trans>status',
+							formatter: '.formatter.transStatusState'
 						}"/>
                     </cells>
                 </ColumnListItem>

@@ -4,44 +4,44 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "mortgage/pawnshop/model/formatter",
-    "sap/m/BusyDialog"
-], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog) {
+    "sap/m/BusyDialog",
+    "mortgage/pawnshop/model/models",
+], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
     "use strict";
 
     return BaseController.extend("mortgage.pawnshop.controller.CreateTransaction", {
         formatter: formatter,
         onInit: function () {
-            this.busyDialog = new BusyDialog();
-            this.submitAddress = [];
-            this.City = "";
-            this.District = "";
-            this.Ward = "";
-            this.inpSearch = this.byId("inpSearch");
-            this.sideNavigation = this.byId("sideNavigation");
-            this.page = this.byId("_pageCustomer");
-            this.headerTitle = this.byId("_titleMain");
-            this.headerIcon = this.byId("_iconMain");
-            this.logon = this.checkLogin();
-            var text = "";
-            var title = "";
-            var cancel = "";
-            //Change password dialog initialization
-            if (!this.changePassDialog) {
-                this.changePassDialog = sap.ui.xmlfragment(this.getView().getId(), "mortgage.pawnshop.fragment.ChangePassDialog", this);
-                this.getView().addDependent(this.changePassDialog);
-                this.txtOldPass = this.byId("_txtOldPass");
-                this.txtNewPass = this.byId("_txtNewPass");
-                this.txtConfirmNewPass = this.byId("_txtConfirmNewPass");
+            var accountModel = this.getModel("account");
+            if (!accountModel) {
+                this.getRouter().navTo("login", true);
+                return;
             }
-            // Change address dialog initialization
-            // if (!this.AddressDialog) {
-            //     this.AddressDialog = new sap.ui.xmlfragment(this.getView().getId(), "mortgage.pawnshop.fragment.Address", this);
-            //     this.getView().addDependent(this.AddressDialog);
-            //     this._selectCity = this.byId("_selectCity");
-            //     this._selectDistrict = this.byId("_selectDistrict");
-            //     this._selectWard = this.byId("_selectWard");
-            // }
-            //Attachment matched
+            var createTransModel = new JSONModel({
+                pawneeId: "4",
+                pawneeName: "",
+                email: "",
+                phone: "",
+                address: "",
+                addressObject: {
+                    streetName: "",
+                    city: "",
+                    district: ""
+                },
+                identityNumber: "",
+                pictures: "",
+                attributes: "",
+                shopId: accountModel.getProperty("/shop/id"),
+                itemName: "",
+                pawneeInfoId: "4",
+                paymentTerm: "",
+                paymentType: "",
+                startDate: new Date(),
+                liquidateAfter: "",
+                categoryId: "",
+                note: ""
+            });
+            this.setModel(createTransModel, "createTrans");
             this.getRouter().getRoute("creTrans").attachPatternMatched(this._onObjectMatched, this);
         },
 
@@ -59,13 +59,27 @@ sap.ui.define([
         _onObjectMatched: function () {
             if (!this.checkLogin()) {
                 this.getRouter().navTo("login", true);
+                return;
             } else {
-                this.Pernr = this.getGlobalModel().getProperty("/user");
-                var status = this.getGlobalModel().getProperty("/status");
-                if (status === "N") {
-                    this.forceChangePass();
-                }
+                this.bindShopConfigForCreateTrans();
             }
+        },
+        bindShopConfigForCreateTrans: function () {
+            var shopId = this.getModel("account").getProperty("/shop/id");
+            var model = this.getModel("shopConfig");
+            if (!model) {
+                model = new JSONModel();
+                this.setModel(model, "shopConfig");
+            }
+            var data = models.getCateConfigSet(shopId);
+            model.setProperty("/", data);
+            var currentConfigModel = this.getModel("currentConfig");
+            if (!currentConfigModel) {
+                currentConfigModel = new JSONModel();
+                this.setModel(currentConfigModel, "currentConfig");
+            }
+            currentConfigModel.setProperty("/", data[0]);
+            console.log(currentConfigModel);
         },
         forceChangePass: function () {
             this.changePasswordPress();
@@ -87,104 +101,48 @@ sap.ui.define([
             //     this.getView().addDependent(this.AddressDialog);
             // }
         },
-        doNav: function (view, source) {
-            this.getRouter().navTo(view, true);
-            this.page.setSideExpanded(false);
-            var icon = source.getIcon();
+        onCateConfigChanged: function (e) {
+            var selectedItem = e.getParameter("selectedItem");
+            console.log(selectedItem);
+            var confData = selectedItem.getBindingContext("shopConfig").getProperty("");
+            console.log(confData);
+            this.getModel("currentConfig").setProperty("/", confData, null, false);
+        },
+        onSubmitCreateTransaction: function () {
+            var sendingData = this.parseSendData();
+            models.submitCreateTransation(sendingData);
+        },
+        parseSendData: function () {
+            var createModel = this.getModel("createTrans");
+            if (!createModel) {
+                return;
+            }
+            var data = createModel.getProperty("/");
+            data.address = data.addressObject.streetName + ", " +
+                data.addressObject.district + ", " +
+                data.addressObject.city;
+            var currentConfig = this.getModel("currentConfig").getProperty("/");
+            var attrs = [];
+            if (currentConfig.value1 !== null) {
+                attrs.push(currentConfig.value1 + ":" + data.value1 || "N/A");
+            }
+            if (currentConfig.value2 !== null) {
+                attrs.push(currentConfig.value2 + ":" + data.value2 || "N/A");
+            }
+            if (currentConfig.value3 !== null) {
+                attrs.push(currentConfig.value3 + ":" + data.value3 || "N/A");
+            }
+            if (currentConfig.value4 !== null) {
+                attrs.push(currentConfig.value4 + ":" + data.value4 || "N/A");
+            }
+            data.attributes = attrs.join(",");
+            data.categoryId = currentConfig.category.id;
 
-            var text = source.getText();
-            this.getGlobalModel().setProperty("/appTitle", text);
-            this.getGlobalModel().setProperty("/appTitleIcon", icon);
-            this.headerTitle.getText(text);
-        },
-        navToHome: function (oEvent) {
-            var source = oEvent.getSource();
-            this.doNav("home", source);
-        },
-        onUpdateAppPressed: function () {
-            var fileTransfer;
-            var titleUpdateApp = this.getResourceBundle().getText("LBL_UPDATE_APP");
-            var msgDownloading = this.getResourceBundle().getText("MSG_DOWNLOAD_APP");
-            var cancel = true;
-            this.openBusyDialog({
-                title: titleUpdateApp,
-                text: msgDownloading,
-                showCancelButton: cancel
-            });
-            function onDeviceReady() {
-                fileTransfer = new FileTransfer();
-            }
+            console.log(createModel.getProperty("/"));
+            return data;
 
-            var that = this;
-            document.addEventListener("deviceready", onDeviceReady, false);
-            fileTransfer.download(encodeURI("http://appmobile.dienmaythienhoa.vn:1090/ContentServer/ContentServer.dll?get&pVersion=0046&contRep=W1&docId=123123&compId=android-debug.apk"),
-                "cdvfile://localhost/temporary/th-salesman.apk",
-                function (entry) {
-                    window.plugins.webintent.startActivity({
-                            action: window.plugins.webintent.ACTION_VIEW,
-                            url: entry.toNativeURL(),
-                            type: 'application/vnd.android.package-archive'
-                        },
-                        function () {
-                            that.closeBusyDialog();
-                        },
-                        function () {
-                            alert('Failed to open URL via Android Intent.');
-                            console.log("Failed to open URL via Android Intent. URL: " + entry.fullPath);
-                        });
-                }, function (error) {
-                    console.log("download error source " + error.source);
-                    console.log("download error target " + error.target);
-                    console.log("upload error code" + error.code);
-                }, true);
         },
-        navCustomer: function (oEvent) {
-            var source = oEvent.getSource();
-            this.doNav("cusList", source);
-        },
-        navSaleIncomeMaster: function (oEvent) {
-            var source = oEvent.getSource();
-            this.doNav("saleIncomeMaster", source);
-        },
-        navSaleOrder: function (oEvent) {
-            var source = oEvent.getSource();
-            this.doNav("OrderList", source);
-        },
-        navToRegisterPawnShop: function (oEvent) {
-            var source = oEvent.getSource();
-            this.doNav("RegisterPawnShop", source);
-        },
-        __cancel: function () {
-            var status = this.getGlobalModel().getProperty("/status");
-            if (status === "N") {
-                this.logout();
-            }
-            this.changePassDialog.close();
-        },
-        navToArtTypeItems: function (oEvent) {
-            var articleType = oEvent.getSource().getBindingContext().getProperty("Mtart");
-            this.page.setSideExpanded(false);
-            this.getRouter().navTo("proList", {Mtart: articleType}, false);
-        },
-        __submitChangePassword: function () {
-            var msg = "";
-            // validate oldPas
-            var oldPass = this.txtOldPass.getValue();
-            var logonPass = this.getGlobalModel().getProperty("/token");
-            if (oldPass !== logonPass) {
-                msg = this.getResourceBundle().getText("msgOldPassValidateFailed");
-                MessageToast.show(msg);
-            } else {
-                if (this.txtNewPass.getValue() !== this.txtConfirmNewPass.getValue() ||
-                    this.txtNewPass.getValue() === "" ||
-                    this.txtConfirmNewPass.getValue() === "") {
-                    msg = this.getResourceBundle().getText("msgNewPassValidateFailed");
-                    MessageToast.show(msg);
-                } else {
-                    this.doChangePass();
-                }
-            }
-        },
+
 
         doChangePass: function () {
             var that = this;

@@ -1,17 +1,43 @@
-sap.ui.define(["mortgage/pawnshop/controller/BaseController"], function (BaseController) {
+sap.ui.define(["mortgage/pawnshop/controller/BaseController",
+    "sap/ui/core/ValueState"], function (BaseController, ValueState) {
     "use strict";
     var baseController = new BaseController();
     return {
-        transStatus: function (sStatus) {
+        transStatusState: function (sStatus) {
             switch (sStatus) {
                 case 1:
-                    return sap.ui.core.ValueState.Success;
+                    return ValueState.Warning; //Warning
                 case 2:
-                    return sap.ui.core.ValueState.Warning;
+                    return ValueState.Accept; //Accept
                 case 3:
-                    return sap.ui.core.ValueState.Error;
+                    return ValueState.None; // Neutral
+                case 4:
+                    return ValueState.Error; //critical
+                case 5:
+                    return ValueState.Information; //Information
+                case 6:
+                    return ValueState.None; // Neutral
                 default:
-                    return sap.ui.core.ValueState.None
+                    return "";
+            }
+        },
+        transStatusDesc: function (sStatus) {
+            var i18n = this.getResourceBundle();
+            switch (sStatus) {
+                case 1:
+                    return i18n.getText('UNPAID'); //Warning
+                case 2:
+                    return i18n.getText('WAIT_FOR_LIQUIDATION'); //Accept
+                case 3:
+                    return i18n.getText('REDEEMED'); // Neutral
+                case 4:
+                    return i18n.getText('LATE'); //critical
+                case 5:
+                    return i18n.getText('LIQUIDATION'); //Information
+                case 6:
+                    return i18n.getText('CANCELED'); // Neutral
+                default:
+                    return "";
             }
         },
         paymentType: function (paymentType) {

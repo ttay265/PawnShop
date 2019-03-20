@@ -21,7 +21,7 @@ sap.ui.define([
             this.page = this.byId("_pageCustomer");
             this.headerTitle = this.byId("_titleMain");
             this.headerIcon = this.byId("_iconMain");
-            this.logon = this.checkLogin();
+            this.logon = this.login();
             var text = "";
             var title = "";
             var cancel = "";
@@ -57,7 +57,7 @@ sap.ui.define([
         //     // }
         // },
         _onObjectMatched: function () {
-            if (!this.checkLogin()) {
+            if (!this.login()) {
                 this.getRouter().navTo("login", true);
             } else {
                 this.Pernr = this.getGlobalModel().getProperty("/user");

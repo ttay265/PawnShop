@@ -4,22 +4,40 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "mortgage/pawnshop/model/formatter",
-    "sap/m/BusyDialog"
-], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog) {
+    "sap/m/BusyDialog",
+    "mortgage/pawnshop/model/models"
+], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
     "use strict";
     var url = "model/transactionDetail.json";
     return BaseController.extend("mortgage.pawnshop.controller.Transaction", {
         formatter: formatter,
         onInit: function () {
-
-            this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
+            this.getRouter().getRoute("transaction").attachMatched(this._onObjectMatched, this);
 
         },
-        _onObjectMatched: function (arg) {
+        _onObjectMatched: function (oEvent) {
+            var oArgs, oView, oQuery;
+            // oArgs = oEvent.getParameter("arguments");
+
+            // var shopId = oArgs.shopId;
+            this.bindTransactionModel();
+        },
+        bindTransactionModel: function () {
+            var accountModel = this.getModel("account");
+            if (!accountModel) {
+                this.getRouter().navTo("login", true);
+                return;
+            }
+            var shopId = accountModel.getProperty("/shop/id");
+            var data = models.getTransactions(shopId);
             var transModel = this.getModel("trans");
-
-            transModel.loadData("model/transaction.json");
+            if (!transModel) {
+                transModel = new JSONModel();
+                this.setModel(transModel, "trans");
+            }
+            transModel.setProperty("/", data);
         },
+
         onRegister: function (e) {
             this.getRouter().navTo("regPawnShop");
         },
@@ -63,7 +81,6 @@ sap.ui.define([
             } else {
                 transDetailModel.setProperty("/", d);
             }
-            console.log(transDetailModel);
         },
         onTransEditPressed: function (e) {
             this.TransDetailDialog.getModel().setProperty("/editMode", true);

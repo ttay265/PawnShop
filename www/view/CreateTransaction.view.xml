@@ -32,18 +32,26 @@
                     <f:FormContainer title="">
                         <f:toolbar>
                             <Toolbar>
-                                <Title text="{i18n>CT_PAWNEE}" />
-                                <ToolbarSpacer />
-                                <Button text="{i18n>check_pawnee}" icon="sap-icon://drop-down-list" />
+                                <Title text="{i18n>CT_PAWNEE}"/>
+                                <ToolbarSpacer/>
+                                <Button text="{i18n>check_pawnee}" icon="sap-icon://drop-down-list"/>
                             </Toolbar>
                         </f:toolbar>
                         <f:formElements>
                             <f:FormElement>
                                 <f:label>
+                                    <Label required="true" text="{i18n>EMAIL}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input value="{createTrans>/email}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
                                     <Label required="true" text="{i18n>NAME}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input/>
+                                    <Input value="{createTrans>/pawneeName}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -51,24 +59,7 @@
                                     <Label required="false" text="{i18n>IDNO}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input/>
-                                </f:fields>
-                            </f:FormElement>
-                            <f:FormElement>
-                                <f:label>
-                                    <Label required="false" text="{i18n>ID_DATE_PLACE}"/>
-                                </f:label>
-                                <f:fields>
-                                    <DatePicker displayFormat="dd/MM/yyyy" placeholder="{i18n>ID_DATE}">
-                                        <layoutData>
-                                            <l:GridData span="XL3 L4 M7 S6"/>
-                                        </layoutData>
-                                    </DatePicker>
-                                    <Input placeholder="{i18n>ID_PLACE}">
-                                        <layoutData>
-                                            <l:GridData indentM="4" span="XL5 L4 M7 S6"/>
-                                        </layoutData>
-                                    </Input>
+                                    <Input value="{createTrans>/identityNumber}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -76,7 +67,7 @@
                                     <Label required="false" text="{i18n>PHONE_NO}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input/>
+                                    <Input value="{createTrans>/phone}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -84,17 +75,26 @@
                                     <Label required="false" text="{i18n>ADDRESS}"/>
                                 </f:label>
                                 <f:fields>
-                                    <ComboBox placeholder="{i18n>CITY}">
+                                    <ComboBox items="{city>/}" value="{createTrans>/addressObject/city}"
+                                              placeholder="{i18n>CITY}">
                                         <layoutData>
                                             <l:GridData span="XL4 L4 M7 S6"/>
                                         </layoutData>
+                                        <items>
+                                            <core:Item text="{city>desc}" key="{city>id}"/>
+                                        </items>
                                     </ComboBox>
-                                    <ComboBox placeholder="{i18n>DISTRICT}">
+                                    <ComboBox items="{dist>/}" value="{createTrans>/addressObject/district}"
+                                              placeholder="{i18n>DISTRICT}">
                                         <layoutData>
                                             <l:GridData indentM="4" span="XL4 L4 M7 S6"/>
                                         </layoutData>
+                                        <items>
+                                            <core:Item text="{dist>desc}" key="{dist>id}"/>
+                                        </items>
                                     </ComboBox>
-                                    <Input placeholder="{i18n>STREET_NAME}">
+                                    <Input value="{createTrans>/addressObject/streetName}"
+                                           placeholder="{i18n>STREET_NAME}">
                                         <layoutData>
                                             <l:GridData indentXL="4"
                                                         indentL="3"
@@ -112,48 +112,55 @@
                                     <Label required="false" text="{i18n>ITEM}"/>
                                 </f:label>
                                 <f:fields>
-                                    <ComboBox placeholder="{i18n>ITEM_TYPE}">
+                                    <Select forceSelection="true" change="onCateConfigChanged"
+                                            items="{shopConfig>/}"
+                                            placeholder="{i18n>ITEM_TYPE}">
                                         <layoutData>
-                                            <l:GridData span="XL3 L3 M7 S6"/>
+                                            <l:GridData span="XL3 L3 M3 S6"/>
                                         </layoutData>
-                                    </ComboBox>
-                                    <Input placeholder="{i18n>ITEM_NAME}">
+                                        <items>
+                                            <core:ListItem key="{shopConfig>id}"
+                                                           text="{shopConfig>name}"
+                                                           additionalText="{shopConfig>category/categoryName}"/>
+                                        </items>
+                                    </Select>
+                                    <Input value="{createTrans>/itemName}" placeholder="{i18n>ITEM_NAME}">
                                         <layoutData>
-                                            <l:GridData indentM="4" span="XL5 L5 M7 S6"/>
+                                            <l:GridData span="XL5 L5 M4 S6"/>
                                         </layoutData>
                                     </Input>
                                 </f:fields>
                             </f:FormElement>
-                            <f:FormElement>
+                            <f:FormElement visible="{= ${currentConfig>/value1} !== null }">
                                 <f:label>
-                                    <Label required="false" text="{i18n>ATTRIBUTE_1}"/>
+                                    <Label required="false" text="{currentConfig>/value1}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input placeholder="{i18n>ATTRIBUTE_1_DESC}"/>
+                                    <Input value="{createTrans>/value1}" placeholder="{i18n>ATTRIBUTE_1_DESC}"/>
                                 </f:fields>
                             </f:FormElement>
-                            <f:FormElement>
+                            <f:FormElement visible="{= ${currentConfig>/value2} !== null }">
                                 <f:label>
-                                    <Label required="false" text="{i18n>ATTRIBUTE_2}"/>
+                                    <Label required="false" text="{currentConfig>/value2}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input placeholder="{i18n>ATTRIBUTE_2_DESC}"/>
+                                    <Input value="{createTrans>/value2}" placeholder="{i18n>ATTRIBUTE_2_DESC}"/>
                                 </f:fields>
                             </f:FormElement>
-                            <f:FormElement>
+                            <f:FormElement visible="{= ${currentConfig>/value3} !== null }">
                                 <f:label>
-                                    <Label required="false" text="{i18n>ATTRIBUTE_3}"/>
+                                    <Label required="false" text="{currentConfig>/value3}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input placeholder="{i18n>ATTRIBUTE_3_DESC}"/>
+                                    <Input value="{createTrans>/value3}" placeholder="{i18n>ATTRIBUTE_3_DESC}"/>
                                 </f:fields>
                             </f:FormElement>
-                            <f:FormElement>
+                            <f:FormElement visible="{= ${currentConfig>/value4} !== null }">
                                 <f:label>
-                                    <Label required="false" text="{i18n>ATTRIBUTE_4}"/>
+                                    <Label required="false" text="{currentConfig>/value4}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input placeholder="{i18n>ATTRIBUTE_4_DESC}"/>
+                                    <Input value="{createTrans>/value4}" placeholder="{i18n>ATTRIBUTE_4_DESC}"/>
                                 </f:fields>
                             </f:FormElement>
                         </f:formElements>
@@ -162,31 +169,36 @@
                         <f:formElements>
                             <f:FormElement label="{i18n>PERIOD}">
                                 <f:fields>
-                                    <Input textAlign="End" type="Number">
+                                    <Input value="{createTrans>/paymentTerm}" textAlign="End" type="Number">
                                         <layoutData>
                                             <l:GridData span="XL3 L3 M2 S6"/>
                                         </layoutData>
                                     </Input>
-                                    <ComboBox placeholder="{i18n>PERIOD_UNIT}">
+                                    <ComboBox selectedKey="{createTrans>/paymentType}" placeholder="{i18n>PERIOD_UNIT}">
                                         <layoutData>
                                             <l:GridData span="XL5 L5 M5 S6"/>
                                         </layoutData>
                                         <items>
                                             <core:Item key="1" text="{i18n>PERIOD_UNIT_DATE}"/>
-                                            <core:Item key="1" text="{i18n>PERIOD_UNIT_MONTH}"/>
-                                            <core:Item key="1" text="{i18n>PERIOD_UNIT_WEEK}"/>
+                                            <core:Item key="3" text="{i18n>PERIOD_UNIT_MONTH}"/>
+                                            <core:Item key="2" text="{i18n>PERIOD_UNIT_WEEK}"/>
                                         </items>
                                     </ComboBox>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement label="{i18n>START_DATE}">
                                 <f:fields>
-                                    <DatePicker displayFormat="dd/MM/yyyy"/>
+                                    <DatePicker value="{createTrans>/startDate}" displayFormat="dd/MM/yyyy"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="{i18n>liquidateAfter}">
+                                <f:fields>
+                                    <Input description="{i18n>overdue_days}" value="{createTrans>/liquidateAfter}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement label="{i18n>NOTE}">
                                 <f:fields>
-                                    <TextArea/>
+                                    <TextArea value="{createTrans>/note}"/>
                                 </f:fields>
                             </f:FormElement>
                         </f:formElements>
@@ -198,7 +210,7 @@
             <Toolbar>
                 <ToolbarSpacer/>
                 <content>
-                    <Button text="{i18n>BTN_SUBMIT}" type="Accept"/>
+                    <Button press="onSubmitCreateTransaction" text="{i18n>BTN_SUBMIT}" type="Accept"/>
                     <Button text="{i18n>BTN_CANCEL}"/>
                 </content>
             </Toolbar>

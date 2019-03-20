@@ -5,5 +5,8 @@
   "role": {
     "roleId": "1",
     "roleName": "ROLE_PAWNSHOP"
+  },
+  "shop": {
+    "id": 1
   }
 }

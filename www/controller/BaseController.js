@@ -227,7 +227,13 @@ sap.ui.define([
             return returnCallback;
         },
         checkLogin: function () {
-            return true;
+            var isLogon = false;
+            var accountModel = this.getModel("account");
+            if (accountModel) {
+                var accId = accountModel.getProperty("/accountId");
+                isLogon = accId !== null && accId !== "";
+            }
+            return isLogon;
         },
 
         setAccountModel: function (d) {

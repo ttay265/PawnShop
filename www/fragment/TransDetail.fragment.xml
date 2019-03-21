@@ -68,240 +68,249 @@
                     </f:FormContainer>
                 </f:formContainers>
             </f:Form>
-            <IconTabBar applyContentPadding="{= !${device>/system/phone}}" expandable="false" expanded="true"
-                        tabDensityMode="{= !${device>/system/phone} ? 'Compact' : 'Cozy'}" class="longTextIconTabBar">
-                <items>
-                    <IconTabFilter id="1" text="{i18n>general}">
-                        <content>
-                            <f:Form editable="{/editMode}">
-                                <f:layout>
-                                    <f:ResponsiveGridLayout
-                                            labelSpanXL="3"
-                                            labelSpanL="3"
-                                            labelSpanM="4"
-                                            labelSpanS="12"
-                                            adjustLabelSpan="false"
-                                            emptySpanXL="1"
-                                            emptySpanL="1"
-                                            emptySpanM="1"
-                                            emptySpanS="0"
-                                            columnsXL="2"
-                                            columnsL="2"
-                                            columnsM="2"
-                                            columnsS="1"
-                                            singleContainerFullSize="false"/>
-                                </f:layout>
-                                <f:formContainers>
-                                    <f:FormContainer title="{i18n>CT_PAWNEE}">
-                                        <f:formElements>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="true" text="{i18n>NAME}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Text text="{transDetail>/transaction/pawneeInfo/name}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>IDNO}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Text text="{transDetail>/transaction/pawneeInfo/identityNumber}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>PHONE_NO}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Text text="{transDetail>/transaction/pawneeInfo/phoneNumber}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>ADDRESS}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Text text="{transDetail>/transaction/pawneeInfo/address}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>email}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Text text="{transDetail>/transaction/pawneeInfo/email}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                        </f:formElements>
-                                    </f:FormContainer>
-                                    <f:FormContainer title="{i18n>CT_ITEM}">
-                                        <f:formElements>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>ITEM}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Text wrapping="true"
-                                                          text="{transDetail>/transaction/itemName} ({transDetail>/transaction/category/categoryName})"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>ATTRIBUTE_1}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Input visible="{/editMode}" placeholder="{i18n>ATTRIBUTE_1_DESC}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>ATTRIBUTE_2}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Input visible="{/editMode}" placeholder="{i18n>ATTRIBUTE_2_DESC}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>ATTRIBUTE_3}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Input visible="{/editMode}" placeholder="{i18n>ATTRIBUTE_3_DESC}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:label>
-                                                    <Label required="false" text="{i18n>ATTRIBUTE_4}"/>
-                                                </f:label>
-                                                <f:fields>
-                                                    <Input visible="{/editMode}" placeholder="{i18n>ATTRIBUTE_4_DESC}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                        </f:formElements>
-                                    </f:FormContainer>
-                                </f:formContainers>
-                            </f:Form>
-                        </content>
-                    </IconTabFilter>
-                    <IconTabFilter id="2" text="{i18n>payment}">
-                        <content>
-                            <f:Form editable="true">
-                                <f:layout>
-                                    <f:ResponsiveGridLayout
-                                            labelSpanXL="3"
-                                            labelSpanL="3"
-                                            labelSpanM="4"
-                                            labelSpanS="12"
-                                            adjustLabelSpan="false"
-                                            emptySpanXL="0"
-                                            emptySpanL="0"
-                                            emptySpanM="0"
-                                            emptySpanS="0"
-                                            columnsXL="2"
-                                            columnsL="2"
-                                            columnsM="2"
-                                            columnsS="1"
-                                            singleContainerFullSize="false"/>
-                                </f:layout>
-                                <f:formContainers>
-                                    <f:FormContainer>
-                                        <f:formElements>
-                                            <f:FormElement label="{i18n>next_date}">
-                                                <f:fields>
-                                                    <Text text="{next_date}"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement label="{i18n>PAY_DAY}">
-                                                <f:fields>
-                                                    <DatePicker displayFormat="dd/MM/yyyy"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                        </f:formElements>
-                                    </f:FormContainer>
-                                    <f:FormContainer>
-                                        <f:formElements>
-                                            <f:FormElement label="{i18n>NOTE}">
-                                                <f:fields>
-                                                    <TextArea rows="3"/>
-                                                </f:fields>
-                                            </f:FormElement>
-                                            <f:FormElement>
-                                                <f:fields>
+            <ScrollContainer
+                    vertical="true"
+                    height="100%">
+                <IconTabBar applyContentPadding="{= !${device>/system/phone}}" expandable="false" expanded="true"
+                            tabDensityMode="{= !${device>/system/phone} ? 'Compact' : 'Cozy'}"
+                            class="longTextIconTabBar">
+                    <items>
+                        <IconTabFilter id="1" text="{i18n>general}">
+                            <content>
+                                <f:Form editable="{/editMode}">
+                                    <f:layout>
+                                        <f:ResponsiveGridLayout
+                                                labelSpanXL="3"
+                                                labelSpanL="3"
+                                                labelSpanM="4"
+                                                labelSpanS="12"
+                                                adjustLabelSpan="false"
+                                                emptySpanXL="1"
+                                                emptySpanL="1"
+                                                emptySpanM="1"
+                                                emptySpanS="0"
+                                                columnsXL="2"
+                                                columnsL="2"
+                                                columnsM="2"
+                                                columnsS="1"
+                                                singleContainerFullSize="false"/>
+                                    </f:layout>
+                                    <f:formContainers>
+                                        <f:FormContainer title="{i18n>CT_PAWNEE}">
+                                            <f:formElements>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="true" text="{i18n>NAME}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Text text="{transDetail>/transaction/pawneeInfo/name}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>IDNO}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Text text="{transDetail>/transaction/pawneeInfo/identityNumber}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>PHONE_NO}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Text text="{transDetail>/transaction/pawneeInfo/phoneNumber}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>ADDRESS}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Text text="{transDetail>/transaction/pawneeInfo/address}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>email}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Text text="{transDetail>/transaction/pawneeInfo/email}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                            </f:formElements>
+                                        </f:FormContainer>
+                                        <f:FormContainer title="{i18n>CT_ITEM}">
+                                            <f:formElements>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>ITEM}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Text wrapping="true"
+                                                              text="{transDetail>/transaction/itemName} ({transDetail>/transaction/category/categoryName})"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>ATTRIBUTE_1}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Input visible="{/editMode}"
+                                                               placeholder="{i18n>ATTRIBUTE_1_DESC}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>ATTRIBUTE_2}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Input visible="{/editMode}"
+                                                               placeholder="{i18n>ATTRIBUTE_2_DESC}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>ATTRIBUTE_3}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Input visible="{/editMode}"
+                                                               placeholder="{i18n>ATTRIBUTE_3_DESC}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label required="false" text="{i18n>ATTRIBUTE_4}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Input visible="{/editMode}"
+                                                               placeholder="{i18n>ATTRIBUTE_4_DESC}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                            </f:formElements>
+                                        </f:FormContainer>
+                                    </f:formContainers>
+                                </f:Form>
+                            </content>
+                        </IconTabFilter>
+                        <IconTabFilter id="2" text="{i18n>payment}">
+                            <content>
+                                <f:Form editable="true">
+                                    <f:layout>
+                                        <f:ResponsiveGridLayout
+                                                labelSpanXL="3"
+                                                labelSpanL="3"
+                                                labelSpanM="4"
+                                                labelSpanS="12"
+                                                adjustLabelSpan="false"
+                                                emptySpanXL="0"
+                                                emptySpanL="0"
+                                                emptySpanM="0"
+                                                emptySpanS="0"
+                                                columnsXL="2"
+                                                columnsL="2"
+                                                columnsM="2"
+                                                columnsS="1"
+                                                singleContainerFullSize="false"/>
+                                    </f:layout>
+                                    <f:formContainers>
+                                        <f:FormContainer>
+                                            <f:formElements>
+                                                <f:FormElement label="{i18n>next_date}">
+                                                    <f:fields>
+                                                        <Text text="{next_date}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement label="{i18n>PAY_DAY}">
+                                                    <f:fields>
+                                                        <DatePicker displayFormat="dd/MM/yyyy"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                            </f:formElements>
+                                        </f:FormContainer>
+                                        <f:FormContainer>
+                                            <f:formElements>
+                                                <f:FormElement label="{i18n>NOTE}">
+                                                    <f:fields>
+                                                        <TextArea rows="3"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:fields>
 
-                                                </f:fields>
-                                            </f:FormElement>
-                                        </f:formElements>
-                                    </f:FormContainer>
-                                </f:formContainers>
-                            </f:Form>
-                            <Toolbar height="3rem">
-                                <content>
-                                    <ToolbarSpacer/>
-                                    <Button type="Accept" icon="sap-icon://paid-leave"
-                                            text="{i18n>btn_pay_deb}"/>
-                                    <ToolbarSpacer width="0.75rem"/>
-                                </content>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                            </f:formElements>
+                                        </f:FormContainer>
+                                    </f:formContainers>
+                                </f:Form>
+                                <Toolbar height="3rem">
+                                    <content>
+                                        <ToolbarSpacer/>
+                                        <Button type="Accept" icon="sap-icon://paid-leave"
+                                                text="{i18n>btn_pay_deb}"/>
+                                        <ToolbarSpacer width="0.75rem"/>
+                                    </content>
 
-                            </Toolbar>
-                            <Table>
-                                <columns>
-                                    <Column>
-                                        <Label text="{i18n>stt}"/>
-                                    </Column>
-                                    <Column>
-                                        <Label text="{i18n>next_date}"/>
-                                    </Column>
-                                    <Column>
-                                        <Label text="{i18n>pay_day}"/>
-                                    </Column>
-                                    <Column>
-                                        <Label text="{i18n>note}"/>
-                                    </Column>
-                                    <Column>
-                                    </Column>
-                                </columns>
+                                </Toolbar>
+                                <Table>
+                                    <columns>
+                                        <Column>
+                                            <Label text="{i18n>stt}"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>next_date}"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>pay_day}"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>note}"/>
+                                        </Column>
+                                        <Column>
+                                        </Column>
+                                    </columns>
+                                    <items>
+
+                                    </items>
+                                </Table>
+                            </content>
+                        </IconTabFilter>
+                        <IconTabFilter id="3"
+                                       text="{i18n>history}">
+                            <!--<core:Fragment id="fragHistory" fragmentName="mortgage.pawnshop.fragment.ViewCreate"-->
+                            <!--type="XML"/>-->
+                        </IconTabFilter>
+                        <IconTabFilter id="4"
+                                       text="{i18n>attachment}">
+                            <!--<core:Fragment id="fragAttachment" fragmentName="mynamespace.view.ViewCreate" type="XML"/>-->
+                        </IconTabFilter>
+                        <IconTabFilter id="5"
+                                       text="{i18n>chuoc_do}">
+                            <VBox width="100%">
                                 <items>
-
+                                    <f:SimpleForm width="400px">
+                                        <Label text="{i18n>action}"/>
+                                        <Select>
+                                            <items>
+                                                <core:Item text="{i18n>chuoc_do}"/>
+                                                <core:Item text="{i18n>huy_phieu}"/>
+                                                <core:Item text="{i18n>thay_the_phieu}"/>
+                                            </items>
+                                        </Select>
+                                        <Label text="{i18n>chuoc_date}"/>
+                                        <DatePicker/>
+                                        <Label text="{i18n>Note}"/>
+                                        <TextArea/>
+                                    </f:SimpleForm>
+                                    <Button text="{i18n>chuoc}" type="Accept"/>
                                 </items>
-                            </Table>
-                        </content>
-                    </IconTabFilter>
-                    <IconTabFilter id="3"
-                                   text="{i18n>history}">
-                        <!--<core:Fragment id="fragHistory" fragmentName="mortgage.pawnshop.fragment.ViewCreate"-->
-                        <!--type="XML"/>-->
-                    </IconTabFilter>
-                    <IconTabFilter id="4"
-                                   text="{i18n>attachment}">
-                        <!--<core:Fragment id="fragAttachment" fragmentName="mynamespace.view.ViewCreate" type="XML"/>-->
-                    </IconTabFilter>
-                    <IconTabFilter id="5"
-                                   text="{i18n>chuoc_do}">
-                        <VBox width="100%">
-                            <items>
-                                <f:SimpleForm width="400px">
-                                    <Label text="{i18n>action}"/>
-                                    <Select>
-                                        <items>
-                                            <core:Item text="{i18n>chuoc_do}"/>
-                                            <core:Item text="{i18n>huy_phieu}"/>
-                                            <core:Item text="{i18n>thay_the_phieu}"/>
-                                        </items>
-                                    </Select>
-                                    <Label text="{i18n>chuoc_date}"/>
-                                    <DatePicker/>
-                                    <Label text="{i18n>Note}"/>
-                                    <TextArea/>
-                                </f:SimpleForm>
-                                <Button text="{i18n>chuoc}" type="Accept"/>
-                            </items>
-                        </VBox>
+                            </VBox>
 
-                    </IconTabFilter>
-                </items>
-            </IconTabBar>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </ScrollContainer>
         </content>
     </Dialog>
 </core:FragmentDefinition>

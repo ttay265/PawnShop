@@ -8,9 +8,14 @@
     <Page floatingFooter="true" showNavButton="{device>/system/phone}" navButtonPress="back">
         <content>
             <f:Form editable="true">
-                <f:title>
-                    <core:Title text="{i18n>CT_FORM_CREATE_TRANSACTION}"/>
-                </f:title>
+                <f:toolbar>
+                    <Toolbar>
+                        <Title text="{i18n>CT_FORM_CREATE_TRANSACTION}"/>
+                        <ToolbarSpacer/>
+                        <ToolbarSeparator/>
+                        <Button press="onClearPressed" type="Transparent" text="{i18n>BTN_CLEAR}"/>
+                    </Toolbar>
+                </f:toolbar>
                 <f:layout>
                     <f:ResponsiveGridLayout
                             labelSpanXL="3"
@@ -189,7 +194,9 @@
                             <f:FormElement label="{i18n>START_DATE}">
                                 <f:fields>
                                     <DatePicker
-                                            value="{path:'createTrans>/startDate', type:'sap.ui.model.type.Date', formatOptions: { form: 'long', strictParsing: true}}"
+                                            valueFormat="dd-MM-yyyy"
+                                            displayFormat="dd-MM-yyyy"
+                                            value="{path:'createTrans>/startDate'}"
                                     />
                                 </f:fields>
                             </f:FormElement>
@@ -214,7 +221,6 @@
                 <ToolbarSpacer/>
                 <content>
                     <Button press="onSubmitCreateTransaction" text="{i18n>BTN_SUBMIT}" type="Accept"/>
-                    <Button text="{i18n>BTN_CANCEL}"/>
                 </content>
             </Toolbar>
         </footer>

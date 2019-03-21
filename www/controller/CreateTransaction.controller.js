@@ -13,12 +13,25 @@ sap.ui.define([
     return BaseController.extend("mortgage.pawnshop.controller.CreateTransaction", {
         formatter: formatter,
         onInit: function () {
+
+
+            this.getRouter().getRoute("creTrans").attachPatternMatched(this._onObjectMatched, this);
+        },
+        onClearPressed: function () {
+            this.loadInitTransaction();
+        },
+        loadInitTransaction: function () {
             var accountModel = this.getModel("account");
             if (!accountModel) {
                 this.getRouter().navTo("login", true);
                 return;
             }
-            var createTransModel = new JSONModel({
+            var createTransModel = this.getModel("createTrans");
+            if (!createTransModel) {
+                createTransModel = new JSONModel();
+                this.setModel(createTransModel, "createTrans");
+            }
+            var initValues = {
                 pawneeId: "4",
                 pawneeName: "",
                 email: "",
@@ -41,9 +54,9 @@ sap.ui.define([
                 liquidateAfter: "",
                 categoryId: "",
                 note: ""
-            });
-            this.setModel(createTransModel, "createTrans");
-            this.getRouter().getRoute("creTrans").attachPatternMatched(this._onObjectMatched, this);
+            };
+            createTransModel.setProperty("/", initValues, null, false);
+            this.bindShopConfigForCreateTrans();
         },
 
 
@@ -62,7 +75,7 @@ sap.ui.define([
                 this.getRouter().navTo("login", true);
                 return;
             } else {
-                this.bindShopConfigForCreateTrans();
+                this.loadInitTransaction();
             }
         },
         bindShopConfigForCreateTrans: function () {
@@ -76,27 +89,14 @@ sap.ui.define([
             model.setProperty("/", data);
             this.changeCurrentCateConfig(data[0]);
         },
+
         forceChangePass: function () {
             this.changePasswordPress();
         },
+
         changePasswordPress: function () {
             this.changePassDialog.open();
         },
-        onAfterRendering: function () {
-            if (!this.changePassDialog) {
-                this.changePassDialog = sap.ui.xmlfragment(this.getView().getId(), "mortgage.pawnshop.fragment.ChangePassDialog", this);
-                this.getView().addDependent(this.changePassDialog);
-                this.txtOldPass = this.byId("_txtOldPass");
-                this.txtNewPass = this.byId("_txtNewPass");
-                this.txtConfirmNewPass = this.byId("_txtConfirmNewPass");
-            }
-            //dialog initialization
-            // if (!this.AddressDialog) {
-            //     this.AddressDialog = sap.ui.xmlfragment(this.getView().getId(), "mortgage.pawnshop.fragment.Address", this);
-            //     this.getView().addDependent(this.AddressDialog);
-            // }
-        },
-
 
         onCateConfigChanged: function (e) {
             var selectedItem = e.getParameter("selectedItem");

@@ -6,7 +6,8 @@ sap.ui.define([
     "mortgage/pawnshop/model/formatter",
     "sap/m/BusyDialog",
     "mortgage/pawnshop/model/models",
-], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
+    "sap/m/MessageStrip",
+], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models, MessageStrip) {
     "use strict";
 
     return BaseController.extend("mortgage.pawnshop.controller.CreateTransaction", {
@@ -73,13 +74,7 @@ sap.ui.define([
             }
             var data = models.getCateConfigSet(shopId);
             model.setProperty("/", data);
-            var currentConfigModel = this.getModel("currentConfig");
-            if (!currentConfigModel) {
-                currentConfigModel = new JSONModel();
-                this.setModel(currentConfigModel, "currentConfig");
-            }
-            currentConfigModel.setProperty("/", data[0]);
-            console.log(currentConfigModel);
+            this.changeCurrentCateConfig(data[0]);
         },
         forceChangePass: function () {
             this.changePasswordPress();
@@ -101,16 +96,43 @@ sap.ui.define([
             //     this.getView().addDependent(this.AddressDialog);
             // }
         },
+
+
         onCateConfigChanged: function (e) {
             var selectedItem = e.getParameter("selectedItem");
-            console.log(selectedItem);
             var confData = selectedItem.getBindingContext("shopConfig").getProperty("");
-            console.log(confData);
-            this.getModel("currentConfig").setProperty("/", confData, null, false);
+            this.changeCurrentCateConfig(confData);
         },
+        changeCurrentCateConfig: function (confData) {
+            var currentConfigModel = this.getModel("currentConfig");
+            if (!currentConfigModel) {
+                currentConfigModel = new JSONModel();
+                this.setModel(currentConfigModel, "currentConfig");
+            }
+            currentConfigModel.setProperty("/", confData, null, false);
+            this.getModel("createTrans").setProperty("/paymentTerm", confData.paymentTerm, null, false);
+            this.getModel("createTrans").setProperty("/paymentType", confData.paymentType, null, false);
+            this.getModel("createTrans").setProperty("/liquidateAfter", confData.liquidateAfter, null, false);
+
+        },
+
         onSubmitCreateTransaction: function () {
             var sendingData = this.parseSendData();
-            models.submitCreateTransation(sendingData);
+            var result = models.submitCreateTransation(sendingData);
+            if (result) {
+                var msgCreateTransSuccessfully = this.getResourceBundle().getText("msgCreateTransSuccessfully");
+                MessageToast.show(msgCreateTransSuccessfully);
+                this.back();
+            } else {
+                //handle error
+                var msgCreateTransError = this.getResourceBundle().getText("msgCreateTransError");
+                this.getView().addContent(new MessageStrip("mstripCreateTrans", {
+                    text: msgCreateTransError,
+                    showCloseButton: false,
+                    showIcon: true,
+                    type: "Error"
+                }));
+            }
         },
         parseSendData: function () {
             var createModel = this.getModel("createTrans");

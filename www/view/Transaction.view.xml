@@ -37,7 +37,6 @@
                 <Column width="5rem">
                     <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>status}"/>
                 </Column>
-
             </columns>
             <items>
                 <ColumnListItem press="onTransDetailPress" type="Active">

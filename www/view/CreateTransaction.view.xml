@@ -185,12 +185,19 @@
                                     <u:FileUploader
                                             iconOnly="true"
                                             id="fileUploader"
-                                            name="trans1_img1"
-                                            fileType="['jpg', 'png', 'jpeg', 'bmp']"
-                                            mimeType="['image/png', 'image/jpeg']"
+                                            name="trans1_img1.png"
+                                            useMultipart="false"
                                             uploadOnChange="true"
-                                            uploadUrl="upload/img"
-                                            uploadComplete="handleUploadComplete"/>
+                                            uploadUrl="https://api.imgur.com/3/upload"
+
+                                            uploadComplete="handleUploadComplete">
+                                        <u:headerParameters>
+                                            <u:FileUploaderParameter name="Authorization"
+                                                                     value="Client-ID 85066d1ea4f1d6c"/>
+                                            <u:FileUploaderParameter name="content-type"
+                                                                     value="Client-ID 85066d1ea4f1d6c"/>
+                                        </u:headerParameters>
+                                    </u:FileUploader>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>

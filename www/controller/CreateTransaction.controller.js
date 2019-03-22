@@ -98,6 +98,10 @@ sap.ui.define([
             this.changePassDialog.open();
         },
 
+        handleUploadComplete: function() {
+            MessageToast.show("sucess");
+        }
+
         onCateConfigChanged: function (e) {
             var selectedItem = e.getParameter("selectedItem");
             var confData = selectedItem.getBindingContext("shopConfig").getProperty("");

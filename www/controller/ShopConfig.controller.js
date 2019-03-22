@@ -30,6 +30,14 @@ sap.ui.define([
             var data = models.getCateConfigSet(shopId);
             model.setProperty("/", data);
         },
+        onCreateConfigPressed: function () {
+            if (!this.shopConfigDialog) {
+                this.shopConfigDialog = this.initFragment("mortgage.pawnshop.fragment.ShopConfigDialog", "currentConfig");
+            }
+            // set mode = create
+            this.shopConfigDialog.getModel("currentConfig").setProperty("/isUpdate", false, null, false);
+            this.shopConfigDialog.open();
+        },
 
         onFilterByStatus: function (e) {
 

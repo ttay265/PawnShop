@@ -27,10 +27,10 @@ sap.ui.define([
         onInit: function () {
             this.getView().addStyleClass(this.getOwnerComponent().getContentDensityClass());
         },
-        initFragment: function (sFragName) {
+        initFragment: function (sFragName, sModelName) {
             var fragment = sap.ui.xmlfragment(this.getView().getId(), sFragName, this);
             this.getView().addDependent(fragment);
-            fragment.setModel(new JSONModel());
+            fragment.setModel(new JSONModel(), sModelName);
             fragment.addStyleClass(this.getOwnerComponent().getContentDensityClass());
             return fragment;
         },

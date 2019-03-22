@@ -1,0 +1,116 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m"
+                         displayBlock="true">
+    <Dialog showHeader="false" contentWidth="25rem"
+            stretch="{device>/system/phone}">
+        <customHeader>
+            <Bar>
+                <contentMiddle>
+                    <Title text="{= ${currentConfig>/isUpdate} ? ${i18n>UPDATE_SHOP_CONFIG} : ${i18n>ADD_SHOP_CONFIG} }"/>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+        <buttons>
+            <Button text="{= ${currentConfig>/isUpdate} ? ${i18n>update} : ${i18n>add}}" press="onSubmitConfigPressed"
+                    type="Accept"/>
+            <Button text="{i18n>cancel}" press="onDialogClose" type="Reject"/>
+        </buttons>
+        <content>
+            <ScrollContainer
+                    vertical="true"
+                    height="100%">
+                <content>
+                    <f:Form>
+                        <f:layout>
+                            <f:ResponsiveGridLayout
+                                    adjustLabelSpan="false"
+                                    emptySpanXL="1"
+                                    emptySpanL="1"
+                                    emptySpanM="1"
+                                    emptySpanS="0"
+                                    columnsXL="1"
+                                    columnsL="1"
+                                    columnsM="1"
+                                    columnsS="1"
+                                    singleContainerFullSize="false"/>
+                        </f:layout>
+                        <f:formContainers>
+
+                            <f:FormContainer>
+                                <f:formElements>
+                                    <f:FormElement label="{i18n>category_name}">
+                                        <f:fields>
+                                            <Select selectedKey="{currentConfigig>/cateId}" items="{cate>/}">
+                                                <items>
+                                                    <core:Item/>
+                                                </items>
+                                            </Select>
+                                        </f:fields>
+                                    </f:FormElement>
+                                    <f:FormElement label="{i18n>name}">
+                                        <f:fields>
+                                            <Input value="{currentConfig>/name}"/>
+                                        </f:fields>
+                                    </f:FormElement>
+                                    <f:FormElement label="{i18n>PERIOD}">
+                                        <f:fields>
+                                            <Input value="{currentConfig>/paymentTerm}" textAlign="End" type="Number">
+                                                <layoutData>
+                                                    <l:GridData span="XL3 L3 M3 S6"/>
+                                                </layoutData>
+                                            </Input>
+                                            <ComboBox selectedKey="{createTrans>/paymentType}">
+                                                <layoutData>
+                                                    <l:GridData span="XL5 L3 M5 S6"/>
+                                                </layoutData>
+                                                <items>
+                                                    <core:Item key="1" text="{i18n>PERIOD_UNIT_DATE}"/>
+                                                    <core:Item key="3" text="{i18n>PERIOD_UNIT_MONTH}"/>
+                                                    <core:Item key="2" text="{i18n>PERIOD_UNIT_WEEK}"/>
+                                                </items>
+                                            </ComboBox>
+                                        </f:fields>
+                                    </f:FormElement>
+                                    <f:FormElement label="{i18n>liquidateAfter}">
+                                        <f:fields>
+                                            <Input fieldWidth="60%" description="{i18n>overdue_days}"
+                                                   value="{currentConfig>/liquidateAfter}"/>
+                                        </f:fields>
+                                    </f:FormElement>
+                                    <f:FormElement label="{i18n>ATTRIBUTES}">
+                                        <f:fields>
+                                            <Input placeholder="{i18n>ATTRIBUTE1_NAME}"
+
+                                                   value="{currentConfig>/attribute1}">
+                                                <layoutData>
+                                                    <l:GridData span="XL3 L3 M3 S6"/>
+                                                </layoutData>
+                                            </Input>
+                                            <Input placeholder="{i18n>ATTRIBUTE2_NAME}"
+                                                   value="{currentConfig>/attribute2}">
+                                                <layoutData>
+                                                    <l:GridData span="XL3 L3 M3 S6"/>
+                                                </layoutData>
+                                            </Input>
+                                            <Input placeholder="{i18n>ATTRIBUTE3_NAME}"
+                                                   value="{currentConfig>/attribute3}">
+                                                <layoutData>
+                                                    <l:GridData span="XL3 L3 M3 S6"/>
+                                                </layoutData>
+                                            </Input>
+                                            <Input placeholder="{i18n>ATTRIBUTE4_NAME}"
+                                                   value="{currentConfig>/attribute4}">
+                                                <layoutData>
+                                                    <l:GridData span="XL3 L3 M3 S6"/>
+                                                </layoutData>
+                                            </Input>
+                                        </f:fields>
+                                    </f:FormElement>
+                                </f:formElements>
+                            </f:FormContainer>
+                        </f:formContainers>
+                    </f:Form>
+                </content>
+            </ScrollContainer>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

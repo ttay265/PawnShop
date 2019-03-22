@@ -4,7 +4,7 @@ sap.ui.define([
 ], function (JSONModel, Device) {
     "use strict";
     const serverInfo = {
-        url: "http://192.168.2.74:8080",
+        url: "http://192.168.2.60:8080",
         localUrl: "model",
         useLocal: true
     };
@@ -59,7 +59,7 @@ sap.ui.define([
             });
             return data;
         },
-        submitCreateTransation: function (data) {
+        submitCreateTransaction: function (data) {
 
             var returnCallback = false;
             var onSuccess = function (res, status, xhr) {
@@ -74,11 +74,10 @@ sap.ui.define([
                 };
             var serverInfo = this.getServerInfo();
             var url = "",
-                method = "GET";
+                method = "POST";
             if (serverInfo.useLocal) {
                 url = serverInfo.localUrl + "/account.json";
             } else {
-                method = "POST";
                 url = serverInfo.url + "/tao-hop-dong";
             }
 
@@ -105,6 +104,82 @@ sap.ui.define([
             return returnCallback;
         },
         getCateConfigSet: function (shopId) {
+            var data = [];
+            var url;
+            if (serverInfo.useLocal) {
+                url = serverInfo.localUrl + "/categoryConfig.json";
+            } else {
+                url = serverInfo.url + "/danh-muc";
+            }
+            var ajaxData = {
+                shopId: shopId
+            };
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: ajaxData,
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return data;
+        },
+        postCateConfigSet: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/danh-muc";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
+                   
+                }
+
+            });
+            return returnCallback;
+        },
+        getCategorySet: function () {
+            var data = [];
+            var url;
+            if (serverInfo.useLocal) {
+                url = serverInfo.localUrl + "/category.json";
+            } else {
+                url = serverInfo.url + "/tao-danh-muc";
+            }
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return data;
+        },
+        getPawneeInfo: function (email, shopId) {
             var data = [];
             var url;
             if (serverInfo.useLocal) {

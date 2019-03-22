@@ -25,8 +25,8 @@ sap.ui.define([
 
             var lblHome = this.getModel("i18n").getResourceBundle().getText("navToHome");
             this.setModel(models.createGlobalModel(), "global");
-            this.setModel(new JSONModel(), "trans");
-            this.setModel(new JSONModel(), "shopConfig");
+            //init master data
+            this.initCategoryData();
             this.setModel(models.createDeviceModel(), "device");
             this.getRouter().getTargetHandler().setCloseDialogs(false);
             // this.getModel().attachRequestFailed(this.requestFailed, this);
@@ -44,6 +44,15 @@ sap.ui.define([
                 }
             }
             return this._sContentDensityClass;
+        },
+        initCategoryData: function () {
+            var cateModel = this.getModel("category");
+            if (!cateModel) {
+                cateModel = new JSONModel();
+                this.setModel(cateModel, "category");
+            }
+            var cateData = models.getCategorySet();
+            cateModel.setProperty("/", cateData);
         },
         requestFailed: function (oEvent) {
 

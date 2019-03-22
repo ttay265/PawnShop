@@ -5,36 +5,40 @@ sap.ui.define(["mortgage/pawnshop/controller/BaseController",
     return {
         transStatusState: function (sStatus) {
             switch (sStatus) {
-                case 1:
-                    return ValueState.Warning; //Warning
-                case 2:
-                    return ValueState.Accept; //Accept
-                case 3:
-                    return ValueState.None; // Neutral
-                case 4:
-                    return ValueState.Error; //critical
-                case 5:
-                    return ValueState.Information; //Information
-                case 6:
-                    return ValueState.None; // Neutral
+                case 1: //NOT_OVERDUE
+                    return ValueState.Information;
+                case 2: //WAIT_FOR_LIQUIDATION
+                    return ValueState.Error;
+                case 3: //ON_DUE_DATE
+                    return ValueState.Warning;
+                case 4: //REDEEMED
+                    return ValueState.Success;
+                case 5: //LATE
+                    return ValueState.Error;
+                case 6: //LIQUIDATION
+                    return ValueState.Success;
+                case 7: //CANCELED
+                    return ValueState.None;
                 default:
-                    return "";
+                    return ValueState.None;
             }
         },
         transStatusDesc: function (sStatus) {
             var i18n = this.getResourceBundle();
             switch (sStatus) {
                 case 1:
-                    return i18n.getText('UNPAID'); //Warning
+                    return i18n.getText('NOT_OVERDUE'); //Information
                 case 2:
                     return i18n.getText('WAIT_FOR_LIQUIDATION'); //Accept
                 case 3:
-                    return i18n.getText('REDEEMED'); // Neutral
+                    return i18n.getText('ON_DUE_DATE'); //Warning
                 case 4:
-                    return i18n.getText('LATE'); //critical
+                    return i18n.getText('REDEEMED'); // Neutral
                 case 5:
-                    return i18n.getText('LIQUIDATION'); //Information
+                    return i18n.getText('LATE'); //critical
                 case 6:
+                    return i18n.getText('LIQUIDATION'); //Information
+                case 7:
                     return i18n.getText('CANCELED'); // Neutral
                 default:
                     return "";

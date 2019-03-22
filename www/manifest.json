@@ -83,6 +83,11 @@
           "target": "transaction"
         },
         {
+          "pattern": "cateConfig",
+          "name": "cateConfig",
+          "target": "cateConfig"
+        },
+        {
           "pattern": "shopConfig",
           "name": "shopConfig",
           "target": "shopConfig"
@@ -114,6 +119,13 @@
         "transaction": {
           "parent": "mainApp",
           "viewName": "Transaction",
+          "viewLevel": 2,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "cateConfig": {
+          "parent": "mainApp",
+          "viewName": "CateConfig",
           "viewLevel": 2,
           "controlId": "mainApp",
           "controlAggregation": "pages"

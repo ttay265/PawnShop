@@ -13,34 +13,13 @@ sap.ui.define([
         formatter: formatter,
         onInit: function () {
 
-            this.getRouter().getRoute("shopConfig").attachPatternMatched(this._onObjectMatched, this);
-
+            // this.getRouter().getRoute("shopConfig").attachPatternMatched(this._onObjectMatched, this);
+            //
         },
         _onObjectMatched: function (arg) {
             // console.log(transModel);
-            this.bindShopConfigModel();
-        },
-        bindShopConfigModel: function () {
-            var shopId = this.getModel("account").getProperty("/shop/id");
-            var model = this.getModel("shopConfig");
-            if (!model) {
-                model = new JSONModel();
-                this.setModel(model, "shopConfig");
-            }
-            var data = models.getCateConfigSet(shopId);
-            model.setProperty("/", data);
-        },
-        onCreateConfigPressed: function () {
-            if (!this.shopConfigDialog) {
-                this.shopConfigDialog = this.initFragment("mortgage.pawnshop.fragment.ShopConfigDialog", "currentConfig");
-            }
-            // set mode = create
-            this.shopConfigDialog.getModel("currentConfig").setProperty("/isUpdate", false, null, false);
-            this.shopConfigDialog.open();
+            // this.bindShopConfigModel();
         },
 
-        onFilterByStatus: function (e) {
-
-        }
     });
 });

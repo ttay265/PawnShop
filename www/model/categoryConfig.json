@@ -1,6 +1,6 @@
 [
   {
-    "id": 3,
+    "id": 8,
     "name": "IPHONE",
     "value1": "mat khau",
     "value2": "IMEI",
@@ -14,10 +14,11 @@
       "categoryName": "Điện Thoại",
       "description": null,
       "iconUrl": "https://static.vietmoney.vn/vietmoney/2018/12/44d27cdb-dien-thoai.png"
-    }
+    },
+    "status": 1
   },
   {
-    "id": 3,
+    "id": 9,
     "name": "SAMSUNG",
     "value1": "mat khau",
     "value2": "IMEI",
@@ -31,10 +32,11 @@
       "categoryName": "Điện Thoại",
       "description": null,
       "iconUrl": "https://static.vietmoney.vn/vietmoney/2018/12/44d27cdb-dien-thoai.png"
-    }
+    },
+    "status": 1
   },
   {
-    "id": 4,
+    "id": 10,
     "name": "MACBOOK",
     "value1": "mat khau",
     "value2": "version",
@@ -48,10 +50,11 @@
       "categoryName": "Máy Tính",
       "description": null,
       "iconUrl": "https://static.vietmoney.vn/vietmoney/2018/12/9a2fe623-may-tinh.png"
-    }
+    },
+    "status": 1
   },
   {
-    "id": 4,
+    "id": 11,
     "name": "ASUS",
     "value1": "mat khau",
     "value2": "version",
@@ -65,6 +68,7 @@
       "categoryName": "Máy Tính",
       "description": null,
       "iconUrl": "https://static.vietmoney.vn/vietmoney/2018/12/9a2fe623-may-tinh.png"
-    }
+    },
+    "status": 1
   }
 ]

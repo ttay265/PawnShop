@@ -90,6 +90,10 @@ sap.ui.define([
             var source = oEvent.getSource();
             this.doNav("transaction", source);
         },
+        navCateConfig: function (oEvent) {
+            var source = oEvent.getSource();
+            this.doNav("cateConfig", source);
+        },
         navShopConfig: function (oEvent) {
             var source = oEvent.getSource();
             this.doNav("shopConfig", source);

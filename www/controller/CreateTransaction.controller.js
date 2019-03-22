@@ -13,8 +13,6 @@ sap.ui.define([
     return BaseController.extend("mortgage.pawnshop.controller.CreateTransaction", {
         formatter: formatter,
         onInit: function () {
-
-
             this.getRouter().getRoute("creTrans").attachPatternMatched(this._onObjectMatched, this);
         },
         onClearPressed: function () {
@@ -51,6 +49,8 @@ sap.ui.define([
                 paymentTerm: "",
                 paymentType: "1",
                 startDate: new Date(),
+                basePrice: null,
+                uoc: 'VND',
                 liquidateAfter: "",
                 categoryId: "",
                 note: ""
@@ -118,7 +118,7 @@ sap.ui.define([
 
         onSubmitCreateTransaction: function () {
             var sendingData = this.parseSendData();
-            var result = models.submitCreateTransation(sendingData);
+            var result = models.submitCreateTransaction(sendingData);
             if (result) {
                 var msgCreateTransSuccessfully = this.getResourceBundle().getText("msgCreateTransSuccessfully");
                 MessageToast.show(msgCreateTransSuccessfully);
@@ -144,6 +144,7 @@ sap.ui.define([
                 data.addressObject.district + ", " +
                 data.addressObject.city;
             var currentConfig = this.getModel("currentConfig").getProperty("/");
+            // format attributes to key-value pair string
             var attrs = [];
             if (currentConfig.value1 !== null) {
                 attrs.push(currentConfig.value1 + ":" + data.value1 || "N/A");
@@ -158,9 +159,11 @@ sap.ui.define([
                 attrs.push(currentConfig.value4 + ":" + data.value4 || "N/A");
             }
             data.attributes = attrs.join(",");
+            //send category id
             data.categoryId = currentConfig.category.id;
-
-            console.log(createModel.getProperty("/"));
+            //parse date string to Date obj
+            // data.startDate =
+            //
             return data;
 
         },

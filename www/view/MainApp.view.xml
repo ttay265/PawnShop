@@ -37,10 +37,18 @@
                                 select="navToHome"
                                 text="{i18n>navTransaction}"/>
                         <tnt:NavigationListItem
-                                icon="sap-icon://customer"
-                                id="navCustomer"
-                                select="navShopConfig"
-                                text="{i18n>navShopConfig}"/>
+                                expanded="false"
+                                icon="sap-icon://action-settings"
+                                text="{i18n>navConfig}">
+                            <tnt:items>
+                                <tnt:NavigationListItem
+                                        select="navCateConfig"
+                                        text="{i18n>navCateConfig}"/>
+                                <tnt:NavigationListItem
+                                        select="navShopConfig"
+                                        text="{i18n>navShopConfig}"/>
+                            </tnt:items>
+                        </tnt:NavigationListItem>
                         <tnt:NavigationListItem
                                 icon="sap-icon://loan"
                                 id="navSaleIncomeMaster"

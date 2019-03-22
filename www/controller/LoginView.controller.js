@@ -21,13 +21,15 @@ sap.ui.define([
             this.txtUsername = this.getView().byId("_txtUsername");
             this.txtPassword = this.getView().byId("_txtPassword");
             this.txtPassword.setValue("");
-
         },
         doAutoLogin: function () {
             var loginInfo = this.getSavedLoginData();
             var logon = this.login(loginInfo.username, loginInfo.password);
             if (logon) {
-                this.getRouter().navTo("transaction", true);
+                var authorized = this.checkAuthorization();
+                if (authorized) {
+                    this.getRouter().navTo("transaction", true);
+                }
             } else {
                 this.getView().setBusy(false);
                 this.txtPassword.setValue("");
@@ -72,7 +74,7 @@ sap.ui.define([
         },
 
         checkAuthorization: function () {
-            var role = this.getModel("account").getProperty("/role");
+            var role = this.getModel("account").getProperty("/user/role");
             return role.id === 2;  // 2: ROLE_PAWNSHOP
         },
 

@@ -10,7 +10,7 @@
             </Bar>
         </customHeader>
         <buttons>
-            <Button text="{= ${currentConfig>/isUpdate} ? ${i18n>update} : ${i18n>add}}" press="onSubmitConfigPressed"
+            <Button text="{= ${currentConfig>/isUpdate} ? ${i18n>update} : ${i18n>add}}" press="onCateConfigUpdate"
                     type="Accept"/>
             <Button text="{i18n>cancel}" press="onDialogClose" type="Reject"/>
         </buttons>
@@ -39,9 +39,9 @@
                                 <f:formElements>
                                     <f:FormElement label="{i18n>category_name}">
                                         <f:fields>
-                                            <Select selectedKey="{currentConfigig>/cateId}" items="{cate>/}">
+                                            <Select selectedKey="{currentConfigig>/cateId}" items="{category>/}">
                                                 <items>
-                                                    <core:Item/>
+                                                    <core:Item key="{category>id}" text="{category>categoryName}"/>
                                                 </items>
                                             </Select>
                                         </f:fields>
@@ -58,7 +58,7 @@
                                                     <l:GridData span="XL3 L3 M3 S6"/>
                                                 </layoutData>
                                             </Input>
-                                            <ComboBox selectedKey="{createTrans>/paymentType}">
+                                            <ComboBox selectedKey="{currentConfig>/paymentType}">
                                                 <layoutData>
                                                     <l:GridData span="XL5 L3 M5 S6"/>
                                                 </layoutData>
@@ -78,26 +78,26 @@
                                     </f:FormElement>
                                     <f:FormElement label="{i18n>ATTRIBUTES}">
                                         <f:fields>
-                                            <Input placeholder="{i18n>ATTRIBUTE1_NAME}"
+                                            <Input editable="false" placeholder="{i18n>ATTRIBUTE1_NAME}"
 
                                                    value="{currentConfig>/attribute1}">
                                                 <layoutData>
                                                     <l:GridData span="XL3 L3 M3 S6"/>
                                                 </layoutData>
                                             </Input>
-                                            <Input placeholder="{i18n>ATTRIBUTE2_NAME}"
+                                            <Input editable="false" placeholder="{i18n>ATTRIBUTE2_NAME}"
                                                    value="{currentConfig>/attribute2}">
                                                 <layoutData>
                                                     <l:GridData span="XL3 L3 M3 S6"/>
                                                 </layoutData>
                                             </Input>
-                                            <Input placeholder="{i18n>ATTRIBUTE3_NAME}"
+                                            <Input editable="false" placeholder="{i18n>ATTRIBUTE3_NAME}"
                                                    value="{currentConfig>/attribute3}">
                                                 <layoutData>
                                                     <l:GridData span="XL3 L3 M3 S6"/>
                                                 </layoutData>
                                             </Input>
-                                            <Input placeholder="{i18n>ATTRIBUTE4_NAME}"
+                                            <Input editable="false" placeholder="{i18n>ATTRIBUTE4_NAME}"
                                                    value="{currentConfig>/attribute4}">
                                                 <layoutData>
                                                     <l:GridData span="XL3 L3 M3 S6"/>

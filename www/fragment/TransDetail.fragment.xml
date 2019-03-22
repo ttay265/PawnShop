@@ -251,7 +251,6 @@
                                                 text="{i18n>btn_pay_deb}"/>
                                         <ToolbarSpacer width="0.75rem"/>
                                     </content>
-
                                 </Toolbar>
                                 <Table>
                                     <columns>

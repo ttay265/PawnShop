@@ -56,7 +56,6 @@
     border-color: #0172bc !important;
 
 
-
 }
 
 .btn_THR_login .sapMBtnContent {
@@ -150,6 +149,10 @@ html.sap-phone .sapMITBHead {
     width: 100% !important;
 }
 
+.smallCrs {
+    min-width: 10rem !important;
+}
+
 html.sap-phone .sapMITBFilterDefault {
     color: #0072bb !important;
 }
@@ -182,12 +185,11 @@ sapMFlexBoxAlignContentStretch1 {
 }
 
 
-
 /*NEW PROJECT*/
 .longTextIconTabBar .sapMITBHorizontalWrapper {
     max-width: 10rem;
 }
 
-.longTextIconTabBar .sapMITBHorizontal.sapMITBFilter>.sapMITBHorizontalWrapper>.sapMITBText {
+.longTextIconTabBar .sapMITBHorizontal.sapMITBFilter > .sapMITBHorizontalWrapper > .sapMITBText {
     max-width: 10rem;
 }

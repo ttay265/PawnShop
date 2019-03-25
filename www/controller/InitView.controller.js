@@ -3,8 +3,6 @@ sap.ui.define([
 ], function (BaseController) {
     "use strict";
 
-    return BaseController.extend("mortgage.pawnshop.controller.InitView", {
-
-    });
+    return BaseController.extend("mortgage.pawnshop.controller.InitView", {});
 
 });

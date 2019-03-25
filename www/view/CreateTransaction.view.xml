@@ -5,7 +5,7 @@
         xmlns:u="sap.ui.unified"
         xmlns:core="sap.ui.core"
         xmlns="sap.m"
-        controllerName="mortgage.pawnshop.controller.CateConfig">
+        controllerName="mortgage.pawnshop.controller.CreateTransaction">
     <Page floatingFooter="true" title="{i18n>CT_FORM_CREATE_TRANSACTION}" showHeader="true"
           showNavButton="true"
           navButtonPress="back">
@@ -182,30 +182,41 @@
                                     <Label required="false" text="{i18n>attachment}"/>
                                 </f:label>
                                 <f:fields>
-                                    <u:FileUploader
-                                            iconOnly="true"
-                                            id="fileUploader"
-                                            name="trans1_img1.png"
-                                            useMultipart="false"
-                                            uploadOnChange="true"
-                                            uploadUrl="https://api.imgur.com/3/upload"
-
-                                            uploadComplete="handleUploadComplete">
-                                        <u:headerParameters>
-                                            <u:FileUploaderParameter name="Authorization"
-                                                                     value="Client-ID 85066d1ea4f1d6c"/>
-                                            <u:FileUploaderParameter name="content-type"
-                                                                     value="Client-ID 85066d1ea4f1d6c"/>
-                                        </u:headerParameters>
-                                    </u:FileUploader>
-                                </f:fields>
-                            </f:FormElement>
-                            <f:FormElement>
-                                <f:label>
-                                    <Label required="false" text="{i18n>attachment}"/>
-                                </f:label>
-                                <f:fields>
-                                    <Carousel/>
+                                    <l:VerticalLayout>
+                                        <l:layoutData>
+                                            <l:GridData span="XL8 L6 M8 S8"/>
+                                        </l:layoutData>
+                                        <l:content>
+                                            <Toolbar>
+                                                <content>
+                                                    <u:FileUploader iconOnly="true" multiple="false"
+                                                                    buttonOnly="true"
+                                                                    icon="sap-icon://add-photo" uploadOnChange="false"
+                                                                    useMultipart="false"
+                                                                    fileType="JPG,JPEG,jpeg,jpg,PNG,png"
+                                                                    sameFilenameAllowed="true"
+                                                                    typeMissmatch="onTypeMissmatch"
+                                                                    change="onUploadPress"/>
+                                                    <ToolbarSpacer/>
+                                                    <Button visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
+                                                            type="Ghost" text="{i18n>change_pic}"
+                                                            press="onChangePic"
+                                                            icon="sap-icon://edit"/>
+                                                    <Button visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
+                                                            text="{i18n>del_pic}"
+                                                            press="onDeletePic"
+                                                            icon="sap-icon://delete"/>
+                                                </content>
+                                            </Toolbar>
+                                            <Carousel showPageIndicator="true" class="smallCrs sapUiContentPadding"
+                                                      width="100%" pages="{createTrans>/picturesObj}"
+                                                      loop="true" id="carUploadedImg">
+                                                <pages>
+                                                    <Image src="{createTrans>url}"/>
+                                                </pages>
+                                            </Carousel>
+                                        </l:content>
+                                    </l:VerticalLayout>
                                 </f:fields>
                             </f:FormElement>
                         </f:formElements>

@@ -6,7 +6,7 @@ sap.ui.define([
     "mortgage/pawnshop/model/formatter",
     "sap/m/BusyDialog",
     "mortgage/pawnshop/model/models",
-    "sap/m/MessageStrip",
+    "sap/m/MessageStrip"
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models, MessageStrip) {
     "use strict";
 
@@ -41,6 +41,7 @@ sap.ui.define([
                     district: ""
                 },
                 identityNumber: "",
+                picturesObj: [],
                 pictures: "",
                 attributes: "",
                 shopId: accountModel.getProperty("/shop/id"),
@@ -98,9 +99,98 @@ sap.ui.define([
             this.changePassDialog.open();
         },
 
-        handleUploadComplete: function() {
+        handleUploadComplete: function () {
             MessageToast.show("sucess");
-        }
+        },
+
+        onUploadPress: function (oEvt) {
+            var that = this;
+            console.log("asd");
+            var oFileUploader = oEvt.getSource();
+            var aFiles = oEvt.getParameters().files;
+            var currentFile = aFiles[0];
+            this.resizeAndUpload(currentFile, {
+                success: function (oEvt) {
+                    oFileUploader.setValue("");
+                    console.log(oEvt);
+                    //Here the image is on the backend, so i call it again and set the image
+                    var model = that.getModel("createTrans");
+                    if (!model) {
+                        return;
+                    }
+                    var pics = model.getProperty("/picturesObj");
+                    pics.push({
+                        url: encodeURI(oEvt.data.link)
+                    });
+                    console.log(model.getProperty("/picturesObj"));
+                    model.updateBindings(true);
+                    var a = that.byId("carUploadedImg");
+                    console.log(a.getBinding("pages"));
+                    // that.byId("carUploadedImg").addPage(
+                    //     new sap.m.Image({
+                    //         width: '80%',
+                    //         densityAware: false,
+                    //         decorative: false,
+                    //         src: encodeURI(oEvt.data.link)
+                    //     }));
+                },
+                error: function (oEvt) {
+                    //Handle error here
+                }
+            });
+        },
+        onChangePic: function() {
+            // change url of line of PictureObj
+        },
+        onDeletePic: function() {
+            var model = this.getModel("createTrans");
+            if (!model) {
+                return;
+            }
+            var car = this.byId("carUploadedImg");
+            var binding = car.getActivePage().getBindings("src");
+            if (binding) {
+                var path = binding.getPath();
+                //do sth to remove this from pictures Array
+            }
+        },
+        resizeAndUpload: function (file, mParams) {
+            var that = this;
+            var reader = new FileReader();
+            reader.onerror = function (e) {
+                //handle error here
+            }
+            reader.onloadend = function () {
+                var tempImg = new Image();
+                tempImg.src = reader.result;
+                tempImg.onload = function () {
+                    that.uploadFile(tempImg.src, mParams, file);
+                }
+            }
+            reader.readAsDataURL(file);
+        },
+
+        uploadFile: function (dataURL, mParams, file) {
+            var xhr = new XMLHttpRequest();
+            var BASE64_MARKER = 'data:' + file.type + ';base64,';
+            var base64Index = dataURL.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+            var base64string = dataURL.split(",")[1];
+
+            xhr.onreadystatechange = function (ev) {
+                if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 201)) {
+                    mParams.success(JSON.parse(xhr.response));
+                } else if (xhr.readyState == 4) {
+                    mParams.error(ev);
+                }
+            };
+            var URL = "https://api.imgur.com/3/upload";
+            var fileName = (file.name === "image.jpeg") ? "image_" + new Date().getTime() + ".jpeg" : file.name;
+            xhr.open('POST', URL, true);
+            xhr.setRequestHeader("Content-type", file.type);//"application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Authorization", "Bearer 5c25e781ffc7f495059078408c311799e277d70e");//"application/x-www-form-urlencoded");
+            var data = base64string;
+            xhr.send(data);
+        },
 
         onCateConfigChanged: function (e) {
             var selectedItem = e.getParameter("selectedItem");

@@ -277,12 +277,18 @@
                         </IconTabFilter>
                         <IconTabFilter id="3"
                                        text="{i18n>history}">
-                            <!--<core:Fragment id="fragHistory" fragmentName="mortgage.pawnshop.fragment.ViewCreate"-->
-                            <!--type="XML"/>-->
+                            <content>
+                                <List items="{}">
+                                    <items>
+                                        <StandardListItem/>
+                                    </items>
+                                </List>
+                            </content>
                         </IconTabFilter>
                         <IconTabFilter id="4"
                                        text="{i18n>attachment}">
-                            <!--<core:Fragment id="fragAttachment" fragmentName="mynamespace.view.ViewCreate" type="XML"/>-->
+                            <core:Fragment id="fragAttachment" fragmentName="mortgage.pawnshop.fragment.UploadToolbar"
+                                           type="XML"/>
                         </IconTabFilter>
                         <IconTabFilter id="5"
                                        text="{i18n>chuoc_do}">

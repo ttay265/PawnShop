@@ -9,7 +9,7 @@ sap.ui.define([
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
     "use strict";
 
-    return BaseController.extend("mortgage.pawnshop.controller.ShopConfig", {
+    return BaseController.extend("mortgage.pawnshop.controller.Sales", {
         formatter: formatter,
         onInit: function () {
 

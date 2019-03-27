@@ -34,7 +34,6 @@
                                     singleContainerFullSize="false"/>
                         </f:layout>
                         <f:formContainers>
-
                             <f:FormContainer>
                                 <f:formElements>
                                     <f:FormElement label="{i18n>category_name}">

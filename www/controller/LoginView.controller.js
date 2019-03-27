@@ -86,7 +86,8 @@ sap.ui.define([
             var source = oEvent ? oEvent.getSource() : this.txtUsername;
             var value = source.getValue();
             var regex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
-            if (value && value !== "" && regex.test(value)) {
+            // if (value && value !== "" && regex.test(value)) {
+            if (value && value !== "") {
                 source.setValueState("None");
                 return true;
             } else {

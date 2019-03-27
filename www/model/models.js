@@ -4,9 +4,9 @@ sap.ui.define([
 ], function (JSONModel, Device) {
     "use strict";
     const serverInfo = {
-        url: "http://192.168.2.60:8080",
+        url: "http://45.77.31.103:8080/new2",
         localUrl: "model",
-        useLocal: true
+        useLocal: false
     };
     return {
 
@@ -20,17 +20,13 @@ sap.ui.define([
             return oModel;
         },
         createGlobalModel: function () {
-            var globalModel = new JSONModel({
+            return new JSONModel({
                 "user": "",
                 "name": "",
                 "token": "none",
                 "accountId": "",
                 "appTitleIcon": "sap-icon://home"
             });
-            return globalModel;
-        },
-        createTransactionModel: function () {
-            return new JSONModel();
         },
         getTransactions: function (shopId) {
             var data = [];

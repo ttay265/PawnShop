@@ -52,8 +52,8 @@
                         <tnt:NavigationListItem
                                 icon="sap-icon://loan"
                                 id="navSaleIncomeMaster"
-                                select="navSaleIncomeMaster"
-                                text="{i18n>navSaleIncome}"/>
+                                select="navSales"
+                                text="{i18n>navSales}"/>
                     </tnt:NavigationList>
                 </tnt:item>
 

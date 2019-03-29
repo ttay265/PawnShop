@@ -101,6 +101,11 @@
           "pattern": "createTransaction",
           "name": "creTrans",
           "target": "creTrans"
+        },
+        {
+          "pattern": "sales",
+          "name": "sales",
+          "target": "sales"
         }
       ],
       "targets": {
@@ -126,6 +131,13 @@
         "cateConfig": {
           "parent": "mainApp",
           "viewName": "CateConfig",
+          "viewLevel": 2,
+          "controlId": "mainApp",
+          "controlAggregation": "pages"
+        },
+        "sales": {
+          "parent": "mainApp",
+          "viewName": "SalesItems",
           "viewLevel": 2,
           "controlId": "mainApp",
           "controlAggregation": "pages"

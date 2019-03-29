@@ -4,9 +4,10 @@ sap.ui.define([
 ], function (JSONModel, Device) {
     "use strict";
     const serverInfo = {
-        url: "http://45.77.31.103:8080/new2",
+        // url: "http://192.168.2.60:8080", //máy HuyTG
+        url: "http://45.77.31.103:8080/new4", //Server DFK
         localUrl: "model",
-        useLocal: false
+        useLocal: true
     };
     return {
 
@@ -146,7 +147,7 @@ sap.ui.define([
                     returnCallback = true;
                 },
                 error: function (e) {
-                   
+
                 }
 
             });
@@ -212,6 +213,31 @@ sap.ui.define([
             }
             var ajaxData = {
                 transId: transId
+            };
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: ajaxData,
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                },
+                error: function (e) {
+                }
+            });
+            return data;
+        },
+        getSalesItems: function (shopid) {
+            var data = [];
+            var url = "";
+            if (serverInfo.useLocal) {
+                url = serverInfo.localUrl + "/salesItems.json";
+            } else {
+                url = serverInfo.url + "/san-pham";
+            }
+            var ajaxData = {
+                shopId: shopid
             };
             $.ajax({
                 url: url,

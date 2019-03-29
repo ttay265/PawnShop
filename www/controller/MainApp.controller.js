@@ -98,9 +98,9 @@ sap.ui.define([
             var source = oEvent.getSource();
             this.doNav("shopConfig", source);
         },
-        navSaleIncomeMaster: function (oEvent) {
+        navSales: function (oEvent) {
             var source = oEvent.getSource();
-            this.doNav("saleIncomeMaster", source);
+            this.doNav("sales", source);
         },
         navSaleOrder: function (oEvent) {
             var source = oEvent.getSource();

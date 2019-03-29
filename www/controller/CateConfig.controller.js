@@ -18,9 +18,9 @@ sap.ui.define([
         },
         _onObjectMatched: function (arg) {
             // console.log(transModel);
-            this.bindShopConfigModel();
+            this.bindSalesitemModel();
         },
-        bindShopConfigModel: function () {
+        bindSalesitemModel: function () {
             var shopId = this.getModel("account").getProperty("/shop/id");
             var model = this.getModel("cateConfig");
             if (!model) {

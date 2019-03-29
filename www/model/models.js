@@ -23,6 +23,7 @@ sap.ui.define([
         createGlobalModel: function () {
             return new JSONModel({
                 "user": "",
+                "currencyCode": "VND",
                 "name": "",
                 "token": "none",
                 "accountId": "",
@@ -127,6 +128,7 @@ sap.ui.define([
             });
             return data;
         },
+
         postCateConfigSet: function (data) {
             var url;
             if (serverInfo.useLocal) {

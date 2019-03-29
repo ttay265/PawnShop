@@ -132,15 +132,15 @@
                                         </layoutData>
                                     </Input>
                                     <Select forceSelection="true" change="onCateConfigChanged"
-                                            items="{shopConfig>/}"
+                                            items="{cateConfig>/}"
                                             placeholder="{i18n>ITEM_TYPE}">
                                         <layoutData>
                                             <l:GridData span="XL3 L3 M4 S6"/>
                                         </layoutData>
                                         <items>
-                                            <core:ListItem key="{shopConfig>id}"
-                                                           text="{shopConfig>name}"
-                                                           additionalText="{shopConfig>category/categoryName}"/>
+                                            <core:ListItem key="{cateConfig>id}"
+                                                           text="{cateConfig>name}"
+                                                           additionalText="{cateConfig>category/categoryName}"/>
                                         </items>
                                     </Select>
                                 </f:fields>
@@ -221,7 +221,7 @@
                             </f:FormElement>
                         </f:formElements>
                     </f:FormContainer>
-                    <f:FormContainer title="{i18n>PAYMENT_TERM}">
+                    <f:FormContainer title="{i18n>CT_PAYMENT_TERM}">
                         <f:formElements>
                             <f:FormElement label="{i18n>PERIOD}">
                                 <f:fields>

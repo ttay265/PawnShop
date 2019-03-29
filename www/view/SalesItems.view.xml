@@ -7,57 +7,59 @@
         controllerName="mortgage.pawnshop.controller.SalesItems">
     <Page navButtonPress="back">
         <content>
-            <List inset="{= !${device>/support/touch}}" items="{sales>/}">
+            <List mode="SingleSelectMaster" itemPress="" inset="{= !${device>/support/touch}}" items="{sales>/}">
                 <headerToolbar>
                     <Toolbar>
                         <content>
                             <Title text="{i18n>salesItems}"/>
                             <ToolbarSpacer/>
-                            <Button icon="sap-icon://add"/>
+                            <Button text="{i18n>create_salesItem}" press="onCreateSalesPressed" icon="sap-icon://add"/>
                         </content>
                     </Toolbar>
                 </headerToolbar>
                 <items>
-                    <!--<ObjectListItem title="{sales>itemName}" numberUnit="VND"-->
-                                     <!--numberState="Success"-->
-                                    <!--number="{-->
-                                         <!--parts: [-->
-                                         <!--{path: 'sales>price'},-->
-                                         <!--'VND'-->
-                                            <!--],-->
-                                         <!--type: 'sap.ui.model.type.Currency',-->
-                                         <!--formatOptions: {-->
-                                         <!--showMeasure: false-->
-                                        <!--}}">-->
-                        <!--<attributes>-->
-                            <!--<ObjectAttribute title="{i18n>liquidateAfter}"-->
-                                             <!--text="{ path : 'sales>liquidationDate',-->
-                                      <!--type: 'sap.ui.model.type.Date',-->
-                                      <!--formatOptions: {-->
-                                                      <!--source: {-->
-                                                               <!--pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'-->
-                                                               <!--},-->
-                                                      <!--pattern: 'dd-MM-yyyy'-->
-                                                      <!--}-->
-                                                  <!--}"/>-->
-                        <!--</attributes>-->
-                    <!--</ObjectListItem>-->
-                    <ObjectListItem  title="{sales>itemName}" numberUnit="VND"
+                    <ObjectListItem iconDensityAware="true" icon="{sales>picUrl}" title="{sales>itemName}"
+                                    numberUnit="VND"
+                                    
                                     numberState="Success"
-                                    number="{sales>price}">
+                                    number="{
+                    parts: [
+                    {path: 'sales>price'},
+                    {path: 'global>/currencyCode'}
+                    ],
+                    type: 'sap.ui.model.type.Currency',
+                    formatOptions: {
+                    showMeasure: false
+                    }}">
                         <attributes>
                             <ObjectAttribute title="{i18n>liquidateAfter}"
                                              text="{ path : 'sales>liquidationDate',
-                                      type: 'sap.ui.model.type.Date',
-                                      formatOptions: {
-                                                      source: {
-                                                               pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
-                                                               },
-                                                      pattern: 'dd-MM-yyyy'
-                                                      }
-                                                  }"/>
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: {
+                    source: {
+                    pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                    },
+                    pattern: 'dd-MM-yyyy'
+                    }
+                    }"/>
                         </attributes>
                     </ObjectListItem>
+                    <!--<ObjectListItem title="{sales>itemName}" numberUnit="VND"-->
+                    <!--numberState="Success"-->
+                    <!--number="{sales>price}">-->
+                    <!--<attributes>-->
+                    <!--<ObjectAttribute title="{i18n>liquidateAfter}"-->
+                    <!--text="{ path : 'sales>liquidationDate',-->
+                    <!--type: 'sap.ui.model.type.Date',-->
+                    <!--formatOptions: {-->
+                    <!--source: {-->
+                    <!--pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'-->
+                    <!--},-->
+                    <!--pattern: 'dd-MM-yyyy'-->
+                    <!--}-->
+                    <!--}"/>-->
+                    <!--</attributes>-->
+                    <!--</ObjectListItem>-->
                 </items>
             </List>
         </content>

@@ -57,7 +57,7 @@ sap.ui.define([
                 note: ""
             };
             createTransModel.setProperty("/", initValues, null, false);
-            this.bindShopConfigForCreateTrans();
+            // this.bindShopConfigForCreateTrans();
         },
 
 
@@ -79,17 +79,17 @@ sap.ui.define([
                 this.loadInitTransaction();
             }
         },
-        bindShopConfigForCreateTrans: function () {
-            var shopId = this.getModel("account").getProperty("/shop/id");
-            var model = this.getModel("shopConfig");
-            if (!model) {
-                model = new JSONModel();
-                this.setModel(model, "shopConfig");
-            }
-            var data = models.getCateConfigSet(shopId);
-            model.setProperty("/", data);
-            this.changeCurrentCateConfig(data[0]);
-        },
+        // bindShopConfigForCreateTrans: function () {
+        //     var shopId = this.getModel("account").getProperty("/shop/id");
+        //     var model = this.getModel("shopConfig");
+        //     if (!model) {
+        //         model = new JSONModel();
+        //         this.setModel(model, "shopConfig");
+        //     }
+        //     var data = models.getCateConfigSet(shopId);
+        //     model.setProperty("/", data);
+        //     this.changeCurrentCateConfig(data[0]);
+        // },
 
         forceChangePass: function () {
             this.changePasswordPress();
@@ -139,10 +139,10 @@ sap.ui.define([
                 }
             });
         },
-        onChangePic: function() {
+        onChangePic: function () {
             // change url of line of PictureObj
         },
-        onDeletePic: function() {
+        onDeletePic: function () {
             var model = this.getModel("createTrans");
             if (!model) {
                 return;
@@ -194,7 +194,7 @@ sap.ui.define([
 
         onCateConfigChanged: function (e) {
             var selectedItem = e.getParameter("selectedItem");
-            var confData = selectedItem.getBindingContext("shopConfig").getProperty("");
+            var confData = selectedItem.getBindingContext("cateConfig").getProperty("");
             this.changeCurrentCateConfig(confData);
         },
         changeCurrentCateConfig: function (confData) {

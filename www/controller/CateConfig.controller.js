@@ -18,14 +18,14 @@ sap.ui.define([
         },
         _onObjectMatched: function (arg) {
             // console.log(transModel);
-            this.bindSalesitemModel();
+            this.bindCateConfigModel();
         },
-        bindSalesitemModel: function () {
+        bindCateConfigModel: function () {
             var shopId = this.getModel("account").getProperty("/shop/id");
             var model = this.getModel("cateConfig");
             if (!model) {
                 model = new JSONModel();
-                this.setModel(model, "cateConfig");
+                this.getOwnerComponent().setModel(model, "cateConfig");
             }
             var data = models.getCateConfigSet(shopId);
             model.setProperty("/", data);
@@ -35,6 +35,7 @@ sap.ui.define([
                 this.shopConfigDialog = this.initFragment("mortgage.pawnshop.fragment.ShopConfigDialog", "currentConfig");
             }
             // set mode = create
+            this.shopConfigDialog.getModel("currentConfig").setProperty("/", {}  , null, false);
             this.shopConfigDialog.getModel("currentConfig").setProperty("/isUpdate", false, null, false);
             this.shopConfigDialog.open();
         },

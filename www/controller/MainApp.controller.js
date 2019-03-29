@@ -4,8 +4,9 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "mortgage/pawnshop/model/formatter",
-    "sap/m/BusyDialog"
-], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog) {
+    "sap/m/BusyDialog",
+    "mortgage/pawnshop/model/models"
+], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
     "use strict";
 
     return BaseController.extend("mortgage.pawnshop.controller.MainApp", {
@@ -43,6 +44,17 @@ sap.ui.define([
             // }
             //Attachment matched
             // this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
+            this.bindCateConfigModel();
+        },
+        bindCateConfigModel: function () {
+            var shopId = this.getModel("account").getProperty("/shop/id");
+            var model = this.getModel("cateConfig");
+            if (!model) {
+                model = new JSONModel();
+                this.getOwnerComponent().setModel(model, "cateConfig");
+            }
+            var data = models.getCateConfigSet(shopId);
+            model.setProperty("/", data);
         },
 
 

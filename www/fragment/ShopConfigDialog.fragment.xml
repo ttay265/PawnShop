@@ -38,7 +38,7 @@
                                 <f:formElements>
                                     <f:FormElement label="{i18n>category_name}">
                                         <f:fields>
-                                            <Select selectedKey="{currentConfigig>/cateId}" items="{category>/}">
+                                            <Select selectedKey="{currentConfig>/cateId}" items="{category>/}">
                                                 <items>
                                                     <core:Item key="{category>id}" text="{category>categoryName}"/>
                                                 </items>
@@ -77,26 +77,30 @@
                                     </f:FormElement>
                                     <f:FormElement label="{i18n>ATTRIBUTES}">
                                         <f:fields>
-                                            <Input editable="false" placeholder="{i18n>ATTRIBUTE1_NAME}"
+                                            <Input editable="{= !${currentConfig>/isUpdate}}"
+                                                   placeholder="{i18n>ATTRIBUTE1_NAME}"
 
                                                    value="{currentConfig>/attribute1}">
                                                 <layoutData>
                                                     <l:GridData span="XL3 L3 M3 S6"/>
                                                 </layoutData>
                                             </Input>
-                                            <Input editable="false" placeholder="{i18n>ATTRIBUTE2_NAME}"
+                                            <Input editable="{= !${currentConfig>/isUpdate}}"
+                                                   placeholder="{i18n>ATTRIBUTE2_NAME}"
                                                    value="{currentConfig>/attribute2}">
                                                 <layoutData>
                                                     <l:GridData span="XL3 L3 M3 S6"/>
                                                 </layoutData>
                                             </Input>
-                                            <Input editable="false" placeholder="{i18n>ATTRIBUTE3_NAME}"
+                                            <Input editable="{= !${currentConfig>/isUpdate}}"
+                                                   placeholder="{i18n>ATTRIBUTE3_NAME}"
                                                    value="{currentConfig>/attribute3}">
                                                 <layoutData>
                                                     <l:GridData span="XL3 L3 M3 S6"/>
                                                 </layoutData>
                                             </Input>
-                                            <Input editable="false" placeholder="{i18n>ATTRIBUTE4_NAME}"
+                                            <Input editable="{= !${currentConfig>/isUpdate}}"
+                                                   placeholder="{i18n>ATTRIBUTE4_NAME}"
                                                    value="{currentConfig>/attribute4}">
                                                 <layoutData>
                                                     <l:GridData span="XL3 L3 M3 S6"/>

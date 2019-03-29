@@ -148,7 +148,7 @@
                                                     </f:label>
                                                     <f:fields>
                                                         <Text wrapping="true"
-                                                              text="{transDetail>/transaction/itemName} ({transDetail>/transaction/category/categoryName})"/>
+                                                              text="{transDetail>/transaction/itemName} - {transDetail>/transaction/category/categoryName}"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement>

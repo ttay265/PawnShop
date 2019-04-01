@@ -14,7 +14,7 @@ sap.ui.define(["mortgage/pawnshop/controller/BaseController",
                 case 4: //REDEEMED
                     return ValueState.Success;
                 case 5: //LATE
-                    return ValueState.Error;
+                    return ValueState.Warning;
                 case 6: //LIQUIDATION
                     return ValueState.Success;
                 case 7: //CANCELED
@@ -40,6 +40,27 @@ sap.ui.define(["mortgage/pawnshop/controller/BaseController",
                     return i18n.getText('LIQUIDATION'); //Information
                 case 7:
                     return i18n.getText('CANCELED'); // Neutral
+                default:
+                    return "";
+            }
+        },
+        transLogStatusState: function (sStatus) {
+            switch (sStatus) {
+                case 1: //PAID
+                    return ValueState.Success;
+                case 2: //NOT PAID YET
+                    return ValueState.None;
+                default:
+                    return ValueState.None;
+            }
+        },
+        transLogStatusDesc: function (sStatus) {
+            var i18n = this.getResourceBundle();
+            switch (sStatus) {
+                case 1:
+                    return i18n.getText('PAID'); //Information
+                case 2:
+                    return i18n.getText('UNPAID'); //Accept
                 default:
                     return "";
             }

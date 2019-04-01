@@ -119,7 +119,7 @@ sap.ui.define([
          * @memberOf mortgage.pawnshop.view.LoginView
          */
         onAfterRendering: function () {
-            this.busyDialog.open();
+            // this.busyDialog.open();
             this.autologin = this.doAutoLogin();
             this.busyDialog.close();
         },

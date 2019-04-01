@@ -4,10 +4,10 @@ sap.ui.define([
 ], function (JSONModel, Device) {
     "use strict";
     const serverInfo = {
-        // url: "http://192.168.2.60:8080", //máy HuyTG
-        url: "http://45.77.31.103:8080/new4", //Server DFK
+        url: "http://192.168.2.78:8080", //máy HuyTG
+        // url: "http://45.77.31.103:8080/new4", //Server DFK
         localUrl: "model",
-        useLocal: true
+        useLocal: false
     };
     return {
 
@@ -161,13 +161,13 @@ sap.ui.define([
             if (serverInfo.useLocal) {
                 url = serverInfo.localUrl + "/category.json";
             } else {
-                url = serverInfo.url + "/tao-danh-muc";
+                url = serverInfo.url + "/get-all-category";
             }
             $.ajax({
                 url: url,
                 context: this,
                 dataType: 'json',
-                async: false,
+                async: true,
                 success: function (d, r, xhr) {
                     data = d;
                 },
@@ -182,11 +182,12 @@ sap.ui.define([
             var data = [];
             var url;
             if (serverInfo.useLocal) {
-                url = serverInfo.localUrl + "/categoryConfig.json";
+                url = serverInfo.localUrl + "/pawneeInfo.json";
             } else {
-                url = serverInfo.url + "/danh-muc";
+                url = serverInfo.url + "/checkExistPawnee";
             }
             var ajaxData = {
+                email: email,
                 shopId: shopId
             };
             $.ajax({
@@ -205,6 +206,7 @@ sap.ui.define([
             });
             return data;
         },
+
         getTransactionDetail: function (transId) {
             var data = [];
             var url = "";
@@ -254,7 +256,33 @@ sap.ui.define([
                 }
             });
             return data;
-        }
+        },
+        postNextPayment: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/tra-lai";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return returnCallback;
+        },
 
 
     };

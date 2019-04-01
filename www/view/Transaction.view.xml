@@ -33,6 +33,10 @@
                 <Column minScreenWidth="900px" popinDisplay="Inline" demandPopin="true" popinHAlign="End">
                     <Label wrapping="true" textAlign="Center" wrappingType="Hyphenated" text="{i18n>item}"/>
                 </Column>
+                <Column hAlign="Right" minScreenWidth="900px" popinDisplay="Inline" demandPopin="true"
+                        popinHAlign="End">
+                    <Label textAlign="Right" text="{i18n>AMOUNT}"/>
+                </Column>
                 <Column width="6rem" minScreenWidth="900px">
                     <Label wrapping="true" textAlign="Center" wrappingType="Hyphenated" text="{i18n>item_cat}"/>
                 </Column>
@@ -40,11 +44,15 @@
                     <Label wrapping="true" textAlign="Center" wrappingType="Hyphenated" text="{i18n>next_date}"/>
                 </Column>
                 <Column hAlign="Center">
-                    <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>status}"/>
+                    <Label wrapping="false" wrappingType="Hyphenated" text="{i18n>status}"/>
                 </Column>
             </columns>
+
             <items>
-                <ColumnListItem press="onTransDetailPress" type="Active">
+                <ColumnListItem highlight="{
+							path: 'trans>status',
+							formatter: '.formatter.transStatusState'
+						}" press="onTransDetailPress" type="Active">
                     <cells>
                         <Text text="{trans>id}"/>
                         <Title text="{trans>pawneeInfo/name}"/>
@@ -58,6 +66,16 @@
                                                       }
                                                   }"/>
                         <Text text="{trans>itemName}"/>
+                        <Text text="{
+                        parts: [
+                            {path: 'trans>basePrice'},
+                            {path: 'global>/currencyCode'}
+                        ],
+                        type: 'sap.ui.model.type.Currency',
+                        formatOptions: {
+                            showMeasure: true
+                        }
+                        }"/>
                         <Text text="{trans>category/categoryName}"/>
                         <Text text="{ path: 'trans>nextPaymentDate',
                                       type: 'sap.ui.model.type.Date',

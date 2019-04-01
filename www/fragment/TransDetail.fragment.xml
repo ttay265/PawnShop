@@ -1,7 +1,8 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form"
+                         xmlns:u="sap.ui.unified"
                          displayBlock="true">
     <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="700px" type="Standard"
-            stretch="{device>/system/phone}" id="AddressDialog" title="{i18n>title_transDetail}">
+            stretch="{device>/system/phone}" title="{i18n>title_transDetail}">
         <buttons>
             <Button class="closebtn" text="{i18n>close}" press="onDialogClose" type="Reject"/>
         </buttons>
@@ -9,10 +10,11 @@
             <f:Form>
                 <f:layout>
                     <f:ResponsiveGridLayout
-                            adjustLabelSpan="false"
-                            emptySpanXL="1"
-                            emptySpanL="1"
-                            emptySpanM="1"
+                            adjustLabelSpan="true"
+
+                            emptySpanXL="0"
+                            emptySpanL="0"
+                            emptySpanM="0"
                             emptySpanS="0"
                             columnsXL="2"
                             columnsL="2"
@@ -53,15 +55,45 @@
                         <f:formElements>
                             <f:FormElement>
                                 <f:label>
+                                    <Label text="{i18n>AMOUNT}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Text text="{
+                        parts: [
+                            {path: 'transDetail>/transaction/basePrice'},
+                            {path: 'global>/currencyCode'}
+                        ],
+                        type: 'sap.ui.model.type.Currency',
+                        formatOptions: {
+                            showMeasure: true
+                        }
+                        }"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
                                     <Label text="{i18n>status}"/>
                                 </f:label>
                                 <f:fields>
                                     <ObjectStatus
-                                            text="{transDetail>/transaction/status/description}"
+                                            text="{
+							path: 'transDetail>/transaction/status',
+							formatter: '.formatter.transStatusDesc'
+						}"
                                             state="{
-							path: 'transDetail>status/id',
-							formatter: '.formatter.status'
+							path: 'transDetail>/transaction/status',
+							formatter: '.formatter.transStatusState'
 						}"/>
+
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label text=" "/>
+                                </f:label>
+                                <f:fields>
+                                    <Button visible="{= ${transDetail>/transaction/status} === 2 }" type="Reject"
+                                            press="onLiquidatePressed" text="{i18n>press_to_liquidate}"/>
                                 </f:fields>
                             </f:FormElement>
                         </f:formElements>
@@ -70,14 +102,14 @@
             </f:Form>
             <ScrollContainer
                     vertical="true"
-                    height="100%">
+                    height="40%">
                 <IconTabBar applyContentPadding="{= !${device>/system/phone}}" expandable="false" expanded="true"
                             tabDensityMode="{= !${device>/system/phone} ? 'Compact' : 'Cozy'}"
                             class="longTextIconTabBar">
                     <items>
                         <IconTabFilter id="1" text="{i18n>general}">
                             <content>
-                                <f:Form editable="{/editMode}">
+                                <f:Form editable="true">
                                     <f:layout>
                                         <f:ResponsiveGridLayout
                                                 labelSpanXL="3"
@@ -103,7 +135,8 @@
                                                         <Label required="true" text="{i18n>NAME}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Text text="{transDetail>/transaction/pawneeInfo/name}"/>
+                                                        <Input editable="false"
+                                                               value="{transDetail>/transaction/pawneeInfo/name}"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement>
@@ -111,7 +144,8 @@
                                                         <Label required="false" text="{i18n>IDNO}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Text text="{transDetail>/transaction/pawneeInfo/identityNumber}"/>
+                                                        <Input editable="false"
+                                                               value="{transDetail>/transaction/pawneeInfo/identityNumber}"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement>
@@ -119,7 +153,8 @@
                                                         <Label required="false" text="{i18n>PHONE_NO}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Text text="{transDetail>/transaction/pawneeInfo/phoneNumber}"/>
+                                                        <Input editable="false"
+                                                               value="{transDetail>/transaction/pawneeInfo/phoneNumber}"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement>
@@ -127,7 +162,8 @@
                                                         <Label required="false" text="{i18n>ADDRESS}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Text text="{transDetail>/transaction/pawneeInfo/address}"/>
+                                                        <Input editable="false"
+                                                               value="{transDetail>/transaction/pawneeInfo/address}"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement>
@@ -135,7 +171,8 @@
                                                         <Label required="false" text="{i18n>email}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Text text="{transDetail>/transaction/pawneeInfo/email}"/>
+                                                        <Input editable="false"
+                                                               value="{transDetail>/transaction/pawneeInfo/email}"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                             </f:formElements>
@@ -147,44 +184,49 @@
                                                         <Label required="false" text="{i18n>ITEM}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Text wrapping="true"
-                                                              text="{transDetail>/transaction/itemName} - {transDetail>/transaction/category/categoryName}"/>
+                                                        <Input editable="false"
+                                                               value="{transDetail>/transaction/itemName}"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement>
                                                     <f:label>
-                                                        <Label required="false" text="{i18n>ATTRIBUTE_1}"/>
+                                                        <Label required="false" text="{i18n>ITEM_TYPE}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Input visible="{/editMode}"
-                                                               placeholder="{i18n>ATTRIBUTE_1_DESC}"/>
+                                                        <Input editable="false"
+                                                               value="{transDetail>/transaction/category/categoryName}"/>
                                                     </f:fields>
                                                 </f:FormElement>
-                                                <f:FormElement>
+                                                <f:FormElement visible="{= ${transDetail>/attr1name} !== undefined }">
                                                     <f:label>
-                                                        <Label required="false" text="{i18n>ATTRIBUTE_2}"/>
+                                                        <Label required="false" text="{transDetail>/attr1name}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Input visible="{/editMode}"
-                                                               placeholder="{i18n>ATTRIBUTE_2_DESC}"/>
+                                                        <Input editable="false" value="{transDetail>/attr1value}"/>
                                                     </f:fields>
                                                 </f:FormElement>
-                                                <f:FormElement>
+                                                <f:FormElement visible="{= ${transDetail>/attr2name} !== undefined }">
                                                     <f:label>
-                                                        <Label required="false" text="{i18n>ATTRIBUTE_3}"/>
+                                                        <Label required="false" text="{transDetail>/attr2name}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Input visible="{/editMode}"
-                                                               placeholder="{i18n>ATTRIBUTE_3_DESC}"/>
+                                                        <Input editable="false" value="{transDetail>/attr2value}"/>
                                                     </f:fields>
                                                 </f:FormElement>
-                                                <f:FormElement>
+                                                <f:FormElement visible="{= ${transDetail>/attr3name} !== undefined }">
                                                     <f:label>
-                                                        <Label required="false" text="{i18n>ATTRIBUTE_4}"/>
+                                                        <Label required="false" text="{transDetail>/attr3name}"/>
                                                     </f:label>
                                                     <f:fields>
-                                                        <Input visible="{/editMode}"
-                                                               placeholder="{i18n>ATTRIBUTE_4_DESC}"/>
+                                                        <Input editable="false" value="{transDetail>/attr3value}"/>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement visible="{= ${transDetail>/attr4name} !== undefined }">
+                                                    <f:label>
+                                                        <Label required="false" text="{transDetail>/attr4name}"/>
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Input editable="false" value="{transDetail>/attr4value}"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                             </f:formElements>
@@ -218,21 +260,31 @@
                                             <f:formElements>
                                                 <f:FormElement label="{i18n>next_date}">
                                                     <f:fields>
-                                                        <Text text="{next_date}"/>
+                                                        <Input editable="false" value="{ path: 'transDetail>/transaction/nextPaymentDate',
+                                                                                type: 'sap.ui.model.type.Date',
+                                                                                formatOptions: {
+                                                        source: {
+                                                                pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                                                                },
+                                                       pattern: 'dd-MM-yyyy'
+                                                      }
+                                                            }"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement label="{i18n>PAY_DAY}">
                                                     <f:fields>
-                                                        <DatePicker displayFormat="dd/MM/yyyy"/>
+                                                        <DatePicker dateValue="{newPayment>/paidDate}"
+                                                                    displayFormat="dd-MM-yyyy"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                             </f:formElements>
                                         </f:FormContainer>
                                         <f:FormContainer>
                                             <f:formElements>
-                                                <f:FormElement label="{i18n>NOTE}">
+                                                <f:FormElement label="{i18n>description}">
                                                     <f:fields>
-                                                        <TextArea rows="3"/>
+                                                        <TextArea maxLength="30" value="{newPayment>/description}"
+                                                                  rows="3"/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement>
@@ -247,30 +299,71 @@
                                 <Toolbar height="3rem">
                                     <content>
                                         <ToolbarSpacer/>
-                                        <Button type="Accept" icon="sap-icon://paid-leave"
+                                        <Button type="Accept" press="onNextPaymentSubmit" icon="sap-icon://paid-leave"
                                                 text="{i18n>btn_pay_deb}"/>
                                         <ToolbarSpacer width="0.75rem"/>
                                     </content>
                                 </Toolbar>
-                                <Table>
+                                <Table items="{transDetail>/transactionLogs}">
                                     <columns>
                                         <Column>
-                                            <Label text="{i18n>stt}"/>
+                                            <Label wrapping="true" wrappingType="Hyphenated" text="{i18n>from_date}"/>
                                         </Column>
                                         <Column>
-                                            <Label text="{i18n>next_date}"/>
+                                            <Label wrapping="true" text="{i18n>to_date}"/>
                                         </Column>
                                         <Column>
                                             <Label text="{i18n>pay_day}"/>
                                         </Column>
                                         <Column>
-                                            <Label text="{i18n>note}"/>
+                                            <Label text="{i18n>description}"/>
                                         </Column>
                                         <Column>
+                                            <Label text="{i18n>status}"/>
                                         </Column>
                                     </columns>
                                     <items>
-
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text text="{ path: 'transDetail>startDate',
+                                                                                type: 'sap.ui.model.type.Date',
+                                                                                formatOptions: {
+                                                        source: {
+                                                                pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                                                                },
+                                                       pattern: 'dd-MM-yyyy'
+                                                      }
+                                                            }"/>
+                                                <Text text="{ path: 'transDetail>endDate',
+                                                                                type: 'sap.ui.model.type.Date',
+                                                                                formatOptions: {
+                                                        source: {
+                                                                pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                                                                },
+                                                       pattern: 'dd-MM-yyyy'
+                                                      }
+                                                            }"/>
+                                                <Text text="{ path: 'transDetail>paidDate',
+                                                                                type: 'sap.ui.model.type.Date',
+                                                                                formatOptions: {
+                                                        source: {
+                                                                pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                                                                },
+                                                       pattern: 'dd-MM-yyyy'
+                                                      }
+                                                            }"/>
+                                                <Text text="{transDetail>description}"/>
+                                                <ObjectStatus
+                                                        text="{
+							path: 'transDetail>status',
+							formatter: '.formatter.transLogStatusDesc'
+						}"
+                                                        state="{
+							path: 'transDetail>status',
+							formatter: '.formatter.transLogStatusState'
+						}"/>
+                                            </cells>
+                                        </ColumnListItem>
                                     </items>
                                 </Table>
                             </content>
@@ -278,17 +371,52 @@
                         <IconTabFilter id="3"
                                        text="{i18n>history}">
                             <content>
-                                <List items="{}">
+                                <List items="{transDetail>/transactionHistories}">
                                     <items>
-                                        <StandardListItem/>
+                                        <StandardListItem info="{ path: 'transDetail>dateEvent',
+                                                                                type: 'sap.ui.model.type.Date',
+                                                                                formatOptions: {
+                                                        source: {
+                                                                pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                                                                },
+                                                       pattern: 'dd-MM-yyyy'
+                                                      }
+                                                            }" title="{transDetail>status}"
+                                                          description="{transDetail>eventString}"/>
                                     </items>
                                 </List>
                             </content>
                         </IconTabFilter>
                         <IconTabFilter id="4"
                                        text="{i18n>attachment}">
-                            <core:Fragment id="fragAttachment" fragmentName="mortgage.pawnshop.fragment.UploadToolbar"
-                                           type="XML"/>
+                            <Toolbar>
+                                <content>
+                                    <u:FileUploader iconOnly="true" multiple="false"
+                                                    buttonOnly="true"
+                                                    icon="sap-icon://add-photo" uploadOnChange="false"
+                                                    useMultipart="false"
+                                                    fileType="JPG,JPEG,jpeg,jpg,PNG,png"
+                                                    sameFilenameAllowed="true"
+                                                    typeMissmatch="onTypeMissmatch"
+                                                    change="onUploadPress"/>
+                                    <ToolbarSpacer/>
+                                    <Button visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
+                                            type="Ghost" text="{i18n>change_pic}"
+                                            press="onChangePic"
+                                            icon="sap-icon://edit"/>
+                                    <Button visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
+                                            text="{i18n>del_pic}"
+                                            press="onDeletePic"
+                                            icon="sap-icon://delete"/>
+                                </content>
+                            </Toolbar>
+                            <Carousel showPageIndicator="true" class="smallCrs sapUiContentPadding"
+                                      height="40%" pages="{transDetail>/pictureList}"
+                                      loop="true" id="carUploadedImg">
+                                <pages>
+                                    <Image height="40%" src="{transDetail>pictureUrl}"/>
+                                </pages>
+                            </Carousel>
                         </IconTabFilter>
                         <IconTabFilter id="5"
                                        text="{i18n>chuoc_do}">
@@ -305,7 +433,7 @@
                                         </Select>
                                         <Label text="{i18n>chuoc_date}"/>
                                         <DatePicker/>
-                                        <Label text="{i18n>Note}"/>
+                                        <Label text="{i18n>description}"/>
                                         <TextArea/>
                                     </f:SimpleForm>
                                     <Button text="{i18n>chuoc}" type="Accept"/>

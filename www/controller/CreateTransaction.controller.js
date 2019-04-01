@@ -57,7 +57,14 @@ sap.ui.define([
                 note: ""
             };
             createTransModel.setProperty("/", initValues, null, false);
-            // this.bindShopConfigForCreateTrans();
+            var cateConfigModel = this.getModel("cateConfig");
+            if (!cateConfigModel) {
+                //Handle error loading shop CateConfig here
+                return;
+            }
+            var data = cateConfigModel.getProperty("/0/");
+            //     model.setProperty("/", data);
+            this.changeCurrentCateConfig(data);
         },
 
 
@@ -120,8 +127,11 @@ sap.ui.define([
                     }
                     var pics = model.getProperty("/picturesObj");
                     pics.push({
-                        url: encodeURI(oEvt.data.link)
-                    });
+                        pictureUrl: encodeURI(oEvt.data.link),
+                        idCloud: oEvt.data.id,
+                        deleteHash: oEvt.data.deletehash
+                    })
+                    ;
                     console.log(model.getProperty("/picturesObj"));
                     model.updateBindings(true);
                     var a = that.byId("carUploadedImg");
@@ -159,14 +169,14 @@ sap.ui.define([
             var reader = new FileReader();
             reader.onerror = function (e) {
                 //handle error here
-            }
+            };
             reader.onloadend = function () {
                 var tempImg = new Image();
                 tempImg.src = reader.result;
                 tempImg.onload = function () {
                     that.uploadFile(tempImg.src, mParams, file);
                 }
-            }
+            };
             reader.readAsDataURL(file);
         },
 
@@ -228,6 +238,49 @@ sap.ui.define([
                 }));
             }
         },
+        onPawneeChanged: function (e) {
+            var accountModel = this.getModel("account");
+            if (!accountModel) {
+                this.getRouter().navTo("login", true);
+                return;
+            }
+            var createTransModel = this.getModel("createTrans");
+            if (!createTransModel) {
+                return;
+            }
+            var shopId = accountModel.getProperty("/shop/id");
+            var pawneeData = models.getPawneeInfo(e.getParameter("value"), shopId);
+            if (pawneeData.pawnee) {
+                //Change sending field `pawneeId`
+                createTransModel.setProperty("/pawneeId", pawneeData.pawnee.id);
+            }
+            if (pawneeData.pawneeInfo) {
+                //Change sending `pawneeInfo`
+                createTransModel.setProperty("/pawneeInfoId", pawneeData.pawneeInfo.id);
+                var addressObject = {
+                    streetName: "",
+                    city: "",
+                    district: ""
+                };
+                var addObj = pawneeData.pawneeInfo.address.split(", ");
+                if (addObj.length > 1) {
+                    addressObject.city = addObj[addObj.length - 1];
+                    addObj.pop();
+                    addressObject.district = addObj[addObj.length - 1];
+                    addObj.pop();
+                    var streetName = "";
+                    for (var a in addObj) {
+                        streetName += a;
+                    }
+                    addressObject.streetName = streetName;
+                }
+                createTransModel.setProperty("/addressObject", addressObject);
+                createTransModel.setProperty("/pawneeName", pawneeData.pawneeInfo.name);
+                createTransModel.setProperty("/phone", pawneeData.pawneeInfo.phoneNumber);
+                createTransModel.setProperty("/identityNumber", pawneeData.pawneeInfo.identityNumber);
+
+            }
+        },
         parseSendData: function () {
             var createModel = this.getModel("createTrans");
             if (!createModel) {
@@ -255,9 +308,8 @@ sap.ui.define([
             data.attributes = attrs.join(",");
             //send category id
             data.categoryId = currentConfig.category.id;
-            //parse date string to Date obj
-            // data.startDate =
-            //
+            //parse Pictures json to  string
+            data.pictures = JSON.stringify(data.picturesObj);
             return data;
 
         },
@@ -308,35 +360,7 @@ sap.ui.define([
             var msg = this.getResourceBundle().getText("msgLogout");
             MessageToast.show(msg);
         },
-        __toViewCart: function () {
-            this.getRouter().navTo("cart", false);
-        },
-        //On selected value from suggested list
-        onSearch: function (oEvent) {
-            var item = oEvent.getParameter("suggestionItem");
-            if (item) {
-                var Matnr = oEvent.getParameter("suggestionItem").getKey();
-                if (Matnr) {
-                    this.getRouter().navTo("productDetail", {"Matnr": Matnr}, false);
-                }
-            }
-            this.openBusyDialog({
-                title: "Loading...",
-                showCancelButton: true
-            });
-        },
-        onSuggest: function (oEvent) {
-            var value = oEvent.getParameter("suggestValue");
-            var filters = [];
-            var maktgFilter = new Filter({
-                path: "Maktg",
-                operator: sap.ui.model.FilterOperator.StartsWith,
-                value1: value
-            });
-            filters.push(maktgFilter);
-            this.inpSearch.getBinding("suggestionItems").attachDataReceived(this.inpSearch.suggest(), this);
-            this.inpSearch.getBinding("suggestionItems").filter(filters);
-        },
+
         //Open dialog add customer address
         // _openAddressDialog: function () {
         //     this.AddressDialog.open();

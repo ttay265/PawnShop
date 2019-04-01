@@ -36,13 +36,25 @@ sap.ui.define([
         },
         onCreateSalesPressed: function (e) {
             var initData = {
+                isUpdate: false,
                 itemName: "",
-
+                price: "",
+                description: "",
+                pictures: []
             };
+            var currentSalesItemModel = new JSONModel();
             if (!this.createSalesItemDialog) {
                 this.createSalesItemDialog = this.initFragment("mortgage.pawnshop.fragment.CreateSalesItem");
-                this.createSalesItemDialog.setModel(), "currentSalesItem");
+                this.createSalesItemDialog.setModel(currentSalesItemModel, "currentSalesItem");
+            } else {
+                currentSalesItemModel = this.createSalesItemDialog.getModel("currentSalesItem");
             }
+            if (!currentSalesItemModel) {
+                currentSalesItemModel = new JSONModel();
+            }
+            currentSalesItemModel.setProperty("/", initData);
+
+
             this.createSalesItemDialog.open();
         }
 

@@ -22,10 +22,10 @@
         </content>
     </Toolbar>
     <Carousel showPageIndicator="true" class="smallCrs sapUiContentPadding"
-              width="100%" pages="{createTrans>/picturesObj}"
+              width="100%" pages="{transDetail>/pictureList}"
               loop="true" id="carUploadedImg">
         <pages>
-            <Image src="{createTrans>url}"/>
+            <Image src="{transDetail>pictureUrl}"/>
         </pages>
     </Carousel>
 </core:FragmentDefinition>

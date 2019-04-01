@@ -43,7 +43,7 @@
                                             <l:GridData span="XL5 L3 M4 S6"/>
                                         </layoutData>
                                     </Input>
-                                    <Select forceSelection="true"
+                                    <Select selectedKey="{currentSalesItem>/category]"
                                             items="{cateConfig>/}"
                                             placeholder="{i18n>ITEM_TYPE}">
                                         <layoutData>

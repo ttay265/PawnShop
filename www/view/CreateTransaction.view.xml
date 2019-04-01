@@ -6,7 +6,7 @@
         xmlns:core="sap.ui.core"
         xmlns="sap.m"
         controllerName="mortgage.pawnshop.controller.CreateTransaction">
-    <Page floatingFooter="true" title="{i18n>CT_FORM_CREATE_TRANSACTION}" showHeader="true"
+    <Page floatingFooter="false" title="{i18n>CT_FORM_CREATE_TRANSACTION}" showHeader="true"
           showNavButton="true"
           navButtonPress="back">
         <headerContent>
@@ -57,7 +57,7 @@
                                     <Label required="true" text="{i18n>EMAIL}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input showValueHelp="true" value="{createTrans>/email}"/>
+                                    <Input maxLength="50" change="onPawneeChanged" showValueHelp="true" value="{createTrans>/email}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -65,7 +65,7 @@
                                     <Label required="true" text="{i18n>NAME}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{createTrans>/pawneeName}"/>
+                                    <Input maxLength="50" value="{createTrans>/pawneeName}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -73,7 +73,7 @@
                                     <Label required="false" text="{i18n>IDNO}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{createTrans>/identityNumber}"/>
+                                    <Input maxLength="12" value="{createTrans>/identityNumber}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -81,7 +81,7 @@
                                     <Label required="false" text="{i18n>PHONE_NO}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{createTrans>/phone}"/>
+                                    <Input maxLength="12" value="{createTrans>/phone}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -107,7 +107,7 @@
                                             <core:Item text="{dist>desc}" key="{dist>id}"/>
                                         </items>
                                     </ComboBox>
-                                    <Input value="{createTrans>/addressObject/streetName}"
+                                    <Input maxLength="100" value="{createTrans>/addressObject/streetName}"
                                            placeholder="{i18n>STREET_NAME}">
                                         <layoutData>
                                             <l:GridData indentXL="4"
@@ -212,7 +212,7 @@
                                                       width="100%" pages="{createTrans>/picturesObj}"
                                                       loop="true" id="carUploadedImg">
                                                 <pages>
-                                                    <Image src="{createTrans>url}"/>
+                                                    <Image src="{createTrans>pictureUrl}"/>
                                                 </pages>
                                             </Carousel>
                                         </l:content>

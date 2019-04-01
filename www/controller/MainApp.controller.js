@@ -43,18 +43,26 @@ sap.ui.define([
             //     this._selectWard = this.byId("_selectWard");
             // }
             //Attachment matched
-            // this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
+            this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
+
+        },
+        _onObjectMatched: function () {
             this.bindCateConfigModel();
         },
         bindCateConfigModel: function () {
-            var shopId = this.getModel("account").getProperty("/shop/id");
-            var model = this.getModel("cateConfig");
-            if (!model) {
-                model = new JSONModel();
-                this.getOwnerComponent().setModel(model, "cateConfig");
+            var accountModel = this.getModel("account");
+            if (!accountModel) {
+                this.getRouter().navTo("login", true);
+                return;
+            }
+            var shopId = accountModel.getProperty("/shop/id");
+            var cateConfigModel = this.getModel("cateConfig");
+            if (!cateConfigModel) {
+                cateConfigModel = new JSONModel();
+                this.getOwnerComponent().setModel(cateConfigModel, "cateConfig");
             }
             var data = models.getCateConfigSet(shopId);
-            model.setProperty("/", data);
+            cateConfigModel.setProperty("/", data);
         },
 
 
@@ -68,18 +76,7 @@ sap.ui.define([
         //     //     MessageToast.show("The operation has been completed");
         //     // }
         // },
-        // _onObjectMatched: function () {
-        //     var accountModel = this.getModel("account");
-        //     var logon = false;
-        //     if (accountModel) {
-        //         var accountId = accountModel.getProperty("/accountId");
-        //         if (accountId) {
-        //             logon = true;
-        //         }
-        //     }
-        //     if (logon) {
-        //     }
-        // },
+
         forceChangePass: function () {
             this.changePasswordPress();
         },

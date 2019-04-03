@@ -4,8 +4,8 @@ sap.ui.define([
 ], function (JSONModel, Device) {
     "use strict";
     const serverInfo = {
-        url: "http://192.168.2.78:8080", //máy HuyTG
-        // url: "http://45.77.31.103:8080/new4", //Server DFK
+        // url: "http://192.168.2.78:8080", //máy HuyTG
+        url: "198.13.54.16:8080/new2", //Server DFK
         localUrl: "model",
         useLocal: false
     };

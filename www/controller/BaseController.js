@@ -38,10 +38,12 @@ sap.ui.define([
             if (!this.busyDialog) {
                 this.busyDialog = new BusyDialog(oSetting);
             } else {
-                this.busyDialog.setTitle(oSetting.title);
-                var busyText = this.getResourceBundle().getText("doing");
+                if (oSetting) {
+                    this.busyDialog.setTitle(oSetting.title || "");
+                    var busyText = this.getResourceBundle().getText("doing");
                     this.busyDialog.getText(oSetting.text || busyText);
-                this.busyDialog.setShowCancelButton(oSetting.showCancelButton);
+                    this.busyDialog.setShowCancelButton(oSetting.showCancelButton);
+                }
             }
             this.busyDialog.open();
         },

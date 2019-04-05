@@ -105,14 +105,8 @@ sap.ui.define([
         changePasswordPress: function () {
             this.changePassDialog.open();
         },
-
-        handleUploadComplete: function () {
-            MessageToast.show("sucess");
-        },
-
         onUploadPress: function (oEvt) {
             var that = this;
-            console.log("asd");
             var oFileUploader = oEvt.getSource();
             var aFiles = oEvt.getParameters().files;
             var currentFile = aFiles[0];
@@ -134,8 +128,6 @@ sap.ui.define([
                     ;
                     console.log(model.getProperty("/picturesObj"));
                     model.updateBindings(true);
-                    var a = that.byId("carUploadedImg");
-                    console.log(a.getBinding("pages"));
                     // that.byId("carUploadedImg").addPage(
                     //     new sap.m.Image({
                     //         width: '80%',
@@ -149,20 +141,9 @@ sap.ui.define([
                 }
             });
         },
-        onChangePic: function () {
-            // change url of line of PictureObj
-        },
+
         onDeletePic: function () {
-            var model = this.getModel("createTrans");
-            if (!model) {
-                return;
-            }
-            var car = this.byId("carUploadedImg");
-            var binding = car.getActivePage().getBindings("src");
-            if (binding) {
-                var path = binding.getPath();
-                //do sth to remove this from pictures Array
-            }
+            var carousel = this.byId("");
         },
         resizeAndUpload: function (file, mParams) {
             var that = this;
@@ -222,7 +203,7 @@ sap.ui.define([
 
         onSubmitCreateTransaction: function () {
             var sendingData = this.parseSendData();
-            var result = models.submitCreateTransaction(sendingData);
+            var result = models.postCreateTransaction(sendingData);
             if (result) {
                 var msgCreateTransSuccessfully = this.getResourceBundle().getText("msgCreateTransSuccessfully");
                 MessageToast.show(msgCreateTransSuccessfully);

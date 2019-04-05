@@ -1,13 +1,11 @@
 <mvc:View
-        xmlns:core="sap.ui.core"
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m"
-        xmlns:unified="sap.ui.unified"
-        xmlns:html="http://www.w3.org/1999/xhtml"
         controllerName="mortgage.pawnshop.controller.SalesItems">
     <Page navButtonPress="back">
         <content>
-            <List mode="SingleSelectMaster" itemPress="" inset="{= !${device>/support/touch}}" items="{sales>/}">
+            <List growing="true" growingScrollToLoad="true" growingThreshold="5"
+                  mode="SingleSelectMaster" itemPress="" inset="{= !${device>/support/touch}}" items="{sales>/}">
                 <headerToolbar>
                     <Toolbar>
                         <content>
@@ -18,13 +16,14 @@
                     </Toolbar>
                 </headerToolbar>
                 <items>
-                    <ObjectListItem iconDensityAware="true" icon="{sales>picUrl}" title="{sales>itemName}"
+                    <ObjectListItem iconDensityAware="true" icon="{sales>saleItem/picUrl}"
+                                    title="{sales>saleItem/itemName}"
                                     numberUnit="VND"
-                                    
-                                    numberState="Success"
+
+                                    numberState="Information"
                                     number="{
                     parts: [
-                    {path: 'sales>price'},
+                    {path: 'sales>saleItem/price'},
                     {path: 'global>/currencyCode'}
                     ],
                     type: 'sap.ui.model.type.Currency',
@@ -32,8 +31,8 @@
                     showMeasure: false
                     }}">
                         <attributes>
-                            <ObjectAttribute title="{i18n>liquidateAfter}"
-                                             text="{ path : 'sales>liquidationDate',
+                            <ObjectAttribute title="{i18n>liquidationDate}"
+                                             text="{ path : 'sales>saleItem/liquidationDate',
                     type: 'sap.ui.model.type.Date',
                     formatOptions: {
                     source: {

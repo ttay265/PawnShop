@@ -5,46 +5,63 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "mortgage/pawnshop/model/formatter",
     "sap/m/BusyDialog",
-    "mortgage/pawnshop/model/models"
-], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
+    "mortgage/pawnshop/model/models",
+    "sap/m/MessageStrip"
+], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models, MessageStrip) {
     "use strict";
 
-    return BaseController.extend("mortgage.pawnshop.controller.SalesItems", {
+    return BaseController.extend("mortgage.pawnshop.controller.CreateSalesItem", {
         formatter: formatter,
         onInit: function () {
-
-            this.getRouter().getRoute("sales").attachPatternMatched(this._onObjectMatched, this);
-            //
+            this.getRouter().getRoute("createSales").attachPatternMatched(this._onObjectMatched, this);
         },
-        _onObjectMatched: function (arg) {
-            this.bindSalesItemModel();
-        },
-        bindSalesItemModel: function () {
-            var accountModel = this.getModel("account");
-            if (!accountModel) {
+        _onObjectMatched: function () {
+            if (!this.checkLogin()) {
                 this.getRouter().navTo("login", true);
                 return;
+            } else {
+                this.loadInitTransaction();
             }
-            var shopId = accountModel.getProperty("/shop/id");
-            var model = this.getModel("sales");
-            if (!model) {
-                model = new JSONModel();
-                this.setModel(model, "sales");
-            }
-            var data = models.getSalesItems(shopId);
-            model.setProperty("/", data);
         },
+        onClearPressed: function () {
+            this.loadInitTransaction();
+        },
+        loadInitTransaction: function () {
+            var initData = {
+                itemName: "",
+                price: "0",
+                picturesObj: [],
+                description: "",
+                categoryId: "",
+                transId: ""
+            };
+            var createSalesModel = this.getModel("createSalesItem");
+            if (!createSalesModel) {
+                createSalesModel = new JSONModel();
+                this.setModel(createSalesModel, "createSalesItem");
+            }
+            createSalesModel.setProperty("/", initData, null, false);
+            console.log(createSalesModel.getProperty("/picturesObj"));
+        },
+
         onUploadPress: function (oEvt) {
             var that = this;
             var oFileUploader = oEvt.getSource();
             var aFiles = oEvt.getParameters().files;
             var currentFile = aFiles[0];
+            var msgUploadingPic = this.getResourceBundle().getText("msgUploadingPic");
+            var msgPleaseWait = this.getResourceBundle().getText("msgPleaseWait");
+            this.openBusyDialog({
+                title: msgUploadingPic,
+                text: msgPleaseWait,
+                showCancelButton: true
+            });
             this.resizeAndUpload(currentFile, {
                 success: function (oEvt) {
                     oFileUploader.setValue("");
                     console.log(oEvt);
                     //Here the image is on the backend, so i call it again and set the image
-                    var model = that.createSalesItemDialog.getModel("currentSalesItem");
+                    var model = that.getModel("createSalesItem");
                     if (!model) {
                         return;
                     }
@@ -54,20 +71,12 @@ sap.ui.define([
                         idCloud: oEvt.data.id,
                         deleteHash: oEvt.data.deletehash
                     });
-                    model.setProperty("/picturesObj", pics, null, false);
                     model.updateBindings(true);
-                    var a = that.byId("carUploadedImg");
-                    console.log(a.getBinding("pages"));
-                    // that.byId("carUploadedImg").addPage(
-                    //     new sap.m.Image({
-                    //         width: '80%',
-                    //         densityAware: false,
-                    //         decorative: false,
-                    //         src: encodeURI(oEvt.data.link)
-                    //     }));
+                    that.closeBusyDialog();
                 },
                 error: function (oEvt) {
                     //Handle error here
+                    that.closeBusyDialog();
                 }
             });
         },
@@ -112,29 +121,28 @@ sap.ui.define([
             var data = base64string;
             xhr.send(data);
         },
-        onCreateSalesPressed: function () {
-            this.getRouter().navTo("createSales", false);
+
+        forceChangePass: function () {
+            this.changePasswordPress();
         },
 
-        onSalesPressed: function (e) {
-            var initData = {
-                isUpdate: false,
-                itemName: "",
-                price: "",
-                description: "",
-                picturesObj: []
-            };
-            var currentSalesItemModel = new JSONModel();
-            if (!this.createSalesItemDialog) {
-                this.createSalesItemDialog = this.initFragment("mortgage.pawnshop.fragment.CreateSalesItem", "currentSalesItem");
-            } else {
-                currentSalesItemModel = this.createSalesItemDialog.getModel("currentSalesItem");
+        submitSalesItemPressed: function () {
+            //get binding model from current view
+            var model = that.getModel("createSalesItem");
+            if (!model) {
+                return;
             }
-            if (!currentSalesItemModel) {
-                currentSalesItemModel = new JSONModel();
-            }
-            currentSalesItemModel.setProperty("/", initData);
-            this.createSalesItemDialog.open();
-        }
+            //parse data before submit
+            var submitData = model.getProperty("/");
+            submitData.picUrl = submitData.picturesObj[0].pictureUrl;
+            submitData.categoryId = submitData.category.id;
+            submitData.picUrl = submitData.picturesObj[0].pictureUrl;
+            submitData.picUrl = submitData.picturesObj[0].pictureUrl;
+        },
+
+        changePasswordPress: function () {
+            this.changePassDialog.open();
+        },
+
     });
 });

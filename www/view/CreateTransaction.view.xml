@@ -9,13 +9,6 @@
     <Page floatingFooter="false" title="{i18n>CT_FORM_CREATE_TRANSACTION}" showHeader="true"
           showNavButton="true"
           navButtonPress="back">
-        <headerContent>
-            <Toolbar>
-                <content>
-                    <Button press="onClearPressed" type="Transparent" text="{i18n>BTN_CLEAR}"/>
-                </content>
-            </Toolbar>
-        </headerContent>
         <content>
             <f:Form editable="true">
                 <!--<f:toolbar>-->
@@ -57,7 +50,8 @@
                                     <Label required="true" text="{i18n>EMAIL}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input maxLength="50" change="onPawneeChanged" showValueHelp="true" value="{createTrans>/email}"/>
+                                    <Input maxLength="50" change="onPawneeChanged" showValueHelp="true"
+                                           value="{createTrans>/email}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -285,6 +279,7 @@
                 <ToolbarSpacer/>
                 <content>
                     <Button press="onSubmitCreateTransaction" text="{i18n>BTN_SUBMIT}" type="Accept"/>
+                    <Button press="onClearPressed" type="Transparent" text="{i18n>BTN_CLEAR}"/>
                 </content>
             </Toolbar>
         </footer>

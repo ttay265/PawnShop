@@ -69,11 +69,13 @@ sap.ui.define([
             if (!transDetailModel) {
                 return;
             }
-            var transDetailData = transDetailModel.getProperty("/");
+            var transDetailData = {
+                transaction: transDetailModel.getProperty("/transaction"),
+                pictureList: transDetailModel.getProperty("/pictureList")
+            };
+            this.getOwnerComponent().setModel(new JSONModel(transDetailData), "pasModel");
             this.TransDetailDialog.close();
-            this.getRouter().navTo("sales", {
-                row: JSON.stringify(transDetailData)
-            }, false);
+            this.getRouter().navTo("sales", false);
         },
         onNextPaymentSubmit: function () {
             var busyTitle = this.getResourceBundle().getText("payment");
@@ -101,11 +103,130 @@ sap.ui.define([
             };
             var result = models.postNextPayment(data);
             if (result) {
-                this.refreshPayment(transDetail.transaction.id);
+                this.refreshTransDetail(transDetail.transaction.id);
             }
             this.closeBusyDialog();
         },
-        refreshPayment: function (transId) {
+        onUploadPress: function (oEvt) {
+            //fetch transDetail
+            var transDetailModel = this.TransDetailDialog.getModel("transDetail");
+            if (!transDetailModel) {
+                this.getRouter().navTo("login", true);
+                return;
+            }
+            var transDetail = transDetailModel.getProperty("/");
+            var that = this;
+
+            var oFileUploader = oEvt.getSource();
+            var aFiles = oEvt.getParameters().files;
+            var currentFile = aFiles[0];
+            var msgUploadingPic = this.getResourceBundle().getText("msgUploadingPic");
+            var msgPleaseWait = this.getResourceBundle().getText("msgPleaseWait");
+            this.openBusyDialog({
+                title: msgUploadingPic,
+                text: msgPleaseWait,
+                showCancelButton: true
+            });
+            this.resizeAndUpload(currentFile, {
+                success: function (r) {
+                    var data = {
+                        idCloud: r.data.id,
+                        deleteHash: r.data.deletehash,
+                        picUrl: r.data.link,
+                        objId: transDetail.transaction.id,
+                        type: 1
+                    };
+                    models.addImg(data);
+                    that.closeBusyDialog();
+                },
+                error: function (oEvt) {
+                    //Handle error here
+                    that.closeBusyDialog();
+                }
+            });
+        },
+
+        onDeletePic: function () {
+            var that = this;
+            var carousel = this.byId("carUploadedImg");
+            var currentImage = carousel.getActivePage();
+            var cI = sap.ui.getCore().byId(currentImage);
+            var imgList = this.getModel("createSalesItem").getProperty("/picturesObj");
+            var context = cI.getBindingContext("createSalesItem");
+            if (context) {
+                var picData = context.getProperty("");
+                var index = -1;
+                for (var i = 0; i < imgList.length; i++) {
+                    if (imgList[i] === picData) {
+                        index = i;
+                    }
+                }
+                if (index === -1) {
+                    return;
+                    // no img
+                }
+                var callback = {
+                    success: function () {
+                        imgList.splice(index, 1);
+                        that.getModel("createSalesItem").updateBindings(true);
+                        that.closeBusyDialog();
+                    },
+                    error: function () {
+                        that.closeBusyDialog();
+                        MessageToast.show();
+                    }
+                };
+
+                // delete on cloud and back-end
+                //*set Busy before*
+                this.openBusyDialog({
+                    showCancelButton: true
+                });
+                var svDeleted = models.deleteImg(null, picData.idCloud, callback);
+                if (svDeleted) {
+
+                }
+            }
+        },
+        resizeAndUpload: function (file, mParams) {
+            var that = this;
+            var reader = new FileReader();
+            reader.onerror = function (e) {
+                //handle error here
+            };
+            reader.onloadend = function () {
+                var tempImg = new Image();
+                tempImg.src = reader.result;
+                tempImg.onload = function () {
+                    that.uploadFile(tempImg.src, mParams, file);
+                }
+            };
+            reader.readAsDataURL(file);
+        },
+
+        uploadFile: function (dataURL, mParams, file) {
+            var xhr = new XMLHttpRequest();
+            var BASE64_MARKER = 'data:' + file.type + ';base64,';
+            var base64Index = dataURL.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+            var base64string = dataURL.split(",")[1];
+
+            xhr.onreadystatechange = function (ev) {
+                if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 201)) {
+                    mParams.success(JSON.parse(xhr.response));
+                } else if (xhr.readyState == 4) {
+                    mParams.error(ev);
+                }
+            };
+            var URL = "https://api.imgur.com/3/upload";
+            var fileName = (file.name === "image.jpeg") ? "image_" + new Date().getTime() + ".jpeg" : file.name;
+            xhr.open('POST', URL, true);
+            xhr.setRequestHeader("Content-type", file.type);//"application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Authorization", "Bearer 5c25e781ffc7f495059078408c311799e277d70e");//"application/x-www-form-urlencoded");
+            var data = base64string;
+            xhr.send(data);
+        },
+
+        refreshTransDetail: function (transId) {
             var transDetailModel = this.TransDetailDialog.getModel("transDetail");
             if (!transDetailModel) {
                 return;

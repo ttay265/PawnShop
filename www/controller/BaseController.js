@@ -222,7 +222,7 @@ sap.ui.define([
                 type: method,
                 async: false,
                 headers: {
-                  "Access-Control-Allow-Origin": "http://shop-mortgage.dfksoft.com"
+                  "Access-Control-Allow-Origin": "https://shop-mortgage.dfksoft.com"
                 },
                 //end-local
                 dataType: "json",

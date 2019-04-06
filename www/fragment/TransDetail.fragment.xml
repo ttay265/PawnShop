@@ -411,10 +411,10 @@
                                 </content>
                             </Toolbar>
                             <Carousel showPageIndicator="true" class="smallCrs sapUiContentPadding"
-                                      height="40%" pages="{transDetail>/pictureList}"
+                                      pages="{transDetail>/pictureList}"
                                       loop="true" id="carUploadedImg">
                                 <pages>
-                                    <Image height="40%" src="{transDetail>pictureUrl}"/>
+                                    <Image src="{transDetail>pictureUrl}"/>
                                 </pages>
                             </Carousel>
                         </IconTabFilter>

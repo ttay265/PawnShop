@@ -17,12 +17,9 @@ sap.ui.define([
             //
         },
         _onObjectMatched: function (oEvent) {
-            var row = oEvent.getParameter("arguments").row;
-            if (row) {
-                this.getRouter().navTo("createSales",
-                    {
-                        row: row
-                    }, false);
+            var pasModel = this.getModel("pasModel");
+            if (pasModel) {
+                this.getRouter().navTo("createSales", false);
             }
             this.bindSalesItemModel();
         },

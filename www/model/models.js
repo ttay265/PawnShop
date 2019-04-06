@@ -309,8 +309,31 @@ sap.ui.define([
             });
             return returnCallback;
         },
-        addImg: function () {
+        addImg: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/them-anh";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
 
+                }
+
+            });
+            return returnCallback;
         },
         deleteImg: function (picId, picCloudId, callback) {
             var xhr = new XMLHttpRequest();

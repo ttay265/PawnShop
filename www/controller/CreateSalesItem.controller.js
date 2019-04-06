@@ -16,15 +16,14 @@ sap.ui.define([
             this.getRouter().getRoute("createSales").attachPatternMatched(this._onObjectMatched, this);
         },
         _onObjectMatched: function (e) {
-
             if (!this.checkLogin()) {
                 this.getRouter().navTo("login", true);
 
             } else {
-                var row = e.getParameter("arguments").row;
-                if (row) {
-                    console.log(row);
-                   this.parseTransactionDataToSalesData(row);
+                var pasModel = this.getModel("pasModel");
+                if (pasModel) {
+                    this.parseTransactionDataToSalesData(pasModel.getProperty("/"));
+                    this.getOwnerComponent().setModel(null, "pasModel");
                 } else {
                     this.loadInitTransaction();
                 }

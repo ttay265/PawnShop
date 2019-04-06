@@ -5,7 +5,8 @@
     <Page navButtonPress="back">
         <content>
             <List growing="true" growingScrollToLoad="true" growingThreshold="5"
-                  mode="SingleSelectMaster" itemPress="" inset="{= !${device>/support/touch}}" items="{sales>/}">
+                  mode="SingleSelectMaster" includeItemInSelection="true" itemPress="onSalesPressed"
+                  inset="{= !${device>/support/touch}}" items="{sales>/}">
                 <headerToolbar>
                     <Toolbar>
                         <content>
@@ -16,23 +17,11 @@
                     </Toolbar>
                 </headerToolbar>
                 <items>
-                    <ObjectListItem iconDensityAware="true" icon="{sales>saleItem/picUrl}"
-                                    title="{sales>saleItem/itemName}"
-                                    numberUnit="VND"
-
-                                    numberState="Information"
-                                    number="{
-                    parts: [
-                    {path: 'sales>saleItem/price'},
-                    {path: 'global>/currencyCode'}
-                    ],
-                    type: 'sap.ui.model.type.Currency',
-                    formatOptions: {
-                    showMeasure: false
-                    }}">
-                        <attributes>
-                            <ObjectAttribute title="{i18n>liquidationDate}"
-                                             text="{ path : 'sales>saleItem/liquidationDate',
+                    <StandardListItem type="Active"
+                                      iconDensityAware="false" icon="{sales>saleItem/picUrl}"
+                                      title="{sales>saleItem/itemName}"
+                                      numberState="Information"
+                                      description="{i18n>liquidationDate} { path : 'sales>saleItem/liquidationDate',
                     type: 'sap.ui.model.type.Date',
                     formatOptions: {
                     source: {
@@ -40,25 +29,29 @@
                     },
                     pattern: 'dd-MM-yyyy'
                     }
-                    }"/>
-                        </attributes>
-                    </ObjectListItem>
-                    <!--<ObjectListItem title="{sales>itemName}" numberUnit="VND"-->
-                    <!--numberState="Success"-->
-                    <!--number="{sales>price}">-->
-                    <!--<attributes>-->
-                    <!--<ObjectAttribute title="{i18n>liquidateAfter}"-->
-                    <!--text="{ path : 'sales>liquidationDate',-->
-                    <!--type: 'sap.ui.model.type.Date',-->
-                    <!--formatOptions: {-->
-                    <!--source: {-->
-                    <!--pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'-->
-                    <!--},-->
-                    <!--pattern: 'dd-MM-yyyy'-->
-                    <!--}-->
-                    <!--}"/>-->
-                    <!--</attributes>-->
-                    <!--</ObjectListItem>-->
+                    }"
+                                      info="{
+                    parts: [
+                    {path: 'sales>saleItem/price'},
+                    {path: 'global>/currencyCode'}
+                    ],
+                    type: 'sap.ui.model.type.Currency',
+                    formatOptions: {
+                    showMeasure: true
+                    }}">
+                        <!--<attributes>-->
+                        <!--<ObjectAttribute title="{i18n>liquidationDate}"-->
+                        <!--text="{ path : 'sales>saleItem/liquidationDate',-->
+                        <!--type: 'sap.ui.model.type.Date',-->
+                        <!--formatOptions: {-->
+                        <!--source: {-->
+                        <!--pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'-->
+                        <!--},-->
+                        <!--pattern: 'dd-MM-yyyy'-->
+                        <!--}-->
+                        <!--}"/>-->
+                        <!--</attributes>-->
+                    </StandardListItem>
                 </items>
             </List>
         </content>

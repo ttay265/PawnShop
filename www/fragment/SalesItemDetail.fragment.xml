@@ -5,7 +5,8 @@
         xmlns:core="sap.ui.core"
         xmlns="sap.m"
         controllerName="mortgage.pawnshop.controller.CreateSalesItem">
-    <Dialog title="{i18n>CT_FORM_CREATE_SALES_ITEM}" showHeader="true">
+    <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="700px"
+            stretch="{device>/system/phone}" title="{i18n>CT_FORM_CREATE_SALES_ITEM}" showHeader="true">
 
         <content>
             <f:Form editable="true">
@@ -32,27 +33,35 @@
                 </f:layout>
                 <f:formContainers>
                     <f:FormContainer>
+                        <f:toolbar>
+                            <Toolbar>
+                                <Title text="{i18n>LIQUIDATE_INFO}" level="H4" titleStyle="H4"/>
+                                <ToolbarSpacer/>
+                                <Button type="Transparent" text="{i18n>update}" icon="sap-icon://save"/>
+                            </Toolbar>
+                        </f:toolbar>
                         <f:formElements>
                             <f:FormElement>
                                 <f:label>
-                                    <Label required="false" text="{i18n>ITEM}"/>
+                                    <Label required="false" text="{i18n>ITEM_NAME}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{currentSalesItem>/saleItem/itemName}" placeholder="{i18n>ITEM_NAME}">
-                                        <layoutData>
-                                            <l:GridData span="XL5 L3 M4 S6"/>
-                                        </layoutData>
-                                    </Input>
+                                    <Input value="{currentSalesItem>/saleItem/itemName}"
+                                           placeholder="{i18n>ITEM_NAME}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="false" text="{i18n>category_name}"/>
+                                </f:label>
+                                <f:fields>
                                     <Select selectedKey="{currentSalesItem>/saleItem/category/id}"
-                                            items="{cateConfig>/}"
+                                            items="{category>/}"
                                             placeholder="{i18n>ITEM_TYPE}">
-                                        <layoutData>
-                                            <l:GridData span="XL3 L3 M4 S6"/>
-                                        </layoutData>
                                         <items>
-                                            <core:ListItem key="{cateConfig>id}"
-                                                           text="{cateConfig>name}"
-                                                           additionalText="{cateConfig>category/categoryName}"/>
+                                            <core:ListItem key="{category>id}"
+                                                           text="{category>categoryName}"
+                                                           additionalText="{category>description}"/>
                                         </items>
                                     </Select>
                                 </f:fields>
@@ -65,7 +74,7 @@
                                     <Input width="100%" description="VND" textAlign="Right" valueLiveUpdate="true"
                                            value="{
     parts: [
-        {path: 'currentSalesItem>/basePrice'},
+        {path: 'currentSalesItem>/price'},
         {path: 'global>/currencyCode'}
     ],
     type: 'sap.ui.model.type.Currency',
@@ -83,9 +92,21 @@
                                     <TextArea value="{currentSalesItem>/value1}"/>
                                 </f:fields>
                             </f:FormElement>
+
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:toolbar>
+                            <Toolbar>
+                                <content>
+                                    <Title level="H4" titleStyle="H4" text="{i18n>attachment}"/>
+                                </content>
+                            </Toolbar>
+                        </f:toolbar>
+                        <f:formElements>
                             <f:FormElement>
                                 <f:label>
-                                    <Label required="false" text="{i18n>attachment}"/>
+                                    <Label required="false"/>
                                 </f:label>
                                 <f:fields>
                                     <l:VerticalLayout>
@@ -104,21 +125,17 @@
                                                                     typeMissmatch="onTypeMissmatch"
                                                                     change="onUploadPress"/>
                                                     <ToolbarSpacer/>
-                                                    <Button visible="{= ${currentSalesItem>/picturesObj}.length > 0 ? true : false }"
-                                                            type="Ghost" text="{i18n>change_pic}"
-                                                            press="onChangePic"
-                                                            icon="sap-icon://edit"/>
-                                                    <Button visible="{= ${currentSalesItem>/picturesObj}.length > 0 ? true : false }"
+                                                    <Button visible="{= ${currentSalesItem>/pictureList}.length > 0 ? true : false }"
                                                             text="{i18n>del_pic}"
                                                             press="onDeletePic"
                                                             icon="sap-icon://delete"/>
                                                 </content>
                                             </Toolbar>
                                             <Carousel showPageIndicator="true" class="smallCrs sapUiContentPadding"
-                                                      width="100%" pages="{currentSalesItem>/picturesObj}"
+                                                      width="100%" pages="{currentSalesItem>/pictureList}"
                                                       loop="true" id="carUploadedImg">
                                                 <pages>
-                                                    <Image src="{currentSalesItem>url}"/>
+                                                    <Image src="{currentSalesItem>pictureUrl}"/>
                                                 </pages>
                                             </Carousel>
                                         </l:content>
@@ -131,9 +148,6 @@
             </f:Form>
         </content>
         <buttons>
-            <Button press="onSubmitCreateTransaction" visible="" text="{i18n>BTN_SUBMIT_SALESITEM}" type="Accept"/>
-            <Button press="onSubmitCreateTransaction" text="{i18n>BTN_UPDATE_SALESITEM}" type="Accept"/>
-            <Button press="onSubmitCreateTransaction" text="{i18n>BTN_SUBMIT_SALESITEM}" type="Accept"/>
             <Button press="onDialogClose" text="{i18n>BTN_CLOSE}" type="Reject"/>
         </buttons>
     </Dialog>

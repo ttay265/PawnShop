@@ -89,7 +89,7 @@
                             </f:FormElement>
                             <f:FormElement>
                                 <f:label>
-                                    <Label text=" "/>
+                                    <Label/>
                                 </f:label>
                                 <f:fields>
                                     <Button visible="{= ${transDetail>/transaction/status} === 2 }" type="Reject"

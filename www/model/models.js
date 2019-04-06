@@ -167,7 +167,7 @@ sap.ui.define([
                 url: url,
                 context: this,
                 dataType: 'json',
-                async: true,
+                async: false,
                 success: function (d, r, xhr) {
                     data = d;
                 },

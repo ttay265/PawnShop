@@ -103,7 +103,7 @@
           "target": "creTrans"
         },
         {
-          "pattern": "sales",
+          "pattern": "sales/:createData:",
           "name": "sales",
           "target": "sales"
         },

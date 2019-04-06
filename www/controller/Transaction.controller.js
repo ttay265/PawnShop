@@ -52,7 +52,7 @@ sap.ui.define([
                 this.TransDetailDialog = this.initFragment("mortgage.pawnshop.fragment.TransDetail", "transDetail");
             }
             //Data of Detail tab
-            var transDetailModel = this.getModel("transDetail");
+            var transDetailModel = this.TransDetailDialog.getModel("transDetail");
             if (!transDetailModel) {
                 transDetailModel = new JSONModel(d);
                 this.TransDetailDialog.setModel(transDetailModel, "transDetail");
@@ -63,6 +63,17 @@ sap.ui.define([
             //Data of payment Tab
             this.loadNewPaymentData(nextPayDate);
             this.TransDetailDialog.open();
+        },
+        onLiquidatePressed: function (e) {
+            var transDetailModel = this.TransDetailDialog.getModel("transDetail");
+            if (!transDetailModel) {
+                return;
+            }
+            var transDetailData = transDetailModel.getProperty("/");
+            this.TransDetailDialog.close();
+            this.getRouter().navTo("sales", {
+                row: JSON.stringify(transDetailData)
+            }, false);
         },
         onNextPaymentSubmit: function () {
             var busyTitle = this.getResourceBundle().getText("payment");

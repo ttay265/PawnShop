@@ -35,7 +35,7 @@ sap.ui.define([
                 this.shopConfigDialog = this.initFragment("mortgage.pawnshop.fragment.ShopConfigDialog", "currentConfig");
             }
             // set mode = create
-            this.shopConfigDialog.getModel("currentConfig").setProperty("/", {}  , null, false);
+            this.shopConfigDialog.getModel("currentConfig").setProperty("/", {}, null, false);
             this.shopConfigDialog.getModel("currentConfig").setProperty("/isUpdate", false, null, false);
             this.shopConfigDialog.open();
         },

@@ -29,7 +29,7 @@
                 <f:formContainers>
                     <f:FormContainer>
                         <f:toolbar>
-                            <Toolbar height="5rem">
+                            <Toolbar style="Standard">
                                 <content>
                                     <Title level="H5" text="{i18n>ENTER_DATA_INTO_CREATE_SALES_FORM}"
                                            wrapping="true"/>
@@ -49,15 +49,15 @@
                                         <!--</layoutData>-->
                                     </Input>
                                     <Select id="selectCate" selectedKey="{createSalesItem>/categoryId}"
-                                            items="{cateConfig>/}"
+                                            items="{category>/}"
                                             placeholder="{i18n>ITEM_TYPE}">
                                         <!--<layoutData>-->
                                         <!--<l:GridData span="XL3 L2 M4 S6"/>-->
                                         <!--</layoutData>-->
                                         <items>
-                                            <core:ListItem key="{cateConfig>id}"
-                                                           text="{cateConfig>name}"
-                                                           additionalText="{cateConfig>category/categoryName}"/>
+                                            <core:ListItem key="{category>id}"
+                                                           text="{category>categoryName}"
+                                                           additionalText="{category>description}"/>
                                         </items>
                                     </Select>
                                 </f:fields>
@@ -132,6 +132,9 @@
                                                     <Image src="{createSalesItem>pictureUrl}"/>
                                                 </pages>
                                             </Carousel>
+                                            <Text width="100%" textAlign="Center"
+                                                  visible="{= ${createSalesItem>/picturesObj}.length > 0 ? false : true }"
+                                                  text="{i18n>NO_IMAGE_DATA}"/>
                                         </l:content>
                                     </l:VerticalLayout>
                                 </f:fields>

@@ -15,13 +15,38 @@ sap.ui.define([
         onInit: function () {
             this.getRouter().getRoute("createSales").attachPatternMatched(this._onObjectMatched, this);
         },
-        _onObjectMatched: function () {
+        _onObjectMatched: function (e) {
+
             if (!this.checkLogin()) {
                 this.getRouter().navTo("login", true);
-                return;
+
             } else {
-                this.loadInitTransaction();
+                var row = e.getParameter("arguments").row;
+                if (row) {
+                    console.log(row);
+                   this.parseTransactionDataToSalesData(row);
+                } else {
+                    this.loadInitTransaction();
+                }
             }
+
+        },
+        parseTransactionDataToSalesData: function (transData) {
+            var initData = {
+                itemName: transData.transaction.itemName,
+                price: "0",
+                picturesObj: transData.pictureList,
+                description: "",
+                categoryId: "",
+                transId: ""
+            };
+            var createSalesModel = this.getModel("createSalesItem");
+            if (!createSalesModel) {
+                createSalesModel = new JSONModel();
+                this.setModel(createSalesModel, "createSalesItem");
+            }
+            createSalesModel.setProperty("/", initData, null, false);
+            console.log(createSalesModel.getProperty("/picturesObj"));
         },
         onClearPressed: function () {
             this.loadInitTransaction();
@@ -82,21 +107,41 @@ sap.ui.define([
         },
 
         onDeletePic: function () {
+            var that = this;
             var carousel = this.byId("carUploadedImg");
             var currentImage = carousel.getActivePage();
             var cI = sap.ui.getCore().byId(currentImage);
+            var imgList = this.getModel("createSalesItem").getProperty("/picturesObj");
             var context = cI.getBindingContext("createSalesItem");
-            var callback = {
-                success: function () {
-                    carousel.removePage(currentImage);
-                },
-                error: function () {
-                    MessageToast.show();
-                }
-            };
             if (context) {
                 var picData = context.getProperty("");
+                var index = -1;
+                for (var i = 0; i < imgList.length; i++) {
+                    if (imgList[i] === picData) {
+                        index = i;
+                    }
+                }
+                if (index === -1) {
+                    return;
+                    // no img
+                }
+                var callback = {
+                    success: function () {
+                        imgList.splice(index, 1);
+                        that.getModel("createSalesItem").updateBindings(true);
+                        that.closeBusyDialog();
+                    },
+                    error: function () {
+                        that.closeBusyDialog();
+                        MessageToast.show();
+                    }
+                };
+
                 // delete on cloud and back-end
+                //*set Busy before*
+                this.openBusyDialog({
+                    showCancelButton: true
+                });
                 var svDeleted = models.deleteImg(null, picData.idCloud, callback);
                 if (svDeleted) {
 

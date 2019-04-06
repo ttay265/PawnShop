@@ -16,7 +16,14 @@ sap.ui.define([
             this.getRouter().getRoute("sales").attachPatternMatched(this._onObjectMatched, this);
             //
         },
-        _onObjectMatched: function (arg) {
+        _onObjectMatched: function (oEvent) {
+            var row = oEvent.getParameter("arguments").row;
+            if (row) {
+                this.getRouter().navTo("createSales",
+                    {
+                        row: row
+                    }, false);
+            }
             this.bindSalesItemModel();
         },
         bindSalesItemModel: function () {
@@ -44,7 +51,7 @@ sap.ui.define([
                     oFileUploader.setValue("");
                     console.log(oEvt);
                     //Here the image is on the backend, so i call it again and set the image
-                    var model = that.createSalesItemDialog.getModel("currentSalesItem");
+                    var model = that.salesItemDialog.getModel("currentSalesItem");
                     if (!model) {
                         return;
                     }
@@ -117,24 +124,23 @@ sap.ui.define([
         },
 
         onSalesPressed: function (e) {
-            var initData = {
-                isUpdate: false,
-                itemName: "",
-                price: "",
-                description: "",
-                picturesObj: []
-            };
-            var currentSalesItemModel = new JSONModel();
-            if (!this.createSalesItemDialog) {
-                this.createSalesItemDialog = this.initFragment("mortgage.pawnshop.fragment.CreateSalesItem", "currentSalesItem");
-            } else {
-                currentSalesItemModel = this.createSalesItemDialog.getModel("currentSalesItem");
+            //Get data of current SalesItem line
+            var selectedLine = e.getParameter("srcControl");
+            if (!selectedLine) {
+                return;
             }
+            var data = selectedLine.getBindingContext("sales").getProperty("");
+            //Init & Bind SalesItemDialog
+            if (!this.salesItemDialog) {
+                this.salesItemDialog = this.initFragment("mortgage.pawnshop.fragment.SalesItemDetail", "currentSalesItem");
+            }
+            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
             if (!currentSalesItemModel) {
                 currentSalesItemModel = new JSONModel();
             }
-            currentSalesItemModel.setProperty("/", initData);
-            this.createSalesItemDialog.open();
+            console.log(this.getModel("category"));
+            currentSalesItemModel.setProperty("/", data);
+            this.salesItemDialog.open();
         }
     });
 });

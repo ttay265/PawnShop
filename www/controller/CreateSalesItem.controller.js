@@ -82,7 +82,26 @@ sap.ui.define([
         },
 
         onDeletePic: function () {
-            var carousel = this.byId("");
+            var carousel = this.byId("carUploadedImg");
+            var currentImage = carousel.getActivePage();
+            var cI = sap.ui.getCore().byId(currentImage);
+            var context = cI.getBindingContext("createSalesItem");
+            var callback = {
+                success: function () {
+                    carousel.removePage(currentImage);
+                },
+                error: function () {
+                    MessageToast.show();
+                }
+            };
+            if (context) {
+                var picData = context.getProperty("");
+                // delete on cloud and back-end
+                var svDeleted = models.deleteImg(null, picData.idCloud, callback);
+                if (svDeleted) {
+
+                }
+            }
         },
         resizeAndUpload: function (file, mParams) {
             var that = this;
@@ -128,16 +147,42 @@ sap.ui.define([
 
         submitSalesItemPressed: function () {
             //get binding model from current view
-            var model = that.getModel("createSalesItem");
+            var model = this.getModel("createSalesItem");
             if (!model) {
                 return;
             }
-            //parse data before submit
+            //****************parse data before submit
             var submitData = model.getProperty("/");
-            submitData.picUrl = submitData.picturesObj[0].pictureUrl;
-            submitData.categoryId = submitData.category.id;
-            submitData.picUrl = submitData.picturesObj[0].pictureUrl;
-            submitData.picUrl = submitData.picturesObj[0].pictureUrl;
+            //set Default pictures
+            if (submitData.picturesObj.length > 0) {
+                submitData.picUrl = submitData.picturesObj[0].pictureUrl;
+            } else {
+                submitData.picUrl = "";
+            }
+            submitData.pictures = JSON.stringify(submitData.picturesObj);
+            // Set Item's Category Id
+            submitData.categoryId = this.byId("selectCate").getSelectedItem().getBindingContext("cateConfig").getProperty("category/id");
+            // Set Posting date
+            var date = new Date();
+            date.setHours(7);
+            submitData.liquidDate = date;
+            // Set Transaction ID, in case no transId defined, Use Default TransId
+            if (!submitData.transId) {
+                //default transId retrieved from Shop Info
+                var shopModel = this.getModel("account");
+                if (!shopModel) {
+                    //Session Exception, re-login with errors.
+                    this.getRouter().navTo("login");
+                    return;
+                }
+                submitData.transId = shopModel.getProperty("/transDefaultId");
+            }
+            var data = models.postCreateSalesItem(submitData);
+            if (data) {
+                var sucMsg = this.getResourceBundle().getText("msgCreateSuccessful");
+                MessageToast.show(sucMsg);
+                this.back();
+            }
         },
 
         changePasswordPress: function () {

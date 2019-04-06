@@ -75,7 +75,12 @@ sap.ui.define([
 
         checkAuthorization: function () {
             var role = this.getModel("account").getProperty("/user/role");
-            return role.id === 2;  // 2: ROLE_PAWNSHOP
+
+            if (role.id === 3) {// 2: ROLE_PAWNSHOP
+                return true;
+            } else {
+                MessageToast.show(this.getResourceBundle().getText("msgNotAuthenticated"));
+            }
         },
 
         verifyUser: function () {

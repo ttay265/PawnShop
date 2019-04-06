@@ -5,9 +5,9 @@ sap.ui.define([
     "use strict";
     const serverInfo = {
         // url: "http://192.168.2.78:8080", //máy HuyTG
-        url: "http://198.13.54.16:8080/new2", //Server DFK
+        url: "http://113.161.84.125:8089/new", //Server DFK
         localUrl: "model",
-        useLocal: true
+        useLocal: false
     };
     return {
 
@@ -134,7 +134,7 @@ sap.ui.define([
             if (serverInfo.useLocal) {
                 return true;
             } else {
-                url = serverInfo.url + "/danh-muc";
+                url = serverInfo.url + "/tao-cau-hinh-danh-muc";
             }
             var returnCallback = false;
             $.ajax({
@@ -283,8 +283,82 @@ sap.ui.define([
             });
             return returnCallback;
         },
+        postCreateSalesItem: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/tao-san-pham";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
 
+                }
 
+            });
+            return returnCallback;
+        },
+        addImg: function () {
+
+        },
+        deleteImg: function (picId, picCloudId, callback) {
+            var xhr = new XMLHttpRequest();
+            var callbackParam = false;
+            xhr.onreadystatechange = function (ev) {
+                if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 201)) {
+                    if (picId) {
+                        callbackParam = deleteImgOnServer();
+                    }
+                    callback.success();
+                } else if (xhr.readyState == 4) {
+                    callbackParam = false;
+                    callback.error();
+                }
+            };
+            var URL = "https://api.imgur.com/3/image/" + picCloudId;
+            xhr.open('DELETE', URL, true);
+            xhr.setRequestHeader("Authorization", "Bearer 5c25e781ffc7f495059078408c311799e277d70e");//"application/x-www-form-urlencoded");
+            xhr.send();
+
+            var deleteImgOnServer = function () {
+                var url;
+                if (serverInfo.useLocal) {
+                    return true;
+                } else {
+                    url = serverInfo.url + "/xoa-anh";
+                }
+                var returnCallback = false;
+                var data = {
+                    picId: picId
+                };
+                $.ajax({
+                    url: url,
+                    context: this,
+                    dataType: 'json',
+                    data: data,
+                    method: 'POST',
+                    async: false,
+                    success: function (d, r, xhr) {
+                        returnCallback = true;
+                    },
+                    error: function (e) {
+
+                    }
+
+                });
+                return returnCallback;
+            }
+        }
     };
-
 });

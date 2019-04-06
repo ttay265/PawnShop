@@ -48,7 +48,7 @@
                                         <!--<l:GridData span="XL5 L2 M4 S6"/>-->
                                         <!--</layoutData>-->
                                     </Input>
-                                    <Select selectedKey="{createSalesItem>/categoryId}"
+                                    <Select id="selectCate" selectedKey="{createSalesItem>/categoryId}"
                                             items="{cateConfig>/}"
                                             placeholder="{i18n>ITEM_TYPE}">
                                         <!--<layoutData>-->
@@ -91,7 +91,7 @@
                                 </f:label>
                                 <f:fields>
                                     <TextArea placeholder="{i18n>enter_item_sales_info}"
-                                              value="{createSalesItem>/value1}">
+                                              value="{createSalesItem>/description}">
                                         <!--<layoutData>-->
                                         <!--<l:GridData span="XL3 L4 M8 S12"/>-->
                                         <!--</layoutData>-->

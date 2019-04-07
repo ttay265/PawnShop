@@ -116,7 +116,6 @@ sap.ui.define([
             }
             var transDetail = transDetailModel.getProperty("/");
             var that = this;
-
             var oFileUploader = oEvt.getSource();
             var aFiles = oEvt.getParameters().files;
             var currentFile = aFiles[0];
@@ -137,6 +136,8 @@ sap.ui.define([
                         type: 1
                     };
                     models.addImg(data);
+                    that.refreshTransDetail(transDetail.transaction.id);
+                    transDetailModel.updateBindings(true);
                     that.closeBusyDialog();
                 },
                 error: function (oEvt) {
@@ -151,8 +152,8 @@ sap.ui.define([
             var carousel = this.byId("carUploadedImg");
             var currentImage = carousel.getActivePage();
             var cI = sap.ui.getCore().byId(currentImage);
-            var imgList = this.getModel("createSalesItem").getProperty("/picturesObj");
-            var context = cI.getBindingContext("createSalesItem");
+            var imgList = this.TransDetailDialog.getModel("transDetail").getProperty("/pictureList");
+            var context = cI.getBindingContext("transDetail");
             if (context) {
                 var picData = context.getProperty("");
                 var index = -1;
@@ -168,7 +169,7 @@ sap.ui.define([
                 var callback = {
                     success: function () {
                         imgList.splice(index, 1);
-                        that.getModel("createSalesItem").updateBindings(true);
+                        that.TransDetailDialog.getModel("transDetail").updateBindings(true);
                         that.closeBusyDialog();
                     },
                     error: function () {
@@ -182,7 +183,7 @@ sap.ui.define([
                 this.openBusyDialog({
                     showCancelButton: true
                 });
-                var svDeleted = models.deleteImg(null, picData.idCloud, callback);
+                var svDeleted = models.deleteImg(picData.id, picData.idCloud, callback);
                 if (svDeleted) {
 
                 }

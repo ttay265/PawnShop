@@ -400,11 +400,7 @@
                                                     typeMissmatch="onTypeMissmatch"
                                                     change="onUploadPress"/>
                                     <ToolbarSpacer/>
-                                    <Button visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
-                                            type="Ghost" text="{i18n>change_pic}"
-                                            press="onChangePic"
-                                            icon="sap-icon://edit"/>
-                                    <Button visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
+                                    <Button visible="{= ${transDetail>/pictureList}.length > 0 ? true : false }"
                                             text="{i18n>del_pic}"
                                             press="onDeletePic"
                                             icon="sap-icon://delete"/>

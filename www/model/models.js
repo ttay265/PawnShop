@@ -370,7 +370,7 @@ sap.ui.define([
                     context: this,
                     dataType: 'json',
                     data: data,
-                    method: 'POST',
+                    method: 'DELETE',
                     async: false,
                     success: function (d, r, xhr) {
                         returnCallback = true;

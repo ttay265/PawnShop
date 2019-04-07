@@ -78,6 +78,7 @@ sap.ui.define([
         //     //     MessageToast.show("The operation has been completed");
         //     // }
         // },
+
         _onObjectMatched: function () {
             if (!this.checkLogin()) {
                 this.getRouter().navTo("login", true);
@@ -141,9 +142,17 @@ sap.ui.define([
                 }
             });
         },
-
         onDeletePic: function () {
-            var carousel = this.byId("");
+            var model = this.getModel("createT rans");
+            if (!model) {
+                return;
+            }
+            var car = this.byId("carUploadedImg");
+            var binding = car.getActivePage().getBindings("src");
+            if (binding) {
+                var path = binding.getPath();
+                //do sth to remove this from pictures Array
+            }
         },
         resizeAndUpload: function (file, mParams) {
             var that = this;

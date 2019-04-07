@@ -5,7 +5,7 @@ sap.ui.define([
     "use strict";
     const serverInfo = {
         // url: "http://192.168.2.78:8080", //máy HuyTG
-        url: "http://113.161.84.125:8089/new", //Server DFK
+        url: "https://backend-mortgage.dfksoft.com/new", //Server DFK
         localUrl: "model",
         useLocal: false
     };

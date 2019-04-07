@@ -22,6 +22,7 @@ sap.ui.define([
             // var shopId = oArgs.shopId;
             this.bindTransactionModel();
         },
+
         bindTransactionModel: function () {
             var accountModel = this.getModel("account");
             if (!accountModel) {
@@ -37,7 +38,66 @@ sap.ui.define([
             }
             transModel.setProperty("/", data);
         },
+        onReset: function () { //Reset all filter
+            //Clear all filters in filter bar
+            var filterBar = this.byId("filterBar");
+            if (filterBar) {
+                var filterItems = filterBar.getFilterItems();
+                if (filterItems) {
+                    for (var i = 0; i < filterItems.length; i++) {
+                        var filterControl = filterItems[i].getControl();
+                        filterControl.clearSelection();
+                        filterControl.fireSelectionFinish();
 
+                    }
+                }
+            }
+        },
+        onFilterByStatus: function (e) {
+            var selectedItems = e.getParameter("selectedItems");
+            if (!selectedItems) {
+                return;
+            }
+            var filters = [];
+            for (var i = 0; i < selectedItems.length; i++) {
+                var filter = new Filter({
+                    path: "status",
+                    operator: "EQ",
+                    value1: selectedItems[i].getKey()
+                });
+                filters.push(filter);
+            }
+            var table = this.byId("tblTransaction");
+            var bindingInfo = table.getBinding("items");
+            if (bindingInfo) {
+                bindingInfo.filter(filters);
+            }
+        },
+        onFilterByItemCat: function (e) {
+            var selectedItems = e.getParameter("selectedItems");
+            if (!selectedItems) {
+                selectedItems = [];
+            }
+            var filters = [];
+            for (var i = 0; i < selectedItems.length; i++) {
+                var filter = new Filter({
+                    path: "categoryItemId",
+                    operator: "EQ",
+                    value1: selectedItems[i].getKey()
+                });
+                filters.push(filter);
+            }
+            var table = this.byId("tblTransaction");
+            var bindingInfo = table.getBinding("items");
+            if (bindingInfo) {
+                bindingInfo.filter(filters);
+            }
+        },
+
+        onRefresh: function (e) {
+            this.bindTransactionModel();
+            e.getSource().hide();
+        },
         onRegister: function (e) {
             this.getRouter().navTo("regPawnShop");
         },

@@ -2,7 +2,7 @@
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m"
         controllerName="mortgage.pawnshop.controller.SalesItems">
-    <Page navButtonPress="back">
+    <Page showHeader="false">
         <content>
             <List growing="true" growingScrollToLoad="true" growingThreshold="5"
                   mode="SingleSelectMaster" includeItemInSelection="true" itemPress="onSalesPressed"
@@ -20,7 +20,6 @@
                     <StandardListItem type="Active"
                                       iconDensityAware="false" icon="{sales>saleItem/picUrl}"
                                       title="{sales>saleItem/itemName}"
-                                      numberState="Information"
                                       description="{i18n>liquidationDate} { path : 'sales>saleItem/liquidationDate',
                     type: 'sap.ui.model.type.Date',
                     formatOptions: {
@@ -35,10 +34,8 @@
                     {path: 'sales>saleItem/price'},
                     {path: 'global>/currencyCode'}
                     ],
-                    type: 'sap.ui.model.type.Currency',
-                    formatOptions: {
-                    showMeasure: true
-                    }}">
+                    formatter : '.formatter.formattedCurrencyWithUom'
+                    }">
                         <!--<attributes>-->
                         <!--<ObjectAttribute title="{i18n>liquidationDate}"-->
                         <!--text="{ path : 'sales>saleItem/liquidationDate',-->

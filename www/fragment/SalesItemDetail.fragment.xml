@@ -148,7 +148,7 @@
             </f:Form>
         </content>
         <buttons>
-            <Button press="onDialogClose" text="{i18n>BTN_CLOSE}" type="Reject"/>
+            <Button press="onDialogClose" text="{i18n>BTN_CLOSE}" type="Transparent"/>
         </buttons>
     </Dialog>
 </core:FragmentDefinition>

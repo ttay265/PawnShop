@@ -186,11 +186,7 @@ sap.ui.define([
             this.page.setSideExpanded(!expanded);
         },
         logout: function () {
-            this.getGlobalModel().setProperty("/user", "", null, true);
-            this.getGlobalModel().setProperty("/name", "", null, true);
-            this.getGlobalModel().setProperty("/token", "none", null, true);
-            this.getGlobalModel().setProperty("/status", "", null, true);
-            this.resetModelData();
+            this.getGlobalModel().setProperty("/", null, null, true);
             this.getRouter().navTo("login", true);
             this.page.setSideExpanded(false);
             var msg = this.getResourceBundle().getText("msgLogout");

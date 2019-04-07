@@ -4,7 +4,7 @@
     <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="700px" type="Standard"
             stretch="{device>/system/phone}" title="{i18n>title_transDetail}">
         <buttons>
-            <Button class="closebtn" text="{i18n>close}" press="onDialogClose" type="Reject"/>
+            <Button text="{i18n>BTN_CLOSE}" press="onDialogClose" type="Transparent"/>
         </buttons>
         <content>
             <f:Form>
@@ -58,16 +58,12 @@
                                     <Label text="{i18n>AMOUNT}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Text text="{
+                                    <ObjectNumber unit="VND" number="{
                         parts: [
                             {path: 'transDetail>/transaction/basePrice'},
                             {path: 'global>/currencyCode'}
                         ],
-                        type: 'sap.ui.model.type.Currency',
-                        formatOptions: {
-                            showMeasure: true
-                        }
-                        }"/>
+                        formatter : '.formatter.formattedCurrency'}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>

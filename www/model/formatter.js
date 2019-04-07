@@ -1,5 +1,8 @@
-sap.ui.define(["mortgage/pawnshop/controller/BaseController",
-    "sap/ui/core/ValueState"], function (BaseController, ValueState) {
+sap.ui.define([
+    "mortgage/pawnshop/controller/BaseController",
+    "sap/ui/core/ValueState",
+    "sap/ui/model/type/Currency"
+], function (BaseController, ValueState, Currency) {
     "use strict";
     var baseController = new BaseController();
     return {
@@ -83,6 +86,22 @@ sap.ui.define(["mortgage/pawnshop/controller/BaseController",
         },
         favorite: function (sStatus) {
             return sStatus.length % 2 === 0;
+        },
+        formattedCurrency: function (amount, currency) {
+            var oCurrency = new Currency({
+                showMeasure: false
+            });
+
+            return oCurrency.formatValue([amount, currency], "string");
+
+        },
+        formattedCurrencyWithUom: function (amount, currency) {
+            var oCurrency = new Currency({
+                showMeasure: false
+            });
+
+            return oCurrency.formatValue([amount, currency], "string") + " " + "VND";
+
         }
     };
 });

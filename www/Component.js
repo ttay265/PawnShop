@@ -21,6 +21,7 @@ sap.ui.define([
 
         init: function () {
             // call the base component's init function
+            sap.ui.getCore().getConfiguration().setLanguage("vi");
             UIComponent.prototype.init.apply(this, arguments);
 
             var lblHome = this.getModel("i18n").getResourceBundle().getText("navToHome");

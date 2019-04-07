@@ -12,7 +12,7 @@
         <buttons>
             <Button text="{= ${currentConfig>/isUpdate} ? ${i18n>update} : ${i18n>add}}" press="onCateConfigUpdate"
                     type="Accept"/>
-            <Button text="{i18n>cancel}" press="onDialogClose" type="Reject"/>
+            <Button text="{i18n>BTN_CLOSE}" press="onDialogClose" type="Transparent"/>
         </buttons>
         <content>
             <ScrollContainer

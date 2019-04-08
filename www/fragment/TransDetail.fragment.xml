@@ -100,6 +100,7 @@
                     vertical="true"
                     height="40%">
                 <IconTabBar applyContentPadding="{= !${device>/system/phone}}" expandable="false" expanded="true"
+                            showOverflowSelectList="true"
                             tabDensityMode="{= !${device>/system/phone} ? 'Compact' : 'Cozy'}"
                             class="longTextIconTabBar">
                     <items>
@@ -411,24 +412,24 @@
                             </Carousel>
                         </IconTabFilter>
                         <IconTabFilter id="5"
-                                       text="{i18n>chuoc_do}">
+                                       text="{i18n>Action}">
                             <VBox width="100%">
                                 <items>
-                                    <f:SimpleForm width="400px">
+                                    <f:SimpleForm>
                                         <Label text="{i18n>action}"/>
-                                        <Select>
+                                        <Select id="selectAction">
                                             <items>
-                                                <core:Item text="{i18n>chuoc_do}"/>
-                                                <core:Item text="{i18n>huy_phieu}"/>
-                                                <core:Item text="{i18n>thay_the_phieu}"/>
+                                                <core:Item key="1" text="{i18n>chuoc_do}"/>
+                                                <core:Item key="2" text="{i18n>huy_phieu}"/>
+                                                <core:Item key="3" text="{i18n>thay_the_phieu}"/>
                                             </items>
                                         </Select>
-                                        <Label text="{i18n>chuoc_date}"/>
-                                        <DatePicker/>
                                         <Label text="{i18n>description}"/>
-                                        <TextArea/>
+                                        <TextArea id="txtActionDesc"/>
+                                        <Label text=""/>
+                                        <Button text="{i18n>submit}" type="Accept"/>
                                     </f:SimpleForm>
-                                    <Button text="{i18n>chuoc}" type="Accept"/>
+
                                 </items>
                             </VBox>
 

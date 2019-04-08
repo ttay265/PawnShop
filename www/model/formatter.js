@@ -38,6 +38,19 @@ sap.ui.define([
                     return ValueState.None;
             }
         },
+        salesStatusStateDescription: function (sStatus) {
+            var i18n = this.getResourceBundle();
+            switch (sStatus) {
+                case 1: //WAIT_FOR_LIQUIDATION
+                    return i18n.getText('LIQUIDATING');
+                case 2: //LIQUIDATED
+                    return i18n.getText('LIQUIDATED');
+                case 4: //CANCEL
+                    return i18n.getText('CANCELED');
+                default:
+                    return "";
+            }
+        },
         transStatusDesc: function (sStatus) {
             var i18n = this.getResourceBundle();
             switch (sStatus) {

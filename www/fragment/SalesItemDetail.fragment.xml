@@ -6,18 +6,9 @@
         xmlns="sap.m"
         controllerName="mortgage.pawnshop.controller.CreateSalesItem">
     <Dialog verticalScrolling="true" contentHeight="70%" contentWidth="700px"
-            stretch="{device>/system/phone}" title="{i18n>CT_FORM_CREATE_SALES_ITEM}" showHeader="true">
-
+            stretch="{device>/system/phone}" title="{i18n>CT_FORM_DETAIL_SALES_ITEM}" showHeader="true">
         <content>
             <f:Form editable="true">
-                <!--<f:toolbar>-->
-                <!--<Toolbar visible="{= !${device>/support/touch} }">-->
-                <!--<Title text="{i18n>CT_FORM_CREATE_TRANSACTION}"/>-->
-                <!--<ToolbarSpacer/>-->
-                <!--<ToolbarSeparator/>-->
-                <!--<Button press="onClearPressed" type="Transparent" text="{i18n>BTN_CLEAR}"/>-->
-                <!--</Toolbar>-->
-                <!--</f:toolbar>-->
                 <f:layout>
                     <f:ResponsiveGridLayout
                             labelSpanXL="3"
@@ -49,13 +40,6 @@
                                 <f:fields>
                                     <Input value="{currentSalesItem>/saleItem/itemName}"
                                            placeholder="{i18n>ITEM_NAME}"/>
-                                </f:fields>
-                            </f:FormElement>
-                            <f:FormElement>
-                                <f:label>
-                                    <Label required="false" text="{i18n>category_name}"/>
-                                </f:label>
-                                <f:fields>
                                     <Select enabled="false" selectedKey="{currentSalesItem>/saleItem/categoryId}"
                                             items="{category>/}"
                                             placeholder="{i18n>ITEM_TYPE}">
@@ -67,12 +51,29 @@
                                     </Select>
                                 </f:fields>
                             </f:FormElement>
+                            <!--<f:FormElement>-->
+                            <!--<f:label>-->
+                            <!--<Label required="false" text="{i18n>category_name}"/>-->
+                            <!--</f:label>-->
+                            <!--<f:fields>-->
+                            <!--<Select enabled="false" selectedKey="{currentSalesItem>/saleItem/categoryId}"-->
+                            <!--items="{category>/}"-->
+                            <!--placeholder="{i18n>ITEM_TYPE}">-->
+                            <!--<items>-->
+                            <!--<core:ListItem key="{category>id}"-->
+                            <!--text="{category>categoryName}"-->
+                            <!--additionalText="{category>description}"/>-->
+                            <!--</items>-->
+                            <!--</Select>-->
+                            <!--</f:fields>-->
+                            <!--</f:FormElement>-->
                             <f:FormElement>
                                 <f:label>
                                     <Label required="false" text="{i18n>salesPrice}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input width="100%" description="VND" textAlign="Right" valueLiveUpdate="true"
+                                    <Input width="100%" fieldWidth="80%" description="VND" textAlign="Right"
+                                           valueLiveUpdate="true"
                                            value="{
     parts: [
         {path: 'currentSalesItem>/saleItem/price'},

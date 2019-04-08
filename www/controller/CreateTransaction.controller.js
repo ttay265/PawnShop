@@ -79,13 +79,33 @@ sap.ui.define([
         //     // }
         // },
 
-        _onObjectMatched: function () {
+        _onObjectMatched: function (oEvent) {
             if (!this.checkLogin()) {
                 this.getRouter().navTo("login", true);
                 return;
             } else {
                 this.loadInitTransaction();
+                var oldTransId = oEvent.getParameter("arguments").oldTransId;
+                if (oldTransId) { // Replace Transaction triggered
+                    this.parseOldTransData(oldTransId);
+                }
+
             }
+        },
+        parseOldTransData: function (transId) {
+            var oldData = models.getTransactionDetail(transId);
+            //fill pawnee info
+            this.fillPawneeData(oldData.transaction.pawneeInfo.email);
+            // fill item info
+            var createTransModel = this.getModel("createTrans");
+            if (createTransModel) {
+                var data = createTransModel.getProperty("/");
+                data.itemName = oldData.transaction.itemName;
+                data.itemName = oldData.transactionItemAttributes.itemName;
+                data.itemName = oldData.transaction.itemName;
+                data.itemName = oldData.transaction.itemName;
+            }
+            //fil payment info
         },
         // bindShopConfigForCreateTrans: function () {
         //     var shopId = this.getModel("account").getProperty("/shop/id");
@@ -229,6 +249,10 @@ sap.ui.define([
             }
         },
         onPawneeChanged: function (e) {
+            var email = e.getParameter("value");
+            this.fillPawneeData(email);
+        },
+        fillPawneeData: function (email) {
             var accountModel = this.getModel("account");
             if (!accountModel) {
                 this.getRouter().navTo("login", true);
@@ -239,7 +263,8 @@ sap.ui.define([
                 return;
             }
             var shopId = accountModel.getProperty("/shop/id");
-            var pawneeData = models.getPawneeInfo(e.getParameter("value"), shopId);
+
+            var pawneeData = models.getPawneeInfo(email, shopId);
             if (pawneeData.pawnee) {
                 //Change sending field `pawneeId`
                 createTransModel.setProperty("/pawneeId", pawneeData.pawnee.id);
@@ -335,21 +360,6 @@ sap.ui.define([
             });
         },
 
-        showMenu: function () {
-            var expanded = this.page.getSideExpanded();
-            this.page.setSideExpanded(!expanded);
-        },
-        logout: function () {
-            this.getGlobalModel().setProperty("/user", "", null, true);
-            this.getGlobalModel().setProperty("/name", "", null, true);
-            this.getGlobalModel().setProperty("/token", "none", null, true);
-            this.getGlobalModel().setProperty("/status", "", null, true);
-            this.resetModelData();
-            this.getRouter().navTo("login", true);
-            this.page.setSideExpanded(false);
-            var msg = this.getResourceBundle().getText("msgLogout");
-            MessageToast.show(msg);
-        },
 
         //Open dialog add customer address
         // _openAddressDialog: function () {

@@ -139,15 +139,17 @@
                                     </Select>
                                 </f:fields>
                             </f:FormElement>
-                            <f:FormElement visible="{= ${currentConfig>/value1} !== null }">
+                            <f:FormElement>
                                 <f:label>
-                                    <Label required="false" text="{currentConfig>/value1}"/>
+                                    <Label visible="{= ${currentConfig>/value1} !== '' }" required="false"
+                                           text="{currentConfig>/value1}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{createTrans>/value1}"/>
+                                    <Input visible="{= ${currentConfig>/value1} !== '' }"
+                                           value="{createTrans>/value1}"/>
                                 </f:fields>
                             </f:FormElement>
-                            <f:FormElement visible="{= ${currentConfig>/value2} !== null }">
+                            <f:FormElement visible="{= ${currentConfig>/value2} !== '' }">
                                 <f:label>
                                     <Label required="false" text="{currentConfig>/value2}"/>
                                 </f:label>
@@ -155,7 +157,7 @@
                                     <Input value="{createTrans>/value2}"/>
                                 </f:fields>
                             </f:FormElement>
-                            <f:FormElement visible="{= ${currentConfig>/value3} !== null }">
+                            <f:FormElement visible="{= ${currentConfig>/value3} !== '' }">
                                 <f:label>
                                     <Label required="false" text="{currentConfig>/value3}"/>
                                 </f:label>
@@ -163,56 +165,17 @@
                                     <Input value="{createTrans>/value3}"/>
                                 </f:fields>
                             </f:FormElement>
-                            <f:FormElement visible="{= ${currentConfig>/value4} !== null }">
-                                <f:label>
-                                    <Label required="false" text="{currentConfig>/value4}"/>
-                                </f:label>
-                                <f:fields>
-                                    <Input value="{createTrans>/value4}"/>
-                                </f:fields>
-                            </f:FormElement>
                             <f:FormElement>
                                 <f:label>
-                                    <Label required="false" text="{i18n>attachment}"/>
+                                    <Label visible="{= ${currentConfig>/value4} !== '' }" required="false"
+                                           text="{currentConfig>/value4}"/>
                                 </f:label>
                                 <f:fields>
-                                    <l:VerticalLayout>
-                                        <l:layoutData>
-                                            <l:GridData span="XL8 L6 M8 S8"/>
-                                        </l:layoutData>
-                                        <l:content>
-                                            <Toolbar>
-                                                <content>
-                                                    <u:FileUploader iconOnly="true" multiple="false"
-                                                                    buttonOnly="true"
-                                                                    icon="sap-icon://add-photo" uploadOnChange="false"
-                                                                    useMultipart="false"
-                                                                    fileType="JPG,JPEG,jpeg,jpg,PNG,png"
-                                                                    sameFilenameAllowed="true"
-                                                                    typeMissmatch="onTypeMissmatch"
-                                                                    change="onUploadPress"/>
-                                                    <ToolbarSpacer/>
-                                                    <Button visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
-                                                            type="Ghost" text="{i18n>change_pic}"
-                                                            press="onChangePic"
-                                                            icon="sap-icon://edit"/>
-                                                    <Button visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
-                                                            text="{i18n>del_pic}"
-                                                            press="onDeletePic"
-                                                            icon="sap-icon://delete"/>
-                                                </content>
-                                            </Toolbar>
-                                            <Carousel showPageIndicator="true" class="smallCrs sapUiContentPadding"
-                                                      width="100%" pages="{createTrans>/picturesObj}"
-                                                      loop="true" id="carUploadedImg">
-                                                <pages>
-                                                    <Image src="{createTrans>pictureUrl}"/>
-                                                </pages>
-                                            </Carousel>
-                                        </l:content>
-                                    </l:VerticalLayout>
+                                    <Input visible="{= ${currentConfig>/value4} !== '' }"
+                                           value="{createTrans>/value4}"/>
                                 </f:fields>
                             </f:FormElement>
+
                         </f:formElements>
                     </f:FormContainer>
                     <f:FormContainer title="{i18n>CT_PAYMENT_TERM}">
@@ -267,6 +230,51 @@
                             <f:FormElement label="{i18n>NOTE}">
                                 <f:fields>
                                     <TextArea value="{createTrans>/note}"/>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer title="{i18n>attachment}">
+                        <f:formElements>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="false" text=""/>
+                                </f:label>
+                                <f:fields>
+                                    <l:VerticalLayout>
+                                        <l:layoutData>
+                                            <l:GridData span="XL8 L6 M8 S8"/>
+                                        </l:layoutData>
+                                        <l:content>
+                                            <Toolbar>
+                                                <content>
+                                                    <u:FileUploader class="sapUiNoMargin"
+                                                                    iconOnly="true" multiple="false"
+                                                                    buttonOnly="true"
+                                                                    icon="sap-icon://add-photo" uploadOnChange="false"
+                                                                    useMultipart="false"
+                                                                    fileType="JPG,JPEG,jpeg,jpg,PNG,png"
+                                                                    sameFilenameAllowed="true"
+                                                                    typeMissmatch="onTypeMissmatch"
+                                                                    change="onUploadPress"/>
+                                                    <ToolbarSpacer/>
+                                                    <Button class="sapUiNoMargin"
+                                                            visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
+                                                            text="{i18n>del_pic}"
+                                                            type="Transparent"
+                                                            press="onDeletePic"
+                                                            icon="sap-icon://delete"/>
+                                                </content>
+                                            </Toolbar>
+                                            <Carousel showPageIndicator="true" class="smallCrs sapUiContentPadding"
+                                                      width="100%" pages="{createTrans>/picturesObj}"
+                                                      loop="true" id="carUploadedImg">
+                                                <pages>
+                                                    <Image src="{createTrans>pictureUrl}"/>
+                                                </pages>
+                                            </Carousel>
+                                        </l:content>
+                                    </l:VerticalLayout>
                                 </f:fields>
                             </f:FormElement>
                         </f:formElements>

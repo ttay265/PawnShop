@@ -60,7 +60,7 @@
                 <tnt:fixedItem>
                     <tnt:NavigationList>
                         <tnt:NavigationListItem select="" enabled="false"
-                                                text="{account>/user/username}"
+                                                text="{account>/shop/shopName}"
                                                 icon="sap-icon://employee"/>
                         <tnt:NavigationListItem select="" enabled="false"
                                                 text="{globalProperties>/SiteDesc}"

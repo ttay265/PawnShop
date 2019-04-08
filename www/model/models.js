@@ -414,6 +414,59 @@ sap.ui.define([
             return returnCallback;
         },
 
+        postRedeem: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/chuoc-do";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return returnCallback;
+        },
+        postCancel: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/dong-hop-dong";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return returnCallback;
+        },
+
         addImg: function (data) {
             var url;
             if (serverInfo.useLocal) {

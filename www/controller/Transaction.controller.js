@@ -308,6 +308,48 @@ sap.ui.define([
             };
             newPayment.setProperty("/", data);
         },
+        onRedeemPressed: function () {
+
+            var txtDesc = this.byId("txtActionDesc");
+            var selectAction = this.byId("selectAction");
+            var transDetailModel = this.TransDetailDialog.getModel("transDetail");
+            if (!transDetailModel) {
+                this.getRouter().navTo("login", true);
+                return;
+            }
+            var transDetail = transDetailModel.getProperty("/");
+            var submitData = {
+                transactionId: transDetail.transaction.id,
+                description: txtDesc.getValue()
+            };
+            var result = false;
+            switch (selectAction.getSelectedKey()) {
+                case "1": {
+                    result = models.postRedeem(submitData);
+                    break;
+                }
+                case "2": {
+                    result = models.postCancel(submitData);
+                    break;
+                }
+                case "3": {
+                    result = this.doReplaceTransaction(transDetail.transaction.id);
+                    break;
+                }
+                default:
+                    return;
+            }
+            if (result) {
+                MessageToast.show(this.getResourceBundle().getText("msgRedeemdSuccessfully"));
+            }
+        },
+        doReplaceTransaction: function (oldTransId) {
+            var passModel = this.getModel("pasModel");
+            passModel.setProperty("/currentTransId", oldTransId, null, false);
+            this.getRouter().navTo("creTrans", {
+                oldTransId: oldTransId
+            }, true);
+        },
         //load detail of transaction by transaction Id: d = transId
         getTransactionDetail: function (transId) { //TransId: Mã HD
             var d = models.getTransactionDetail(transId);

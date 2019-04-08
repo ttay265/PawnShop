@@ -98,7 +98,7 @@
           "target": "regPawnShop"
         },
         {
-          "pattern": "createTransaction",
+          "pattern": "createTransaction/:oldTransId:",
           "name": "creTrans",
           "target": "creTrans"
         },

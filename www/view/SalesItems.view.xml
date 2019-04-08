@@ -43,15 +43,15 @@
                             },
                             pattern: 'dd-MM-yyyy'
                             }
-                            }"
-                                             info="{
-                            parts: [
-                            {path: 'sales>saleItem/price'},
-                            {path: 'global>/currencyCode'}
-                            ],
-                            formatter : '.formatter.formattedCurrencyWithUom'
                             }"/>
                         </attributes>
+                        <firstStatus>
+                            <ObjectStatus text="{path:'sales>saleItem/status',
+                                                 formatter: '.formatter.salesStatusStateDescription' }"
+                                          state="{path:'sales>saleItem/status',
+                                                   formatter: '.formatter.salesStatusState' }"/>
+                        </firstStatus>
+
                     </ObjectListItem>
                 </items>
             </List>

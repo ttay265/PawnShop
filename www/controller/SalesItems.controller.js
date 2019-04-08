@@ -198,7 +198,7 @@ sap.ui.define([
             var data = currentSalesItemModel.getProperty("/");
             var submitData = {
                 itemId: data.saleItem.id,
-                status: 3
+                status: 2
             };
             var result = models.changeSalesItem(submitData);
             if (result) {

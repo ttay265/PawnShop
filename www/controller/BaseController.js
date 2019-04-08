@@ -221,9 +221,7 @@ sap.ui.define([
                 url: url,
                 type: method,
                 async: false,
-                headers: {
-                  "Access-Control-Allow-Origin": "https://backend-mortgage.dfksoft.com/new"
-                },
+
                 //end-local
                 dataType: "json",
                 context: this,

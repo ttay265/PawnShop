@@ -201,7 +201,7 @@ sap.ui.define([
             }
             submitData.pictures = JSON.stringify(submitData.picturesObj);
             // Set Item's Category Id
-            submitData.categoryId = this.byId("selectCate").getSelectedItem().getBindingContext("cateConfig").getProperty("category/id");
+            submitData.categoryId = this.byId("selectCate").getSelectedItem().getBindingContext("category").getProperty("id");
             // Set Posting date
             var date = new Date();
             date.setHours(7);

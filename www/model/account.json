@@ -2,7 +2,7 @@
   "user": {
     "id": 7,
     "role": {
-      "id": 2,
+      "id": 3,
       "roleName": "ROLE_PAWNER",
       "description": null
     },

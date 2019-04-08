@@ -155,6 +155,58 @@ sap.ui.define([
             });
             return returnCallback;
         },
+        updateCateConfigSet: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/chinh-sua-cau-hinh-danh-muc";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'PUT',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return returnCallback;
+        },
+        changeStatusCateConfig: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/thay-doi-trang-thai-cau-hinh-danh-muc";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'PUT',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return returnCallback;
+        },
         getCategorySet: function () {
             var data = [];
             var url;

@@ -185,10 +185,6 @@ sap.ui.define([
             xhr.send(data);
         },
 
-        forceChangePass: function () {
-            this.changePasswordPress();
-        },
-
         submitSalesItemPressed: function () {
             //get binding model from current view
             var model = this.getModel("createSalesItem");

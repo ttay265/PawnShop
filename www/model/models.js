@@ -309,6 +309,59 @@ sap.ui.define([
             });
             return returnCallback;
         },
+        updateSalesItem: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/chinh-sua-san-pham";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'PUT',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return returnCallback;
+        },
+        changeSalesItem: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/thay-doi-trang-thai-san-pham";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return returnCallback;
+        },
+
         addImg: function (data) {
             var url;
             if (serverInfo.useLocal) {

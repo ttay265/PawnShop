@@ -37,7 +37,8 @@
                             <Toolbar>
                                 <Title text="{i18n>LIQUIDATE_INFO}" level="H4" titleStyle="H4"/>
                                 <ToolbarSpacer/>
-                                <Button type="Transparent" text="{i18n>update}" icon="sap-icon://save"/>
+                                <Button type="Transparent" press="onUpdateSalesItemPressed" text="{i18n>update}"
+                                        icon="sap-icon://save"/>
                             </Toolbar>
                         </f:toolbar>
                         <f:formElements>
@@ -55,7 +56,7 @@
                                     <Label required="false" text="{i18n>category_name}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Select selectedKey="{currentSalesItem>/saleItem/category/id}"
+                                    <Select enabled="false" selectedKey="{currentSalesItem>/saleItem/categoryId}"
                                             items="{category>/}"
                                             placeholder="{i18n>ITEM_TYPE}">
                                         <items>
@@ -74,7 +75,7 @@
                                     <Input width="100%" description="VND" textAlign="Right" valueLiveUpdate="true"
                                            value="{
     parts: [
-        {path: 'currentSalesItem>/price'},
+        {path: 'currentSalesItem>/saleItem/price'},
         {path: 'global>/currencyCode'}
     ],
     type: 'sap.ui.model.type.Currency',
@@ -89,7 +90,7 @@
                                     <Label required="false" text="{i18n>description}"/>
                                 </f:label>
                                 <f:fields>
-                                    <TextArea value="{currentSalesItem>/value1}"/>
+                                    <TextArea value="{currentSalesItem>/saleItem/description}"/>
                                 </f:fields>
                             </f:FormElement>
 
@@ -148,6 +149,8 @@
             </f:Form>
         </content>
         <buttons>
+            <Button press="onSetAsSold" text="{i18n>BTN_SET_SOLD}" type="Accept"/>
+            <Button press="onCancelSalesItem" text="{i18n>BTN_CANCEL}" type="Reject"/>
             <Button press="onDialogClose" text="{i18n>BTN_CLOSE}" type="Transparent"/>
         </buttons>
     </Dialog>

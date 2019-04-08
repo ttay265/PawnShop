@@ -52,13 +52,13 @@ sap.ui.define([
                     if (!model) {
                         return;
                     }
-                    var pics = model.getProperty("/picturesObj");
+                    var pics = model.getProperty("/pictureList");
                     pics.push({
                         pictureUrl: encodeURI(oEvt.data.link),
                         idCloud: oEvt.data.id,
                         deleteHash: oEvt.data.deletehash
                     });
-                    model.setProperty("/picturesObj", pics, null, false);
+                    model.setProperty("/pictureList", pics, null, false);
                     model.updateBindings(true);
                     var a = that.byId("carUploadedImg");
                     console.log(a.getBinding("pages"));
@@ -77,7 +77,43 @@ sap.ui.define([
         },
 
         onDeletePic: function () {
-            var carousel = this.byId("");
+            var that = this;
+            var carousel = this.byId("carUploadedImg");
+            var currentImage = carousel.getActivePage();
+            var cI = sap.ui.getCore().byId(currentImage);
+            var imgList = this.salesItemDialog.getModel("currentSalesItem").getProperty("/pictureList");
+            var context = cI.getBindingContext("currentSalesItem");
+            if (context) {
+                var picData = context.getProperty("");
+                var index = -1;
+                for (var i = 0; i < imgList.length; i++) {
+                    if (imgList[i] === picData) {
+                        index = i;
+                    }
+                }
+                if (index === -1) {
+                    return;
+                    // no img
+                }
+                var callback = {
+                    success: function () {
+                        imgList.splice(index, 1);
+                        that.salesItemDialog.getModel("currentSalesItem").updateBindings(true);
+                        that.closeBusyDialog();
+                    },
+                    error: function () {
+                        that.closeBusyDialog();
+                        MessageToast.show();
+                    }
+                };
+
+                // delete on cloud and back-end
+                //*set Busy before*
+                this.openBusyDialog({
+                    showCancelButton: true
+                });
+                models.deleteImg(picData.id, picData.idCloud, callback);
+            }
         },
         resizeAndUpload: function (file, mParams) {
             var that = this;
@@ -135,9 +171,60 @@ sap.ui.define([
             if (!currentSalesItemModel) {
                 currentSalesItemModel = new JSONModel();
             }
-            console.log(this.getModel("category"));
             currentSalesItemModel.setProperty("/", data);
             this.salesItemDialog.open();
+        },
+        onCancelSalesItem: function () {
+            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
+            if (!currentSalesItemModel) {
+                return;
+            }
+            var data = currentSalesItemModel.getProperty("/");
+            var submitData = {
+                itemId: data.saleItem.id,
+                status: 4
+            };
+            var result = models.changeSalesItem(submitData);
+            if (result) {
+                MessageToast.show(this.getResourceBundle().getText("msgSalesItemCanceled"));
+                this.salesItemDialog.close();
+            }
+        },
+        onSetAsSold: function () {
+            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
+            if (!currentSalesItemModel) {
+                return;
+            }
+            var data = currentSalesItemModel.getProperty("/");
+            var submitData = {
+                itemId: data.saleItem.id,
+                status: 3
+            };
+            var result = models.changeSalesItem(submitData);
+            if (result) {
+                MessageToast.show(this.getResourceBundle().getText("msgSetAsSold"));
+                this.salesItemDialog.close();
+            }
+        },
+        onUpdateSalesItemPressed: function () {
+            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
+            if (!currentSalesItemModel) {
+                return;
+            }
+            var data = currentSalesItemModel.getProperty("/");
+            var submitData = {
+                itemId: data.saleItem.id,
+                description: data.saleItem.description,
+                avaUrl: data.saleItem.picUrl,
+                itemName: data.saleItem.itemName,
+                price: data.saleItem.price
+            };
+            var result = models.updateSalesItem(submitData);
+            if (result) {
+                MessageToast.show(this.getResourceBundle().getText("msgUpdateSalesItemSuccessfully"));
+            } else {
+                //handle error here
+            }
         }
     });
 });

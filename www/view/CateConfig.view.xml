@@ -1,31 +1,63 @@
 <mvc:View
         xmlns:mvc="sap.ui.core.mvc"
         xmlns="sap.m"
+        xmlns:fb="sap.ui.comp.filterbar"
+        xmlns:l="sap.ui.layout"
         xmlns:core="sap.ui.core"
         controllerName="mortgage.pawnshop.controller.CateConfig">
     <Page showHeader="false">
         <!--<Button text="{i18n>btn_register_pawnshop}" press="onRegister"/>-->
         <PullToRefresh visible="{device>/support/touch}" refresh="onRefresh"/>
-        <Table fixedLayout="false" alternateRowColors="true" inset="{= !${device>/system/phone}}"
+        <l:VerticalLayout width="100%">
+            <fb:FilterBar id="filterBar" header="{i18n>filterBar}" showFilterConfiguration="false"
+                          useToolbar="false" filterBarExpanded="true" showGoOnFB="false"
+                          reset="onReset" search="onSearch"
+                          showRestoreOnFB="true" showClearOnFB="false">
+                <fb:filterItems>
+                    <fb:FilterItem name="STATUS" label="{i18n>status}" labelTooltip="{i18n>filterByStatus}"
+                                   mandatory="false">
+                        <fb:control>
+                            <MultiComboBox
+                                    placeholder="{i18n>filterByStatus}"
+                                    selectionFinish="onFilterByStatus">
+                                <layoutData>
+                                    <ToolbarLayoutData maxWidth="7rem" shrinkable="true" minWidth="5rem"/>
+                                </layoutData>
+                                <items>
+                                    <core:Item key="1" text="{i18n>status_active}"/>
+                                    <core:Item key="2" text="{i18n>status_locked}"/>
+                                </items>
+                            </MultiComboBox>
+                        </fb:control>
+                    </fb:FilterItem>
+                </fb:filterItems>
+            </fb:FilterBar>
+        </l:VerticalLayout>
+        <Table id="tblCateConfig" fixedLayout="false" alternateRowColors="true" inset="{= !${device>/system/phone}}"
                items="{cateConfig>/}">
             <headerToolbar>
+
                 <OverflowToolbar>
-                    <content>
-                        <Title level="H2" text="{i18n>cate_config}"/>
-                        <ToolbarSpacer/>
-                        <Label text="{i18n>status}:"/>
-                        <Select change="onFilterByStatus" selectedKey="1">
-                            <items>
-                                <core:Item key="0" text="{i18n>status_all}"/>
-                                <core:Item key="1" text="{i18n>status_active}"/>
-                                <core:Item key="2" text="{i18n>status_locked}"/>
-                            </items>
-                        </Select>
-                        <ToolbarSeparator/>
-                        <Button icon="sap-icon://add"
-                                text="{= ${device>/system/phone} ? '' : ${i18n>btn_create_cate_config} }"
-                                press="onCreateConfigPressed"/>
-                    </content>
+                    <Title level="H2" text="{i18n>cate_config}">
+                        <layoutData>
+                            <OverflowToolbarLayoutData priority="Disappear"/>
+                        </layoutData>
+                    </Title>
+                    <ToolbarSpacer/>
+                    <MultiComboBox showButton="true" width="12rem"
+                                   placeholder="{i18n>filterByStatus}"
+                                   selectionFinish="onFilterByStatus">
+                        <layoutData>
+                            <OverflowToolbarLayoutData priority="Low"/>
+                        </layoutData>
+                        <items>
+                            <core:Item key="1" text="{i18n>status_active}"/>
+                            <core:Item key="2" text="{i18n>status_locked}"/>
+                        </items>
+                    </MultiComboBox>
+                    <Button icon="sap-icon://add"
+                            text="{= ${device>/system/phone} ? '' : ${i18n>btn_create_cate_config} }"
+                            press="onCreateConfigPressed"/>
                 </OverflowToolbar>
             </headerToolbar>
             <columns>

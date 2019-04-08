@@ -17,38 +17,42 @@
                     </Toolbar>
                 </headerToolbar>
                 <items>
-                    <StandardListItem type="Active"
-                                      iconDensityAware="false" icon="{sales>saleItem/picUrl}"
-                                      title="{sales>saleItem/itemName}"
-                                      description="{i18n>liquidationDate} { path : 'sales>saleItem/liquidationDate',
-                    type: 'sap.ui.model.type.Date',
-                    formatOptions: {
-                    source: {
-                    pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
-                    },
-                    pattern: 'dd-MM-yyyy'
-                    }
-                    }"
-                                      info="{
-                    parts: [
-                    {path: 'sales>saleItem/price'},
-                    {path: 'global>/currencyCode'}
-                    ],
-                    formatter : '.formatter.formattedCurrencyWithUom'
-                    }">
-                        <!--<attributes>-->
-                        <!--<ObjectAttribute title="{i18n>liquidationDate}"-->
-                        <!--text="{ path : 'sales>saleItem/liquidationDate',-->
-                        <!--type: 'sap.ui.model.type.Date',-->
-                        <!--formatOptions: {-->
-                        <!--source: {-->
-                        <!--pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'-->
-                        <!--},-->
-                        <!--pattern: 'dd-MM-yyyy'-->
-                        <!--}-->
-                        <!--}"/>-->
-                        <!--</attributes>-->
-                    </StandardListItem>
+                    <ObjectListItem type="Active"
+                                    firstStatus="{sales>saleItem/status}"
+                                    highlight="{ path: 'sales>saleItem/status',
+                                                formatter: '.formatter.salesStatusState'}"
+                                    iconDensityAware="false" icon="{sales>saleItem/picUrl}"
+                                    number="{
+    parts: [
+        {path: 'sales>saleItem/price'},
+        {path: 'global>/currencyCode'}
+    ],
+    type: 'sap.ui.model.type.Currency',
+    formatOptions: {
+        showMeasure: false
+    }
+}" numberUnit="{global>/currencyCode}"
+                                    title="{sales>saleItem/itemName}">
+                        <attributes>
+                            <ObjectAttribute title="{i18n>liquidationDate}"
+                                             text="{ path : 'sales>saleItem/liquidationDate',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                            source: {
+                            pattern: 'yyyy-MM-ddTHH:mm:ss.sss+hhmm'
+                            },
+                            pattern: 'dd-MM-yyyy'
+                            }
+                            }"
+                                             info="{
+                            parts: [
+                            {path: 'sales>saleItem/price'},
+                            {path: 'global>/currencyCode'}
+                            ],
+                            formatter : '.formatter.formattedCurrencyWithUom'
+                            }"/>
+                        </attributes>
+                    </ObjectListItem>
                 </items>
             </List>
         </content>

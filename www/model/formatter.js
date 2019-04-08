@@ -26,6 +26,18 @@ sap.ui.define([
                     return ValueState.None;
             }
         },
+        salesStatusState: function (sStatus) {
+            switch (sStatus) {
+                case 1: //WAIT_FOR_LIQUIDATION
+                    return ValueState.Information;
+                case 2: //LIQUIDATED
+                    return ValueState.Success;
+                case 4: //CANCEL
+                    return ValueState.Error;
+                default:
+                    return ValueState.None;
+            }
+        },
         transStatusDesc: function (sStatus) {
             var i18n = this.getResourceBundle();
             switch (sStatus) {

@@ -70,10 +70,6 @@ sap.ui.define([
             } else {
                 //handle error here
             }
-        },
-
-        onFilterByStatus: function (e) {
-
         }
     });
 });

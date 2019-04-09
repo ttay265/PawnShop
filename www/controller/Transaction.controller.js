@@ -16,10 +16,7 @@ sap.ui.define([
 
         },
         _onObjectMatched: function (oEvent) {
-            // var oArgs, oView, oQuery;
-            // var  = oEvent.getParameter("arguments");
             this.openPendingTrans();
-            // var shopId = oArgs.shopId;
             this.bindTransactionModel();
         },
         openPendingTrans: function () {

@@ -8,7 +8,7 @@
         controllerName="mortgage.pawnshop.controller.CreateTransaction">
     <Page floatingFooter="false" title="{i18n>CT_FORM_CREATE_TRANSACTION}" showHeader="true"
           showNavButton="true"
-          navButtonPress="back">
+          navButtonPress="backWOpt">
         <content>
             <f:Form editable="true">
                 <!--<f:toolbar>-->

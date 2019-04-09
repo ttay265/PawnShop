@@ -16,13 +16,14 @@ sap.ui.define([
         onInit: function () {
             this.getRouter().getRoute("creTrans").attachPatternMatched(this._onObjectMatched, this);
         },
-        back: function () {
+        backWOpt: function () {
             var createTransModel = this.getModel("createTrans");
             if (!createTransModel) {
                 this.loadInitTransaction();
             }
             var transId = createTransModel.getProperty("/transId");
             this.setPassData("currentTransId", transId);
+            this.back();
         },
         onClearPressed: function () {
             this.loadInitTransaction();
@@ -292,15 +293,20 @@ sap.ui.define([
         onSubmitCreateTransaction: function () {
             var sendingData = this.parseSendData();
             var result = models.postCreateTransaction(sendingData);
+            var msgCreateTransSuccessfully = this.getResourceBundle().getText("msgCreateTransSuccessfully");
             if (result) {
                 if (sendingData.transId) { // trigger Replace Function
                     var submitData = {
-                        transactionId: sendingData.id,
+                        transactionId: sendingData.transId,
                         description: "",
-                        replaceId: result.transaction.id
+                        replaceId: result.id
+                    };
+                    var cancelResult = models.postCancel(submitData);
+                    if (cancelResult) {
+                        //ok
+                        msgCreateTransSuccessfully = this.getResourceBundle().getText("msgReplaceTransSuccessfully");
                     }
                 }
-                var msgCreateTransSuccessfully = this.getResourceBundle().getText("msgCreateTransSuccessfully");
                 MessageToast.show(msgCreateTransSuccessfully);
                 this.back();
             } else {

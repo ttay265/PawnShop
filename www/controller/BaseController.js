@@ -18,10 +18,6 @@ sap.ui.define([
              NotificationListItem, CustomData, ActionSheet, mobileLibrary, MessageBox, models) {
     "use strict";
 
-    // shortcut for sap.m.PlacementType
-    // var PlacementType = mobileLibrary.PlacementType;
-    // shortcut for sap.m.ButtonType
-    var ButtonType = mobileLibrary.ButtonType;
 
     return Controller.extend("mortgage.pawnshop.controller.BaseController", {
         onInit: function () {
@@ -255,7 +251,7 @@ sap.ui.define([
                 passModel = new JSONModel();
                 this.getOwnerComponent().setModel(passModel, "pasModel");
             }
-            return passModel.getProperty("/" + key) === null;
+            return passModel.getProperty("/" + key) !== undefined;
         },
         consumePassData: function (key) {
             var passModel = this.getOwnerComponent().getModel("pasModel");

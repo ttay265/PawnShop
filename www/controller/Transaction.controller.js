@@ -283,6 +283,7 @@ sap.ui.define([
             xhr.open('POST', URL, true);
             xhr.setRequestHeader("Content-type", file.type);//"application/x-www-form-urlencoded");
             xhr.setRequestHeader("Authorization", "Bearer 5c25e781ffc7f495059078408c311799e277d70e");//"application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Access-Control-Allow-Headers", "*");//"application/x-www-form-urlencoded");
             var data = base64string;
             xhr.send(data);
         },

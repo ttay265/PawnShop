@@ -16,13 +16,19 @@ sap.ui.define([
 
         },
         _onObjectMatched: function (oEvent) {
-            var oArgs, oView, oQuery;
-            // oArgs = oEvent.getParameter("arguments");
-
+            // var oArgs, oView, oQuery;
+            // var  = oEvent.getParameter("arguments");
+            this.openPendingTrans();
             // var shopId = oArgs.shopId;
             this.bindTransactionModel();
         },
-
+        openPendingTrans: function () {
+            var isPendingTrans = this.checkPassData("currentTransId");
+            if (isPendingTrans) {
+                var pendingTransId = this.consumePassData("currentTransId");
+                this.displayTransactionDetail(pendingTransId);
+            }
+        },
         bindTransactionModel: function () {
             var accountModel = this.getModel("account");
             if (!accountModel) {
@@ -107,6 +113,9 @@ sap.ui.define([
         onTransDetailPress: function (e) {
             //fetch detail data of transaction
             var transId = e.getSource().getBindingContext("trans").getProperty("id");
+            this.displayTransactionDetail(transId);
+        },
+        displayTransactionDetail: function (transId) {
             var d = this.getTransactionDetail(transId);
             if (!this.TransDetailDialog) {
                 this.TransDetailDialog = this.initFragment("mortgage.pawnshop.fragment.TransDetail", "transDetail");
@@ -133,7 +142,7 @@ sap.ui.define([
                 transaction: transDetailModel.getProperty("/transaction"),
                 pictureList: transDetailModel.getProperty("/pictureList")
             };
-            this.getOwnerComponent().setModel(new JSONModel(transDetailData), "pasModel");
+            this.getOwnerComponent().setModel(new JSONModel(transDetailData), "passModel");
             this.TransDetailDialog.close();
             this.getRouter().navTo("sales", false);
         },
@@ -281,9 +290,9 @@ sap.ui.define([
             var URL = "https://api.imgur.com/3/upload";
             var fileName = (file.name === "image.jpeg") ? "image_" + new Date().getTime() + ".jpeg" : file.name;
             xhr.open('POST', URL, true);
-            xhr.setRequestHeader("Content-type", file.type);//"application/x-www-form-urlencoded");
-            xhr.setRequestHeader("Authorization", "Bearer 5c25e781ffc7f495059078408c311799e277d70e");//"application/x-www-form-urlencoded");
-            xhr.setRequestHeader("Access-Control-Allow-Headers", "*");//"application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Content-type", file.type + ",application/json");//"application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Authorization", "Client-ID 5c25e781ffc7f495059078408c311799e277d70e");//"application/x-www-form-urlencoded");
+            xhr.setRequestHeader("access-control-allow-headers", "*");//"application/x-www-form-urlencoded");
             var data = base64string;
             xhr.send(data);
         },
@@ -309,8 +318,7 @@ sap.ui.define([
             };
             newPayment.setProperty("/", data);
         },
-        onRedeemPressed: function () {
-
+        onActionPressed: function () {
             var txtDesc = this.byId("txtActionDesc");
             var selectAction = this.byId("selectAction");
             var transDetailModel = this.TransDetailDialog.getModel("transDetail");
@@ -334,7 +342,7 @@ sap.ui.define([
                     break;
                 }
                 case "3": {
-                    result = this.doReplaceTransaction(transDetail.transaction.id);
+                    result = this.doReplaceTransaction();
                     break;
                 }
                 default:
@@ -344,12 +352,14 @@ sap.ui.define([
                 MessageToast.show(this.getResourceBundle().getText("msgRedeemdSuccessfully"));
             }
         },
-        doReplaceTransaction: function (oldTransId) {
-            var passModel = this.getModel("pasModel");
-            passModel.setProperty("/currentTransId", oldTransId, null, false);
-            this.getRouter().navTo("creTrans", {
-                oldTransId: oldTransId
-            }, true);
+        doReplaceTransaction: function () {
+            var transDetailModel = this.TransDetailDialog.getModel("transDetail");
+            var transData = transDetailModel.getProperty("/");
+            var passed = this.setPassData("replacedTrans", transData);
+            if (passed) {
+                this.getRouter().navTo("creTrans", false);
+                this.TransDetailDialog.close();
+            }
         },
         //load detail of transaction by transaction Id: d = transId
         getTransactionDetail: function (transId) { //TransId: Mã HD

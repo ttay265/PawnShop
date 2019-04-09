@@ -12,11 +12,21 @@ sap.ui.define([
 
     return BaseController.extend("mortgage.pawnshop.controller.CreateTransaction", {
         formatter: formatter,
+
         onInit: function () {
             this.getRouter().getRoute("creTrans").attachPatternMatched(this._onObjectMatched, this);
         },
+        back: function () {
+            var createTransModel = this.getModel("createTrans");
+            if (!createTransModel) {
+                this.loadInitTransaction();
+            }
+            var transId = createTransModel.getProperty("/transId");
+            this.setPassData("currentTransId", transId);
+        },
         onClearPressed: function () {
             this.loadInitTransaction();
+            this.loadInitCateConfig();
         },
         loadInitTransaction: function () {
             var accountModel = this.getModel("account");
@@ -57,6 +67,9 @@ sap.ui.define([
                 note: ""
             };
             createTransModel.setProperty("/", initValues, null, false);
+            return createTransModel;
+        },
+        loadInitCateConfig: function () {
             var cateConfigModel = this.getModel("cateConfig");
             if (!cateConfigModel) {
                 //Handle error loading shop CateConfig here
@@ -82,30 +95,76 @@ sap.ui.define([
         _onObjectMatched: function (oEvent) {
             if (!this.checkLogin()) {
                 this.getRouter().navTo("login", true);
-                return;
-            } else {
-                this.loadInitTransaction();
-                var oldTransId = oEvent.getParameter("arguments").oldTransId;
-                if (oldTransId) { // Replace Transaction triggered
-                    this.parseOldTransData(oldTransId);
-                }
 
+            } else {
+                var replacedTrans = this.consumePassData("replacedTrans");
+                if (replacedTrans) { // Replace Transaction triggered
+                    this.loadInitTransaction();
+                    this.parseOldTransData(replacedTrans);
+
+                } else { //normal use-case
+                    this.loadInitTransaction();
+                    this.loadInitCateConfig();
+
+                }
             }
         },
-        parseOldTransData: function (transId) {
-            var oldData = models.getTransactionDetail(transId);
-            //fill pawnee info
-            this.fillPawneeData(oldData.transaction.pawneeInfo.email);
-            // fill item info
+
+        parseOldTransData: function (replacedTrans) {
             var createTransModel = this.getModel("createTrans");
-            if (createTransModel) {
-                var data = createTransModel.getProperty("/");
-                data.itemName = oldData.transaction.itemName;
-                data.itemName = oldData.transactionItemAttributes.itemName;
-                data.itemName = oldData.transaction.itemName;
-                data.itemName = oldData.transaction.itemName;
+            if (!createTransModel) {
+                createTransModel = this.loadInitTransaction();
             }
+            var createTransData = createTransModel.getProperty("/");
+            //fill pawnee info
+            createTransData.email = replacedTrans.transaction.pawneeInfo.email;
+            this.fillPawneeData(replacedTrans.transaction.pawneeInfo.email);
+            // fill item info
+            var currentConfigModel = this.getModel("currentConfig");
+            var attrList = replacedTrans.transactionItemAttributes;
+            if (!currentConfigModel) {
+                currentConfigModel = new JSONModel();
+            }
+            currentConfigModel.setProperty("/",
+                {
+                    category: replacedTrans.transaction.category,
+                    liquidateAfter: replacedTrans.transaction.liquidateAfter,
+                    paymentTerm: replacedTrans.transaction.paymentTerm,
+                    paymentType: replacedTrans.transaction.paymentType,
+                    value1: attrList[0].attributeName,
+                    value2: attrList[1].attributeName,
+                    value3: attrList[2].attributeName,
+                    value4: attrList[3].attributeName
+                }, null, false);
+            this.setModel(currentConfigModel, "currentConfig");
+            createTransData.itemName = replacedTrans.transaction.itemName;
+            // for (var i = 0; i < attrList.length; i++) {
+            //     if (attrList[i].attributeName !== "") {
+            //         currentConfig["value" + i] = attrList[i].attributeName;
+            //         createTransData["value" + i] = attrList[i].attributeValue;
+            //     }
+            // }
+            createTransData.value1 = attrList[0].attributeValue;
+            createTransData.value2 = attrList[1].attributeValue;
+            createTransData.value3 = attrList[2].attributeValue;
+            createTransData.value4 = attrList[3].attributeValue;
             //fil payment info
+            createTransData.paymentTerm = replacedTrans.transaction.paymentTerm;
+            createTransData.paymentType = replacedTrans.transaction.paymentType;
+            createTransData.basePrice = replacedTrans.transaction.basePrice;
+            createTransData.startDate = new Date();
+            createTransData.liquidateAfter = replacedTrans.transaction.liquidateAfter;
+            createTransData.transId = replacedTrans.transaction.id;
+            for (var i = 0; i < replacedTrans.pictureList.length; i++) {
+                var pic = {
+                    pictureUrl: replacedTrans.pictureList[i].pictureUrl,
+                    idCloud: replacedTrans.pictureList[i].idCloud,
+                    deleteHash: replacedTrans.pictureList[i].deleteHash
+                };
+                createTransData.picturesObj.push(pic);
+            }
+            createTransModel.setProperty("/", createTransData);
+            createTransModel.updateBindings(true);
         },
         // bindShopConfigForCreateTrans: function () {
         //     var shopId = this.getModel("account").getProperty("/shop/id");
@@ -147,7 +206,6 @@ sap.ui.define([
                         deleteHash: oEvt.data.deletehash
                     })
                     ;
-                    console.log(model.getProperty("/picturesObj"));
                     model.updateBindings(true);
                     // that.byId("carUploadedImg").addPage(
                     //     new sap.m.Image({
@@ -217,6 +275,7 @@ sap.ui.define([
             var confData = selectedItem.getBindingContext("cateConfig").getProperty("");
             this.changeCurrentCateConfig(confData);
         },
+
         changeCurrentCateConfig: function (confData) {
             var currentConfigModel = this.getModel("currentConfig");
             if (!currentConfigModel) {
@@ -234,6 +293,13 @@ sap.ui.define([
             var sendingData = this.parseSendData();
             var result = models.postCreateTransaction(sendingData);
             if (result) {
+                if (sendingData.transId) { // trigger Replace Function
+                    var submitData = {
+                        transactionId: sendingData.id,
+                        description: "",
+                        replaceId: result.transaction.id
+                    }
+                }
                 var msgCreateTransSuccessfully = this.getResourceBundle().getText("msgCreateTransSuccessfully");
                 MessageToast.show(msgCreateTransSuccessfully);
                 this.back();

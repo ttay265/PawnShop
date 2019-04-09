@@ -12,16 +12,16 @@ sap.ui.define([
                     return ValueState.Information;
                 case 2: //WAIT_FOR_LIQUIDATION
                     return ValueState.Error;
-                case 3: //ON_DUE_DATE
-                    return ValueState.Warning;
-                case 4: //REDEEMED
+                case 3: //REDEEMED
                     return ValueState.Success;
-                case 5: //LATE
+                case 4: //LATE
                     return ValueState.Warning;
-                case 6: //LIQUIDATION
+                case 5: //LIQUIDATION
                     return ValueState.Success;
-                case 7: //CANCELED
+                case 6: //CANCELED
                     return ValueState.None;
+                case 7: //ON_DUE_DATE
+                    return ValueState.Warning;
                 default:
                     return ValueState.None;
             }
@@ -59,15 +59,15 @@ sap.ui.define([
                 case 2:
                     return i18n.getText('WAIT_FOR_LIQUIDATION'); //Accept
                 case 3:
-                    return i18n.getText('ON_DUE_DATE'); //Warning
-                case 4:
                     return i18n.getText('REDEEMED'); // Neutral
-                case 5:
+                case 4:
                     return i18n.getText('LATE'); //critical
-                case 6:
+                case 5:
                     return i18n.getText('LIQUIDATION'); //Information
-                case 7:
+                case 6:
                     return i18n.getText('CANCELED'); // Neutral
+                case 7:
+                    return i18n.getText('ON_DUE_DATE'); //Warning
                 default:
                     return "";
             }

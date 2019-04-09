@@ -17,8 +17,8 @@ sap.ui.define([
             //
         },
         _onObjectMatched: function (oEvent) {
-            var pasModel = this.getModel("pasModel");
-            if (pasModel) {
+            var pasModel = this.getModel("passModel");
+            if (passModel) {
                 this.getRouter().navTo("createSales", false);
             }
             this.bindSalesItemModel();

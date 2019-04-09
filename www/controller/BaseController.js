@@ -240,6 +240,34 @@ sap.ui.define([
             return isLogon;
         },
 
+        setPassData: function (key, value) {
+            var passModel = this.getOwnerComponent().getModel("pasModel");
+            if (!passModel) {
+                passModel = new JSONModel();
+                this.getOwnerComponent().setModel(passModel, "pasModel");
+            }
+            passModel.setProperty("/" + key, value, null, false);
+            return true;
+        },
+        checkPassData: function (key) {
+            var passModel = this.getOwnerComponent().getModel("pasModel");
+            if (!passModel) {
+                passModel = new JSONModel();
+                this.getOwnerComponent().setModel(passModel, "pasModel");
+            }
+            return passModel.getProperty("/" + key) === null;
+        },
+        consumePassData: function (key) {
+            var passModel = this.getOwnerComponent().getModel("pasModel");
+            if (!passModel) {
+                passModel = new JSONModel();
+                this.getOwnerComponent().setModel(passModel, "pasModel");
+            }
+            var value = passModel.getProperty("/" + key);
+            passModel.setProperty("/" + key, null, null, false);
+            return value;
+        },
+
         setAccountModel: function (d) {
             var accountModel = this.getModel("account");
             if (!accountModel) {

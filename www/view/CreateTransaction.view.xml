@@ -125,7 +125,8 @@
                                             <l:GridData span="XL5 L3 M4 S6"/>
                                         </layoutData>
                                     </Input>
-                                    <Select forceSelection="true" change="onCateConfigChanged"
+                                    <Select forceSelection="false" selectedKey="{= ${currentConfig>/id}}"
+                                            change="onCateConfigChanged"
                                             items="{cateConfig>/}"
                                             placeholder="{i18n>ITEM_TYPE}">
                                         <layoutData>
@@ -146,7 +147,7 @@
                                 </f:label>
                                 <f:fields>
                                     <Input visible="{= ${currentConfig>/value1} !== '' }"
-                                           value="{createTrans>/value1}"/>
+                                           value="{= ${createTrans>/value1} }"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement visible="{= ${currentConfig>/value2} !== '' }">
@@ -154,7 +155,7 @@
                                     <Label required="false" text="{currentConfig>/value2}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{createTrans>/value2}"/>
+                                    <Input value="{= ${createTrans>/value2} }"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement visible="{= ${currentConfig>/value3} !== '' }">
@@ -162,7 +163,7 @@
                                     <Label required="false" text="{currentConfig>/value3}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{createTrans>/value3}"/>
+                                    <Input value="{= ${createTrans>/value3} }"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -172,7 +173,7 @@
                                 </f:label>
                                 <f:fields>
                                     <Input visible="{= ${currentConfig>/value4} !== '' }"
-                                           value="{createTrans>/value4}"/>
+                                           value="{= ${createTrans>/value4} }"/>
                                 </f:fields>
                             </f:FormElement>
 
@@ -223,7 +224,7 @@
                             </f:FormElement>
                             <f:FormElement label="{i18n>liquidateAfter}">
                                 <f:fields>
-                                    <Input maxLength="5" description="{i18n>overdue_days}"
+                                    <Input textAlign="Right" maxLength="5" description="{i18n>overdue_days}"
                                            value="{createTrans>/liquidateAfter}"/>
                                 </f:fields>
                             </f:FormElement>

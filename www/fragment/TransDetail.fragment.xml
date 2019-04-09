@@ -49,6 +49,14 @@
                                                   }"/>
                                 </f:fields>
                             </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label text="{i18n>description}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Text maxLines="2" text="{ path : 'transDetail>/transaction/description'}"/>
+                                </f:fields>
+                            </f:FormElement>
                         </f:formElements>
                     </f:FormContainer>
                     <f:FormContainer>
@@ -415,8 +423,21 @@
                                        text="{i18n>Action}">
                             <VBox width="100%">
                                 <items>
-                                    <f:SimpleForm>
-                                        <Label text="{i18n>action}"/>
+                                    <f:SimpleForm editable="true"
+                                                  layout="ResponsiveGridLayout"
+                                                  labelSpanXL="4"
+                                                  labelSpanL="3"
+                                                  labelSpanM="3"
+                                                  labelSpanS="12"
+                                                  adjustLabelSpan="false"
+                                                  emptySpanXL="0"
+                                                  emptySpanL="3"
+                                                  emptySpanM="3"
+                                                  emptySpanS="0"
+                                                  columnsXL="1"
+                                                  columnsL="1"
+                                                  columnsM="1">
+                                        <Label text="{i18n>choose_action}"/>
                                         <Select id="selectAction">
                                             <items>
                                                 <core:Item key="1" text="{i18n>chuoc_do}"/>
@@ -427,7 +448,7 @@
                                         <Label text="{i18n>description}"/>
                                         <TextArea id="txtActionDesc"/>
                                         <Label text=""/>
-                                        <Button text="{i18n>submit}" type="Accept"/>
+                                        <Button text="{i18n>submit}" press="onActionPressed" type="Accept"/>
                                     </f:SimpleForm>
 
                                 </items>

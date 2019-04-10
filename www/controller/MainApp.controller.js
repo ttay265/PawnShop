@@ -43,7 +43,7 @@ sap.ui.define([
             //     this._selectWard = this.byId("_selectWard");
             // }
             //Attachment matched
-            this.getRouter().getRoute("transaction").attachPatternMatched(this._onObjectMatched, this);
+            this.getRouter().getRoute("dashboard").attachPatternMatched(this._onObjectMatched, this);
 
         },
         _onObjectMatched: function () {

@@ -12,14 +12,11 @@ sap.ui.define([
     return BaseController.extend("mortgage.pawnshop.controller.ShopConfig", {
         formatter: formatter,
         onInit: function () {
-            this.getRouter().getRoute("sales").attachPatternMatched(this._onObjectMatched, this);
+            this.getRouter().getRoute("shopConfig").attachPatternMatched(this._onObjectMatched, this);
             //
         },
         _onObjectMatched: function (oEvent) {
-            var pasModel = this.getModel("passModel");
-            if (passModel) {
-                this.getRouter().navTo("createSales", false);
-            }
+
             this.bindSalesItemModel();
         },
         bindSalesItemModel: function () {
@@ -36,6 +33,7 @@ sap.ui.define([
             }
             var data = models.getSalesItems(shopId);
             model.setProperty("/", data);
+
         },
         onUploadPress: function (oEvt) {
             var that = this;

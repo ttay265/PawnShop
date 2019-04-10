@@ -1,4 +1,4 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:tnt="sap.tnt" xmlns="sap.m"
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:tnt="sap.tnt" xmlns="sap.m"
           controllerName="mortgage.pawnshop.controller.MainApp">
     <tnt:ToolPage class="transparent_background" id="_pageCustomer">
         <tnt:header>
@@ -9,8 +9,6 @@
                     </layoutData>
                 </Button>
                 <ToolbarSpacer/>
-                <core:Icon id="_iconMain" src="{globalProperties>/appTitleIcon}">
-                </core:Icon>
                 <Title id="_titleMain" text="{globalProperties>/appTitle}" wrapping="false">
                     <layoutData>
                         <OverflowToolbarLayoutData priority="Disappear"/>
@@ -25,6 +23,16 @@
                 <!--<OverflowToolbarLayoutData priority="NeverOverflow"/>-->
                 <!--</layoutData>-->
                 <!--</Button>-->
+                <Button
+                        icon="sap-icon://message-popup"
+                        type="Emphasized"
+                        text="Bạn có thông báo mới"
+                        press="onMessagePopoverPress"
+                        tooltip="{i18n>errorButtonTooltip}">
+                    <layoutData>
+                        <OverflowToolbarLayoutData closeOverflowOnInteraction="false"/>
+                    </layoutData>
+                </Button>
             </tnt:ToolHeader>
         </tnt:header>
         <tnt:sideContent>

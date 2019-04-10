@@ -23,7 +23,7 @@
                     <ToolbarSpacer/>
 
                     <Button text="{= ${currentConfig>/status} === 1 ? ${i18n>setCateConfigAsInactive} : ${i18n>setCateConfigAsActive} }"
-                            icon="{= ${currentConfig>/status} === 1 ? 'sap-icon://lock' : 'sap-icon://unlock' }"
+                            icon="{= ${currentConfig>/status} === 1 ? 'sap-icon://locked' : 'sap-icon://unlocked' }"
                             visible="{currentConfig>/isUpdate}" press="onChangeStatusCateConfig"
                             type="{= ${currentConfig>/status} === 1 ? 'Reject' : 'Emphasized' }"/>
 

@@ -347,6 +347,8 @@ sap.ui.define([
             }
             if (result) {
                 MessageToast.show(this.getResourceBundle().getText("msgRedeemdSuccessfully"));
+                this.bindTransactionModel();
+
             }
         },
         doReplaceTransaction: function () {

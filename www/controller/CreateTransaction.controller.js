@@ -81,17 +81,11 @@ sap.ui.define([
             this.changeCurrentCateConfig(data);
         },
 
+        districtByCity: function (cityId) {
+            //get District Model -> data
 
-        // onDialogClosed: function (oEvent) {
-        //     var busy
-        //     // jQuery.sap.clearDelayedCall(_timeout);
-        //
-        //     // if (oEvent.getParameter("cancelPressed")) {
-        //     //     MessageToast.show("The operation has been cancelled");
-        //     // } else {
-        //     //     MessageToast.show("The operation has been completed");
-        //     // }
-        // },
+
+        },
 
         _onObjectMatched: function (oEvent) {
             if (!this.checkLogin()) {

@@ -129,8 +129,11 @@ sap.ui.define([
                 MessageToast.show(msg);
                 //refresh CateConfig View
                 this.bindCateConfigModel();
+                this.shopConfigDialog.close();
             } else {
                 //handle error here
+                var msg = this.getResourceBundle().getText("msgErrorSavingConfig");
+                MessageToast.show(msg);
             }
         }
     });

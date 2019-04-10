@@ -13,10 +13,9 @@
 
     max-width: 15rem;
 }
-.background {
+.transparent_background {
     height: 200px;
-    background-color: #b3cae2; /* For browsers that do not support gradients */
-    background-image: linear-gradient(to right, #b3cae2 , white); /* Standard syntax (must be last) */
+    background: transparent !important; /* For browsers that do not support gradients */
 }
 .menuBackground {
     background-color: #FFFFFF;

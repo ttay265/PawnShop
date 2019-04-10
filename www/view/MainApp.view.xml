@@ -1,6 +1,6 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:tnt="sap.tnt" xmlns="sap.m"
           controllerName="mortgage.pawnshop.controller.MainApp">
-    <tnt:ToolPage class="sapMShellGlobalOuterBackground" id="_pageCustomer">
+    <tnt:ToolPage class="transparent_background" id="_pageCustomer">
         <tnt:header>
             <tnt:ToolHeader>
                 <Button press="showMenu" type="Transparent" icon="sap-icon://menu2">

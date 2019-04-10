@@ -9,7 +9,7 @@ sap.ui.define([
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
     "use strict";
     var url = "model/transactionDetail.json";
-    return BaseController.extend("mortgage.pawnshop.controller.Transaction", {
+    return BaseController.extend("mortgage.pawnshop.controller.ShopConfig", {
         formatter: formatter,
         onInit: function () {
             this.getRouter().getRoute("transaction").attachMatched(this._onObjectMatched, this);
@@ -139,7 +139,7 @@ sap.ui.define([
                 transaction: transDetailModel.getProperty("/transaction"),
                 pictureList: transDetailModel.getProperty("/pictureList")
             };
-            this.getOwnerComponent().setModel(new JSONModel(transDetailData), "passModel");
+            this.setPassData("liquidate", transDetailData);
             this.TransDetailDialog.close();
             this.getRouter().navTo("sales", false);
         },

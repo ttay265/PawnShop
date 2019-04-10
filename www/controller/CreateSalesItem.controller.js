@@ -20,10 +20,10 @@ sap.ui.define([
                 this.getRouter().navTo("login", true);
 
             } else {
-                var pasModel = this.getModel("passModel");
-                if (passModel) {
-                    this.parseTransactionDataToSalesData(passModel.getProperty("/"));
-                    this.getOwnerComponent().setModel(null, "passModel");
+                var isLiquidating = this.checkPassData("liquidate");
+                if (isLiquidating) {
+                    var liquidateData = this.consumePassData("liquidate");
+                    this.parseTransactionDataToSalesData(liquidateData);
                 } else {
                     this.loadInitTransaction();
                 }

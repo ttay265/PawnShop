@@ -92,13 +92,11 @@ sap.ui.define([
                 this.getRouter().navTo("login", true);
 
             } else {
+                this.loadInitTransaction();
                 var replacedTrans = this.consumePassData("replacedTrans");
                 if (replacedTrans) { // Replace Transaction triggered
-                    this.loadInitTransaction();
                     this.parseOldTransData(replacedTrans);
-
                 } else { //normal use-case
-                    this.loadInitTransaction();
                     this.loadInitCateConfig();
 
                 }
@@ -288,12 +286,12 @@ sap.ui.define([
             var sendingData = this.parseSendData();
             var result = models.postCreateTransaction(sendingData);
             var msgCreateTransSuccessfully = this.getResourceBundle().getText("msgCreateTransSuccessfully");
-            if (result) {
+            if (result.result) {
                 if (sendingData.transId) { // trigger Replace Function
                     var submitData = {
                         transactionId: sendingData.transId,
                         description: "",
-                        replaceId: result.id
+                        replaceId: result.response.id
                     };
                     var cancelResult = models.postCancel(submitData);
                     if (cancelResult) {

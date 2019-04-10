@@ -9,16 +9,15 @@ sap.ui.define([
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
     "use strict";
 
-    return BaseController.extend("mortgage.pawnshop.controller.SalesItems", {
+    return BaseController.extend("mortgage.pawnshop.controller.ShopConfig", {
         formatter: formatter,
         onInit: function () {
-
             this.getRouter().getRoute("sales").attachPatternMatched(this._onObjectMatched, this);
             //
         },
         _onObjectMatched: function (oEvent) {
-            var isLiquidating = this.checkPassData("liquidate");
-            if (isLiquidating) {
+            var pasModel = this.getModel("passModel");
+            if (passModel) {
                 this.getRouter().navTo("createSales", false);
             }
             this.bindSalesItemModel();

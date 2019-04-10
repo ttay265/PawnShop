@@ -59,7 +59,10 @@ sap.ui.define([
         },
         postCreateTransaction: function (data) {
 
-            var returnCallback = false;
+            var returnCallback = {
+                result: false,
+                response: null
+            };
             var onSuccess = function (res, status, xhr) {
 
                 },
@@ -88,12 +91,12 @@ sap.ui.define([
                 dataType: "json",
                 context: this,
                 success: function (res, status, xhr) {
-                    console.log(res);
-                    returnCallback = true;
+                    returnCallback.result = true;
+                    returnCallback.response = res;
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     //Mock-backend test login
-
+                    returnCallback.result = null;
                     // that._LoginDialog.getModel("loginResult").setProperty("/failed", true);
                     // console.log("Got an error response: " + textStatus + errorThrown);
                     // //Off-Busy after proceed

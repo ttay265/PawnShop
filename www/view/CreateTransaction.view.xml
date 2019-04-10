@@ -147,7 +147,7 @@
                                 </f:label>
                                 <f:fields>
                                     <Input visible="{= ${currentConfig>/value1} !== '' }"
-                                           value="{= ${createTrans>/value1} }"/>
+                                           value="{createTrans>/value1}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement visible="{= ${currentConfig>/value2} !== '' }">
@@ -155,7 +155,7 @@
                                     <Label required="false" text="{currentConfig>/value2}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{= ${createTrans>/value2} }"/>
+                                    <Input value="{createTrans>/value2}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement visible="{= ${currentConfig>/value3} !== '' }">
@@ -163,7 +163,7 @@
                                     <Label required="false" text="{currentConfig>/value3}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{= ${createTrans>/value3} }"/>
+                                    <Input value="{createTrans>/value3}"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>
@@ -173,7 +173,7 @@
                                 </f:label>
                                 <f:fields>
                                     <Input visible="{= ${currentConfig>/value4} !== '' }"
-                                           value="{= ${createTrans>/value4} }"/>
+                                           value="{createTrans>/value4}"/>
                                 </f:fields>
                             </f:FormElement>
 

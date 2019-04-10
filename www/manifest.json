@@ -73,7 +73,7 @@
       },
       "routes": [
         {
-          "pattern": "",
+          "pattern": "login",
           "name": "login",
           "target": "login"
         },
@@ -81,6 +81,11 @@
           "pattern": "transaction",
           "name": "transaction",
           "target": "transaction"
+        },
+        {
+          "pattern": "",
+          "name": "dashboard",
+          "target": "dashboard"
         },
         {
           "pattern": "cateConfig",
@@ -124,6 +129,13 @@
           "viewName": "MainApp",
           "viewLevel": 1,
           "controlId": "rootApp",
+          "controlAggregation": "pages"
+        },
+        "dashboard": {
+          "parent": "mainApp",
+          "viewName": "Dashboard",
+          "viewLevel": 2,
+          "controlId": "mainApp",
           "controlAggregation": "pages"
         },
         "transaction": {

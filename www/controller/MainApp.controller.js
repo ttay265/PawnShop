@@ -95,9 +95,13 @@ sap.ui.define([
             this.getGlobalModel().setProperty("/appTitleIcon", icon);
             this.headerTitle.getText(text);
         },
-        navToHome: function (oEvent) {
+        navToTransaction: function (oEvent) {
             var source = oEvent.getSource();
             this.doNav("transaction", source);
+        },
+        navToDashboard: function (oEvent) {
+            var source = oEvent.getSource();
+            this.doNav("dashboard", source);
         },
         navCateConfig: function (oEvent) {
             var source = oEvent.getSource();

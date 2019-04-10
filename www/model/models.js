@@ -57,6 +57,33 @@ sap.ui.define([
             });
             return data;
         },
+        getDashboard: function (shopId) {
+            var data = [];
+            var url;
+            if (serverInfo.useLocal) {
+                url = serverInfo.localUrl + "/dashboard.json";
+            } else {
+                url = serverInfo.url + "/dashboard";
+            }
+            var ajaxData = {
+                shopId: shopId
+            };
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: ajaxData,
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return data;
+        },
         postCreateTransaction: function (data) {
 
             var returnCallback = {

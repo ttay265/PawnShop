@@ -1,6 +1,6 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:tnt="sap.tnt" xmlns="sap.m"
           controllerName="mortgage.pawnshop.controller.MainApp">
-    <tnt:ToolPage id="_pageCustomer">
+    <tnt:ToolPage class="sapMShellGlobalOuterBackground" id="_pageCustomer">
         <tnt:header>
             <tnt:ToolHeader>
                 <Button press="showMenu" type="Transparent" icon="sap-icon://menu2">
@@ -33,8 +33,12 @@
                     <tnt:NavigationList>
                         <tnt:NavigationListItem
                                 icon="sap-icon://home"
+                                select="navToDashboard"
+                                text="{i18n>navDashboard}"/>
+                        <tnt:NavigationListItem
+                                icon="sap-icon://loan"
                                 id="navToHome"
-                                select="navToHome"
+                                select="navToTransaction"
                                 text="{i18n>navTransaction}"/>
                         <tnt:NavigationListItem
                                 expanded="false"
@@ -50,7 +54,7 @@
                             </tnt:items>
                         </tnt:NavigationListItem>
                         <tnt:NavigationListItem
-                                icon="sap-icon://loan"
+                                icon="sap-icon://product"
                                 id="navSaleIncomeMaster"
                                 select="navSales"
                                 text="{i18n>navSales}"/>

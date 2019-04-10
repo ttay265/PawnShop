@@ -28,7 +28,7 @@ sap.ui.define([
             if (logon) {
                 var authorized = this.checkAuthorization();
                 if (authorized) {
-                    this.getRouter().navTo("transaction", true);
+                    this.getRouter().navTo("dashboard", true);
                 }
             } else {
                 this.getView().setBusy(false);
@@ -54,7 +54,7 @@ sap.ui.define([
                     //check authorization
                     authorized = this.checkAuthorization();
                     if (authorized) {
-                        this.getRouter().navTo("transaction", true);
+                        this.getRouter().navTo("dashboard", true);
                     }
                 } else {
                     var msg;

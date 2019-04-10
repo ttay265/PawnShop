@@ -1,87 +1,283 @@
 <core:View xmlns:core="sap.ui.core"
-           xmlns="sap.uxap"
-           xmlns:layout="sap.ui.layout"
-           xmlns:m="sap.m"
-           controllerName="mortgage.pawnshop.controller.ShopConfig"
-           height="100%">
-    <ObjectPageLayout id="ObjectPageLayout"
-                      enableLazyLoading="false"
-                      showTitleInHeaderContent="true"
-                      showEditHeaderButton="true"
-                      editHeaderButtonPress="handleEditBtnPress">
-        <headerTitle>
-            <ObjectPageHeader objectImageURI="{account>/shop/avatarUrl}"
-                              objectTitle="{account>/shop/shopName}"
-                              objectImageShape="Circle"
-                              objectImageAlt="Denise Smith"
+           xmlns:f="sap.ui.layout.form"
+           xmlns:l="sap.ui.layout"
+           xmlns:u="sap.ui.unified"
+           xmlns="sap.m"
+           controllerName="mortgage.pawnshop.controller.ShopConfig">
+    <Page showHeader="false" showNavButton="false">
+        <content>
+            <f:Form editable="true">
+                <!--<f:toolbar>-->
+                <!--<Toolbar visible="{= !${device>/support/touch} }">-->
+                <!--<Title text="{i18n>CT_FORM_CREATE_TRANSACTION}"/>-->
+                <!--<ToolbarSpacer/>-->
+                <!--<ToolbarSeparator/>-->
+                <!--<Button press="onClearPressed" type="Transparent" text="{i18n>BTN_CLEAR}"/>-->
+                <!--</Toolbar>-->
+                <!--</f:toolbar>-->
+                <f:layout>
+                    <f:ResponsiveGridLayout
+                            labelSpanXL="3"
+                            labelSpanL="4"
+                            labelSpanM="3"
+                            labelSpanS="12"
+                            adjustLabelSpan="false"
+                            emptySpanXL="1"
+                            emptySpanL="2"
+                            emptySpanM="1"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            columnsS="1"
+                            singleContainerFullSize="false"/>
+                </f:layout>
+                <f:formContainers>
+                    <f:FormContainer title="">
+                        <f:toolbar>
+                            <Toolbar>
+                                <Title text="{i18n>CT_GENERAL_INFO}"/>
+                                <ToolbarSpacer/>
+                            </Toolbar>
+                        </f:toolbar>
+                        <f:formElements>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="true" text="{i18n>SHOPNAME}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input maxLength="50"
+                                           value="{account>/shop/shopName}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="true" text="{i18n>email}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input maxLength="50" value="{account>/shop/email}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="false" text="{i18n>PHONE_NO}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input maxLength="12" value="{account>/shop/phone}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="false" text="{i18n>FACEBOOK}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input maxLength="12" value="{account>/shop/facebook}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="false" text="{i18n>ADDRESS}"/>
+                                </f:label>
+                                <f:fields>
+                                    <ComboBox items="{city>/}" value="{createTrans>/addressObject/city}"
+                                              placeholder="{i18n>CITY}">
+                                        <layoutData>
+                                            <l:GridData span="XL4 L3 M8 S6"/>
+                                        </layoutData>
+                                        <items>
+                                            <core:Item text="{city>desc}" key="{city>id}"/>
+                                        </items>
+                                    </ComboBox>
+                                    <ComboBox items="{dist>/}" value="{createTrans>/addressObject/district}"
+                                              placeholder="{i18n>DISTRICT}">
+                                        <layoutData>
+                                            <l:GridData indentM="3" span="XL4 L3 M8 S6"/>
+                                        </layoutData>
+                                        <items>
+                                            <core:Item text="{dist>desc}" key="{dist>id}"/>
+                                        </items>
+                                    </ComboBox>
+                                    <Input maxLength="100" value="{createTrans>/addressObject/streetName}"
+                                           placeholder="{i18n>STREET_NAME}">
+                                        <layoutData>
+                                            <l:GridData indentXL="4"
+                                                        indentL="4"
+                                                        indentM="3" span="XL8 L6 M8 S12"/>
+                                        </layoutData>
+                                    </Input>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer title="{i18n>CT_ITEM}">
+                        <f:formElements>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="false" text="{i18n>ITEM}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input value="{createTrans>/itemName}" placeholder="{i18n>ITEM_NAME}">
+                                        <layoutData>
+                                            <l:GridData span="XL5 L3 M4 S6"/>
+                                        </layoutData>
+                                    </Input>
+                                    <Select forceSelection="false" selectedKey="{= ${currentConfig>/id}}"
+                                            change="onCateConfigChanged"
+                                            items="{cateConfig>/}"
+                                            placeholder="{i18n>ITEM_TYPE}">
+                                        <layoutData>
+                                            <l:GridData span="XL3 L3 M4 S6"/>
+                                        </layoutData>
+                                        <items>
+                                            <core:ListItem key="{cateConfig>id}"
+                                                           text="{cateConfig>name}"
+                                                           additionalText="{cateConfig>category/categoryName}"/>
+                                        </items>
+                                    </Select>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label visible="{= ${currentConfig>/value1} !== '' }" required="false"
+                                           text="{currentConfig>/value1}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input visible="{= ${currentConfig>/value1} !== '' }"
+                                           value="{createTrans>/value1}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement visible="{= ${currentConfig>/value2} !== '' }">
+                                <f:label>
+                                    <Label required="false" text="{currentConfig>/value2}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input value="{createTrans>/value2}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement visible="{= ${currentConfig>/value3} !== '' }">
+                                <f:label>
+                                    <Label required="false" text="{currentConfig>/value3}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input value="{createTrans>/value3}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label visible="{= ${currentConfig>/value4} !== '' }" required="false"
+                                           text="{currentConfig>/value4}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Input visible="{= ${currentConfig>/value4} !== '' }"
+                                           value="{createTrans>/value4}"/>
+                                </f:fields>
+                            </f:FormElement>
 
-                              isObjectIconAlwaysVisible="false"
-                              isObjectTitleAlwaysVisible="false"
-                              isObjectSubtitleAlwaysVisible="false">
-                <actions>
-                    <ObjectPageHeaderActionButton icon="sap-icon://pull-down" text="show section" type="Emphasized" tooltip="pull-down"/>
-                    <ObjectPageHeaderActionButton icon="sap-icon://show" text="show state" type="Emphasized" tooltip="show"/>
-                    <ObjectPageHeaderActionButton text="Toggle Footer" hideIcon="true" hideText="false" type="Emphasized" press="toggleFooter"/>
-                </actions>
-                <breadcrumbs>
-                    <m:Breadcrumbs id="breadcrumbsId" currentLocationText="Object Page Example" >
-                        <m:Link text="Page 1 a very long link" press="handleLink1Press"/>
-                        <m:Link text="Page 2 long link" press="handleLink2Press"/>
-                    </m:Breadcrumbs>
-                </breadcrumbs>
-                <breadCrumbsLinks>
-                    <m:Link id="breadCrumbLink1" text="Links in old aggregation" press="handleLink1Press"/>
-                    <m:Link id="breadCrumbLink2" text="Don't appear in ObjectPageHeader" press="handleLink2Press"/>
-                </breadCrumbsLinks>
-            </ObjectPageHeader>
-        </headerTitle>
-
-        <headerContent>
-            <layout:VerticalLayout>
-                <m:Link text="+33 6 4512 5158"/>
-                <m:Link text="DeniseSmith@sap.com"/>
-            </layout:VerticalLayout>
-
-            <layout:HorizontalLayout>
-                <m:Image src="./test-resources/sap/uxap/images/linkedin.png"/>
-                <m:Image src="./test-resources/sap/uxap/images/Twitter.png"/>
-            </layout:HorizontalLayout>
-
-            <layout:VerticalLayout>
-                <m:Label text="Hello! I am Tim and I use UxAP"/>
-                <m:VBox height="63px">
-                    <m:Label text="Achieved goals"/>
-                    <m:ProgressIndicator
-                            percentValue="30"
-                            displayValue="30%"
-                            showValue="true"
-                            state="None"/>
-                </m:VBox>
-            </layout:VerticalLayout>
-
-            <layout:VerticalLayout>
-                <m:Label text="San Jose, USA"/>
-            </layout:VerticalLayout>
-        </headerContent>
-
-        <sections>
-            <ObjectPageSection id="goalsSection" title="2014 Goals Plan">
-                <subSections>
-                    <ObjectPageSubSection id="goalsSectionSS1" title=" ">
-                        <blocks>
-                        </blocks>
-                    </ObjectPageSubSection>
-                </subSections>
-            </ObjectPageSection>
-
-
-        </sections>
-        <footer>
-            <m:OverflowToolbar>
-                <m:ToolbarSpacer />
-                <m:Button type="Accept" text="Accept"/>
-                <m:Button type="Reject" text="Reject"/>
-            </m:OverflowToolbar>
-        </footer>
-    </ObjectPageLayout>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer title="{i18n>CT_PAYMENT_TERM}">
+                        <f:formElements>
+                            <f:FormElement label="{i18n>PERIOD}">
+                                <f:fields>
+                                    <Input value="{createTrans>/paymentTerm}" textAlign="End" type="Number">
+                                        <layoutData>
+                                            <l:GridData span="XL3 L3 M3 S6"/>
+                                        </layoutData>
+                                    </Input>
+                                    <ComboBox selectedKey="{createTrans>/paymentType}">
+                                        <layoutData>
+                                            <l:GridData span="XL5 L3 M5 S6"/>
+                                        </layoutData>
+                                        <items>
+                                            <core:Item key="1" text="{i18n>PERIOD_UNIT_DATE}"/>
+                                            <core:Item key="3" text="{i18n>PERIOD_UNIT_MONTH}"/>
+                                            <core:Item key="2" text="{i18n>PERIOD_UNIT_WEEK}"/>
+                                        </items>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="{i18n>AMOUNT}">
+                                <f:fields>
+                                    <Input description="VND" textAlign="Right" valueLiveUpdate="true" value="{
+    parts: [
+        {path: 'createTrans>/basePrice'},
+        {path: 'createTrans>/uoc'}
+    ],
+    type: 'sap.ui.model.type.Currency',
+    formatOptions: {
+        showMeasure: false
+    }
+}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="{i18n>START_DATE}">
+                                <f:fields>
+                                    <DatePicker
+                                            displayFormat="dd-MM-yyyy"
+                                            dateValue="{path:'createTrans>/startDate'}"
+                                    />
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="{i18n>liquidateAfter}">
+                                <f:fields>
+                                    <Input textAlign="Right" maxLength="5" description="{i18n>overdue_days}"
+                                           value="{createTrans>/liquidateAfter}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="{i18n>NOTE}">
+                                <f:fields>
+                                    <TextArea value="{createTrans>/note}"/>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer title="{i18n>attachment}">
+                        <f:formElements>
+                            <f:FormElement>
+                                <f:label>
+                                    <Label required="false" text=""/>
+                                </f:label>
+                                <f:fields>
+                                    <l:VerticalLayout>
+                                        <l:layoutData>
+                                            <l:GridData span="XL8 L6 M8 S8"/>
+                                        </l:layoutData>
+                                        <l:content>
+                                            <Toolbar>
+                                                <content>
+                                                    <u:FileUploader class="sapUiNoMargin"
+                                                                    iconOnly="true" multiple="false"
+                                                                    buttonOnly="true"
+                                                                    icon="sap-icon://add-photo" uploadOnChange="false"
+                                                                    useMultipart="false"
+                                                                    fileType="JPG,JPEG,jpeg,jpg,PNG,png"
+                                                                    sameFilenameAllowed="true"
+                                                                    typeMissmatch="onTypeMissmatch"
+                                                                    change="onUploadPress"/>
+                                                    <ToolbarSpacer/>
+                                                    <Button class="sapUiNoMargin"
+                                                            visible="{= ${createTrans>/picturesObj}.length > 0 ? true : false }"
+                                                            text="{i18n>del_pic}"
+                                                            type="Transparent"
+                                                            press="onDeletePic"
+                                                            icon="sap-icon://delete"/>
+                                                </content>
+                                            </Toolbar>
+                                            <Carousel showPageIndicator="true" class="smallCrs sapUiContentPadding"
+                                                      width="100%" pages="{createTrans>/picturesObj}"
+                                                      loop="true" id="carUploadedImg">
+                                                <pages>
+                                                    <Image src="{createTrans>pictureUrl}"/>
+                                                </pages>
+                                            </Carousel>
+                                        </l:content>
+                                    </l:VerticalLayout>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                </f:formContainers>
+            </f:Form>
+        </content>
+    </Page>
 </core:View>

@@ -9,7 +9,7 @@ sap.ui.define([
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
     "use strict";
     var url = "model/transactionDetail.json";
-    return BaseController.extend("mortgage.pawnshop.controller.ShopConfig", {
+    return BaseController.extend("mortgage.pawnshop.controller.Transaction", {
         formatter: formatter,
         onInit: function () {
             this.getRouter().getRoute("transaction").attachMatched(this._onObjectMatched, this);

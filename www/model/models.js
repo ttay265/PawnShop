@@ -570,6 +570,66 @@ sap.ui.define([
                 });
                 return returnCallback;
             }
+        },
+        getCities: function () {
+            var url;
+            if (serverInfo.useLocal) {
+                url = "/city.json";
+            } else {
+                url = "/city.json"; // N/A Yet
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'GET',
+                async: false,
+                success: function (d, r, xhr) {
+                    return d;
+                },
+                error: function (e) {
+                    return null;
+                }
+
+            });
+            return returnCallback;
+        },
+        getDistricts: function () {
+            var url;
+            if (serverInfo.useLocal) {
+                url = "/district.json";
+            } else {
+                url = "/district.json"; // N/A Yet
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'GET',
+                async: false,
+                success: function (d, r, xhr) {
+                    return d;
+                },
+                error: function (e) {
+                    return null;
+                }
+
+            });
+            return returnCallback;
+        },
+        getDistrictsByCity: function (cityId) {
+            var districts = this.getDistricts();
+            var filteredDistrict = [];
+            for (var district in districts) {
+                if (district.cityId === cityId) {
+                    filteredDistrict.push(district);
+                }
+            }
+            return district;
         }
     };
 });

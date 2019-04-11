@@ -43,6 +43,13 @@ sap.ui.define([
             var oFileUploader = oEvt.getSource();
             var aFiles = oEvt.getParameters().files;
             var currentFile = aFiles[0];
+            var msgUploadingPic = this.getResourceBundle().getText("msgUploadingPic");
+            var msgPleaseWait = this.getResourceBundle().getText("msgPleaseWait");
+            this.openBusyDialog({
+                title: msgUploadingPic,
+                text: msgPleaseWait,
+                showCancelButton: true
+            });
             this.resizeAndUpload(currentFile, {
                 success: function (oEvt) {
                     oFileUploader.setValue("");
@@ -52,16 +59,22 @@ sap.ui.define([
                     if (!model) {
                         return;
                     }
-                    var pics = model.getProperty("/pictureList");
-                    pics.push({
-                        pictureUrl: encodeURI(oEvt.data.link),
+                    var currentSalesItem = model.getProperty("/");
+                    var data = {
                         idCloud: oEvt.data.id,
-                        deleteHash: oEvt.data.deletehash
-                    });
-                    model.setProperty("/pictureList", pics, null, false);
-                    model.updateBindings(true);
-                    var a = that.byId("carUploadedImg");
-                    console.log(a.getBinding("pages"));
+                        deleteHash: oEvt.data.deletehash,
+                        picUrl: oEvt.data.link,
+                        objId: currentSalesItem.saleItem.id,
+                        type: 2
+                    };
+                    var result = models.addImg(data);
+                    if (result) {
+                        that.bindSalesItemModel();
+                        that.reloadAvatarPic(currentSalesItem.saleItem.id, false);
+                        that.bindCurrentSalesItemModel(null, currentSalesItem.saleItem.id);
+                        model.updateBindings(true);
+                    }
+                    that.closeBusyDialog();
                     // that.byId("carUploadedImg").addPage(
                     //     new sap.m.Image({
                     //         width: '80%',
@@ -72,16 +85,30 @@ sap.ui.define([
                 },
                 error: function (oEvt) {
                     //Handle error here
+                    that.closeBusyDialog();
                 }
             });
         },
+        reloadAvatarPic: function (salesItemId, queryFromBackend) {
+            if (queryFromBackend) {
+                this.bindSalesItemModel();
+            }
+            var salesItem = this.onLoadCurrentSalesItem(salesItemId);
+            if (salesItem.pictureList.length > 0) {
+                salesItem.saleItem.picUrl = salesItem.pictureList[0].pictureUrl;
+            } else {
+                salesItem.saleItem.picUrl = "";
+            }
+            return this.updateSalesItem(salesItem);
 
+        },
         onDeletePic: function () {
             var that = this;
             var carousel = this.byId("carUploadedImg");
             var currentImage = carousel.getActivePage();
             var cI = sap.ui.getCore().byId(currentImage);
-            var imgList = this.salesItemDialog.getModel("currentSalesItem").getProperty("/pictureList");
+            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
+            var imgList = currentSalesItemModel.getProperty("/pictureList");
             var context = cI.getBindingContext("currentSalesItem");
             if (context) {
                 var picData = context.getProperty("");
@@ -97,7 +124,10 @@ sap.ui.define([
                 }
                 var callback = {
                     success: function () {
-                        imgList.splice(index, 1);
+                        that.bindSalesItemModel();
+                        var currentSalesItemId = currentSalesItemModel.getProperty("/saleItem/id");
+                        that.reloadAvatarPic(currentSalesItemId, false);
+                        that.bindCurrentSalesItemModel(null, currentSalesItemId);
                         that.salesItemDialog.getModel("currentSalesItem").updateBindings(true);
                         that.closeBusyDialog();
                     },
@@ -167,12 +197,40 @@ sap.ui.define([
             if (!this.salesItemDialog) {
                 this.salesItemDialog = this.initFragment("mortgage.pawnshop.fragment.SalesItemDetail", "currentSalesItem");
             }
+            var currentSalesItem = this.onLoadCurrentSalesItem(data.saleItem.id);
+            this.bindCurrentSalesItemModel(currentSalesItem);
+
+            this.salesItemDialog.open();
+        },
+        bindCurrentSalesItemModel: function (salesItemObject, salesItemId) {
+            var currentItemObject;
+            if (salesItemId) {
+                currentItemObject = this.onLoadCurrentSalesItem(salesItemId);
+            } else {
+                currentItemObject = salesItemObject;
+            }
+            if (!this.salesItemDialog) {
+                this.salesItemDialog = this.initFragment("mortgage.pawnshop.fragment.SalesItemDetail", "currentSalesItem");
+            }
             var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
             if (!currentSalesItemModel) {
                 currentSalesItemModel = new JSONModel();
             }
-            currentSalesItemModel.setProperty("/", data);
-            this.salesItemDialog.open();
+            currentSalesItemModel.setProperty("/", currentItemObject);
+        },
+        onLoadCurrentSalesItem: function (salesItemId) {
+            var salesItemModel = this.getModel("sales");
+            if (!salesItemModel) {
+                return;
+            }
+            var salesItems = salesItemModel.getProperty("/");
+            for (var i = 0; i < salesItems.length; i++) {
+                if (salesItems[i].saleItem.id === salesItemId) {
+                    //Init & Bind SalesItemDialog
+
+                    return salesItems[i];
+                }
+            }
         },
         onCancelSalesItem: function () {
             var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
@@ -212,6 +270,14 @@ sap.ui.define([
                 return;
             }
             var data = currentSalesItemModel.getProperty("/");
+            var result = this.updateSalesItem(data);
+            if (result) {
+                MessageToast.show(this.getResourceBundle().getText("msgUpdateSalesItemSuccessfully"));
+            } else {
+                //handle error here
+            }
+        },
+        updateSalesItem: function (data) {
             var submitData = {
                 itemId: data.saleItem.id,
                 description: data.saleItem.description,
@@ -221,10 +287,10 @@ sap.ui.define([
             };
             var result = models.updateSalesItem(submitData);
             if (result) {
-                MessageToast.show(this.getResourceBundle().getText("msgUpdateSalesItemSuccessfully"));
-            } else {
-                //handle error here
+                this.bindSalesItemModel();
             }
+            return result;
+
         }
     });
 });

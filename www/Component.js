@@ -11,7 +11,7 @@ sap.ui.define([
 
         metadata: {
             manifest: "json"
-        }, config: {fullWidth: true},
+        },
 
         /**
          * The component is initialized by UI5 automatically during the startup of the app and calls the init method once.
@@ -54,6 +54,23 @@ sap.ui.define([
             }
             var cateData = models.getCategorySet();
             cateModel.setProperty("/", cateData);
+        },
+        initLocationData: function () {
+            var cityModel = this.getModel("city");
+            if (!cityModel) {
+                cityModel = new JSONModel();
+
+                this.setModel(cityModel, "city");
+            }
+            var cityList = models.getCities();
+            cityModel.setProperty("/", cityList);
+            // var districtModel = this.getModel("district");
+            // if (!districtModel) {
+            //     districtModel = new JSONModel();
+            //     this.setModel(districtModel, "district");
+            // }
+            // var districtList = models.getDistricts();
+            // districtModel.setProperty("/", districtList);
         },
         requestFailed: function (oEvent) {
 

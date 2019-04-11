@@ -63,13 +63,11 @@
                                 <ObjectPageLazyLoader
                                         id="shopOwnerLazyLoader">
                                     <f:SimpleForm
-                                            title="{i18n>editOwnerDetailTitle}"
                                             columnsL="2"
                                             columnsM="2"
                                             editable="true"
                                             layout="ResponsiveGridLayout">
                                         <f:content>
-                                            <core:Title text="{i18n>ownerAddress}"/>
                                             <m:Label
                                                     text="{i18n>shopName}"
                                                     labelFor="firstNameInput"/>
@@ -105,18 +103,28 @@
                                             <m:Label
                                                     labelFor="addressCountryInput"
                                                     text="{i18n>ownerCountry}"/>
+                                            <m:Select items="{city>/}" change="onCityChange">
+                                                <m:items>
+                                                    <core:Item key="{city>id}" text="{city>cityName}"/>
+                                                </m:items>
+                                            </m:Select>
+                                            <m:Select items="{district>/}">
+                                                <m:items>
+                                                    <core:Item key="{district>id}" text="{district>districtName}"/>
+                                                </m:items>
+                                            </m:Select>
                                             <m:Input
                                                     id="addressCountryInput"
                                                     type="Text"
                                                     width="100%"
                                                     value="England"/>
                                             <core:Title text="{i18n>ownerContact}"/>
+
                                         </f:content>
                                     </f:SimpleForm>
                                 </ObjectPageLazyLoader>
                             </blocks>
                         </ObjectPageSubSection>
-
                     </subSections>
                 </ObjectPageSection>
             </sections>

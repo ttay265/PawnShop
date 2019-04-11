@@ -196,3 +196,8 @@ sapMFlexBoxAlignContentStretch1 {
 .longTextIconTabBar .sapMITBHorizontal.sapMITBFilter > .sapMITBHorizontalWrapper > .sapMITBText {
     max-width: 10rem;
 }
+.custom-map-register {
+    display: inline-block;
+    width: 100%;
+    height: 200px;
+}

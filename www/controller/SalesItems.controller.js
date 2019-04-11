@@ -21,9 +21,9 @@ sap.ui.define([
             if (isLiquidating) {
                 this.getRouter().navTo("createSales", false);
             }
-            this.bindSalesItemModel();
+            this.bindShopConfigModel();
         },
-        bindSalesItemModel: function () {
+        bindShopConfigModel: function () {
             var accountModel = this.getModel("account");
             if (!accountModel) {
                 this.getRouter().navTo("login", true);
@@ -69,7 +69,7 @@ sap.ui.define([
                     };
                     var result = models.addImg(data);
                     if (result) {
-                        that.bindSalesItemModel();
+                        that.bindShopConfigModel();
                         that.reloadAvatarPic(currentSalesItem.saleItem.id, false);
                         that.bindCurrentSalesItemModel(null, currentSalesItem.saleItem.id);
                         model.updateBindings(true);
@@ -91,13 +91,13 @@ sap.ui.define([
         },
         reloadAvatarPic: function (salesItemId, queryFromBackend) {
             if (queryFromBackend) {
-                this.bindSalesItemModel();
+                this.bindShopConfigModel();
             }
             var salesItem = this.onLoadCurrentSalesItem(salesItemId);
             if (salesItem.pictureList.length > 0) {
                 salesItem.saleItem.picUrl = salesItem.pictureList[0].pictureUrl;
             } else {
-                salesItem.saleItem.picUrl = "";
+                salesItem.saleItem.picUrl = "https://i.imgur.com/UOkVB0P.png";
             }
             return this.updateSalesItem(salesItem);
 
@@ -124,7 +124,7 @@ sap.ui.define([
                 }
                 var callback = {
                     success: function () {
-                        that.bindSalesItemModel();
+                        that.bindShopConfigModel();
                         var currentSalesItemId = currentSalesItemModel.getProperty("/saleItem/id");
                         that.reloadAvatarPic(currentSalesItemId, false);
                         that.bindCurrentSalesItemModel(null, currentSalesItemId);
@@ -287,7 +287,7 @@ sap.ui.define([
             };
             var result = models.updateSalesItem(submitData);
             if (result) {
-                this.bindSalesItemModel();
+                this.bindShopConfigModel();
             }
             return result;
 

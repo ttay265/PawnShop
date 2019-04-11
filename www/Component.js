@@ -28,6 +28,7 @@ sap.ui.define([
             this.setModel(models.createGlobalModel(), "global");
             //init master data
             this.initCategoryData();
+            this.initLocationData();
             this.setModel(models.createDeviceModel(), "device");
             this.getRouter().getTargetHandler().setCloseDialogs(false);
             // this.getModel().attachRequestFailed(this.requestFailed, this);
@@ -64,11 +65,11 @@ sap.ui.define([
             }
             var cityList = models.getCities();
             cityModel.setProperty("/", cityList);
-            // var districtModel = this.getModel("district");
-            // if (!districtModel) {
-            //     districtModel = new JSONModel();
-            //     this.setModel(districtModel, "district");
-            // }
+            var districtModel = this.getModel("district");
+            if (!districtModel) {
+                districtModel = new JSONModel();
+                this.setModel(districtModel, "district");
+            }
             // var districtList = models.getDistricts();
             // districtModel.setProperty("/", districtList);
         },

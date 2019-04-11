@@ -8,32 +8,60 @@ sap.ui.define([
     "mortgage/pawnshop/model/models"
 ], function (BaseController, MessageToast, JSONModel, Filter, formatter, BusyDialog, models) {
     "use strict";
-
+    var gMap;
     return BaseController.extend("mortgage.pawnshop.controller.ShopConfig", {
         formatter: formatter,
         onInit: function () {
+            this.getView().byId("map_canvas").addStyleClass("myMap");
             this.getRouter().getRoute("shopConfig").attachPatternMatched(this._onObjectMatched, this);
-            //
+
         },
         _onObjectMatched: function (oEvent) {
+            //whenever page is called, it comes to this func
 
-            this.bindSalesItemModel();
+            this.initialModelBinding();
         },
-        bindSalesItemModel: function () {
+        initialModelBinding: function () {
+            var bindCompleted = this.bindShopConfigModel();
+            if (!bindCompleted) {
+                return;
+            }
+            var selectCity = this.byId("selectCity");
+            var cityId = selectCity.getSelectedItem().getBindingContext("city").getProperty("id");
+            if (cityId) {
+                this.filterDistrictByCity(cityId);
+            }
+
+        },
+        onEditPressed: function (e) {
+            var shopConfigModel = this.getModel("shopConfig");
+            shopConfigModel.setProperty("/isEditing", true);
+        },
+        onCancelPressed: function () {
+            this.bindShopConfigModel();
+            var shopConfigModel = this.getModel("shopConfig");
+            shopConfigModel.setProperty("/isEditing", false);
+        },
+        bindShopConfigModel: function () {
             var accountModel = this.getModel("account");
             if (!accountModel) {
                 this.getRouter().navTo("login", true);
-                return;
+                return false;
             }
-            var shopId = accountModel.getProperty("/shop/id");
-            var model = this.getModel("sales");
+            var account = accountModel.getProperty("/");
+            var model = this.getModel("shopConfig");
             if (!model) {
                 model = new JSONModel();
-                this.setModel(model, "sales");
+                this.setModel(model, "shopConfig");
             }
-            var data = models.getSalesItems(shopId);
-            model.setProperty("/", data);
-
+            var shopConfig = {
+                shop: account.shop
+            };
+            shopConfig.isEditing = false;
+            model.setProperty("/", shopConfig);
+            this.setLocation(shopConfig.shop.address.latitude, shopConfig.shop.address.longtitude);
+            model.updateBindings(true);
+            return true;
         },
         onUploadPress: function (oEvt) {
             var that = this;
@@ -149,80 +177,143 @@ sap.ui.define([
             var data = base64string;
             xhr.send(data);
         },
-        onCreateSalesPressed: function () {
-            this.getRouter().navTo("createSales", false);
-        },
+        onSavePressed: function () {
+            var shopConfigModel = this.getModel("shopConfig");
+            if (!shopConfigModel) {
+                return;
+            }
+            var shopConfig = shopConfigModel.getProperty("/shop");
+            var submitData = {
+                shopId: shopConfig.id,
+                shopName: shopConfig.shopName,
+                facebook: shopConfig.facebook,
+                email: shopConfig.email,
+                phoneNumber: shopConfig.phoneNumber,
+                addressId: shopConfig.address.id,
+                policy: shopConfig.policy,
+                address: shopConfig.address.fullAddress,
+                longtitude: shopConfig.address.longtitude,
+                latitude: shopConfig.address.latitude,
+                latitude: shopConfig.address.latitude,
+                latitude: shopConfig.address.latitude,
+            };
+            var result = models.postChangeShopInfo(submitData);
+            if (result.result) {
 
-        onSalesPressed: function (e) {
-            //Get data of current SalesItem line
-            var selectedLine = e.getParameter("srcControl");
-            if (!selectedLine) {
-                return;
-            }
-            var data = selectedLine.getBindingContext("sales").getProperty("");
-            //Init & Bind SalesItemDialog
-            if (!this.salesItemDialog) {
-                this.salesItemDialog = this.initFragment("mortgage.pawnshop.fragment.SalesItemDetail", "currentSalesItem");
-            }
-            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
-            if (!currentSalesItemModel) {
-                currentSalesItemModel = new JSONModel();
-            }
-            currentSalesItemModel.setProperty("/", data);
-            this.salesItemDialog.open();
-        },
-        onCancelSalesItem: function () {
-            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
-            if (!currentSalesItemModel) {
-                return;
-            }
-            var data = currentSalesItemModel.getProperty("/");
-            var submitData = {
-                itemId: data.saleItem.id,
-                status: 4
-            };
-            var result = models.changeSalesItem(submitData);
-            if (result) {
-                MessageToast.show(this.getResourceBundle().getText("msgSalesItemCanceled"));
-                this.salesItemDialog.close();
             }
         },
-        onSetAsSold: function () {
-            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
-            if (!currentSalesItemModel) {
-                return;
-            }
-            var data = currentSalesItemModel.getProperty("/");
-            var submitData = {
-                itemId: data.saleItem.id,
-                status: 2
-            };
-            var result = models.changeSalesItem(submitData);
-            if (result) {
-                MessageToast.show(this.getResourceBundle().getText("msgSetAsSold"));
-                this.salesItemDialog.close();
-            }
+        onCityChanged: function (e) {
+            var cityId = e.getParameter("selectedItem").getBindingContext("city").getProperty("id");
+            this.filterDistrictByCity(cityId);
         },
-        onUpdateSalesItemPressed: function () {
-            var currentSalesItemModel = this.salesItemDialog.getModel("currentSalesItem");
-            if (!currentSalesItemModel) {
-                return;
+        filterDistrictByCity: function (cityId) {
+            var districts = models.getDistrictsByCity(cityId);
+            var districtModel = this.getModel("district");
+            if (!districtModel) {
+                districtModel = new JSONModel();
+                this.setModel(districtModel, "district");
             }
-            var data = currentSalesItemModel.getProperty("/");
-            var submitData = {
-                itemId: data.saleItem.id,
-                description: data.saleItem.description,
-                avaUrl: data.saleItem.picUrl,
-                itemName: data.saleItem.itemName,
-                price: data.saleItem.price
-            };
-            var result = models.updateSalesItem(submitData);
-            if (result) {
-                MessageToast.show(this.getResourceBundle().getText("msgUpdateSalesItemSuccessfully"));
+            districtModel.setProperty("/", districts);
+            districtModel.updateBindings(true);
+        },
+        validatePhone: function () {
+            var getId = this.getView().byId("ip_phone");
+            var getValue = getId.getValue();
+
+            var phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+
+            if (!phoneRegex.test(getValue)) {
+                getId.setValueState(sap.ui.core.ValueState.Error);
+                this.checkRegister = false;
             } else {
-                //handle error here
+                getId.setValueState(sap.ui.core.ValueState.Success);
             }
-        }
+        },
+        handleUserInput: function (oEvent) {
+            var check = false;
+            var sUserInput = oEvent.getParameter("value");
+            var oInputControl = oEvent.getSource();
+            if (!sUserInput || sUserInput == "") {
+                oInputControl.setValueState(sap.ui.core.ValueState.Error);
+                this.checkRegister = false;
+            } else {
+                oInputControl.setValueState(sap.ui.core.ValueState.Success);
+                check = true;
+            }
+            return check;
+        },
+        getLocationFromInput: function () {
+            var that = this;
+            var shopConfigModel = this.getModel("shopConfig");
+            if (!shopConfigModel) {
+                return;
+            }
+            var shopConfig = shopConfigModel.getProperty("/");
+            shopConfig.shop.address
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                'address': getAddress
+            }, function (results, status) {
+                if (status === 'OK') {
+                    gMap.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: gMap,
+                        position: results[0].geometry.location,
+                        draggable: true
+                    });
+                    that.getLatLng(marker);
+                } else {
+                    MessageBox.error("Địa chỉ bạn nhập chưa đúng!");
+                }
+            });
+        },
 
+        getLatLng: function (marker) {
+            var that = this;
+            google.maps.event.addListener(marker, 'dragend', function (marker) {
+                var latLng = marker.latLng;
+                var currentLatitude = latLng.lat();
+                var currentLongitude = latLng.lng();
+                that.getModel("shopConfig").setProperty("/lat", currentLatitude);
+                that.getModel("shopConfig").setProperty("/lng", currentLongitude);
+            });
+        },
+
+        setLocation: function (lat, lng) {
+            var that = this;
+            var latLong = new google.maps.LatLng(lat, lng);
+            var shopName = this.getModel("shopConfig").getProperty("/shop/shopName");
+            var content = "<h3>" + shopName + "</h3>";
+
+            var marker = new google.maps.Marker({
+                position: latLong,
+                map: gMap,
+                draggable: true
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: content
+            });
+            marker.addListener('click', function () {
+                infowindow.open(gMap, marker);
+            });
+            google.maps.event.addListener(marker, 'dragend', function (marker) {
+                var latLng = marker.latLng;
+                // var currentLatitude = latLng.lat();
+                // var currentLongitude = latLng.lng();
+                // console.log(currentLatitude, currentLongitude);
+            });
+            marker.setMap(gMap);
+
+            gMap.setZoom(17);
+            gMap.setCenter(marker.getPosition());
+        },
+        onAfterRendering: function () {
+            var mapOptions = {
+                center: new google.maps.LatLng(0, 0),
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            gMap = new google.maps.Map(this.getView().byId("map_canvas").getDomRef(), mapOptions);
+        }
     });
 });

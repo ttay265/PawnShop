@@ -197,7 +197,7 @@ sap.ui.define([
             if (submitData.picturesObj.length > 0) {
                 submitData.picUrl = submitData.picturesObj[0].pictureUrl;
             } else {
-                submitData.picUrl = "";
+                submitData.picUrl = "https://i.imgur.com/UOkVB0P.png";
             }
             submitData.pictures = JSON.stringify(submitData.picturesObj);
             // Set Item's Category Id

@@ -131,6 +131,53 @@ sap.ui.define([
             });
             return returnCallback;
         },
+        postChangeShopInfo: function (data) {
+
+            var returnCallback = {
+                result: false,
+                response: null
+            };
+            var onSuccess = function (res, status, xhr) {
+
+                },
+                onError = function (jqXHR, textStatus, errorThrown) {
+                    //Mock-backend test login
+
+                    // that._LoginDialog.getModel("loginResult").setProperty("/failed", true);
+                    // console.log("Got an error response: " + textStatus + errorThrown);
+                    // //Off-Busy after proceed
+                };
+            var serverInfo = this.getServerInfo();
+            var url = "";
+            if (serverInfo.useLocal) {
+                url = serverInfo.localUrl + "/account.json";
+            } else {
+                url = serverInfo.url + "/thay-doi-thong-tin-cua-hang";
+            }
+
+            $.ajax({
+                data: data,
+                url: url,
+                type: method,
+                async: false,
+                //end-local
+                dataType: "json",
+                method: "PUT",
+                context: this,
+                success: function (res, status, xhr) {
+                    returnCallback.result = true;
+                    returnCallback.response = res;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //Mock-backend test login
+                    returnCallback.result = null;
+                    // that._LoginDialog.getModel("loginResult").setProperty("/failed", true);
+                    // console.log("Got an error response: " + textStatus + errorThrown);
+                    // //Off-Busy after proceed
+                }
+            });
+            return returnCallback;
+        },
         getCateConfigSet: function (shopId) {
             var data = [];
             var url;
@@ -574,20 +621,19 @@ sap.ui.define([
         getCities: function () {
             var url;
             if (serverInfo.useLocal) {
-                url = "/city.json";
+                url = serverInfo.localUrl + "/city.json";
             } else {
-                url = "/city.json"; // N/A Yet
+                url = serverInfo.localUrl + "/city.json"; // N/A Yet
             }
-            var returnCallback = false;
+            var returnCallback = null;
             $.ajax({
                 url: url,
                 context: this,
                 dataType: 'json',
-                data: data,
                 method: 'GET',
                 async: false,
                 success: function (d, r, xhr) {
-                    return d;
+                    returnCallback = d;
                 },
                 error: function (e) {
                     return null;
@@ -599,20 +645,19 @@ sap.ui.define([
         getDistricts: function () {
             var url;
             if (serverInfo.useLocal) {
-                url = "/district.json";
+                url = serverInfo.localUrl + "/district.json";
             } else {
-                url = "/district.json"; // N/A Yet
+                url = serverInfo.localUrl + "/district.json"; // N/A Yet
             }
-            var returnCallback = false;
+            var returnCallback = null;
             $.ajax({
                 url: url,
                 context: this,
                 dataType: 'json',
-                data: data,
                 method: 'GET',
                 async: false,
                 success: function (d, r, xhr) {
-                    return d;
+                    returnCallback = d;
                 },
                 error: function (e) {
                     return null;
@@ -624,12 +669,17 @@ sap.ui.define([
         getDistrictsByCity: function (cityId) {
             var districts = this.getDistricts();
             var filteredDistrict = [];
-            for (var district in districts) {
+            districts.forEach(function (district, index) {
                 if (district.cityId === cityId) {
                     filteredDistrict.push(district);
                 }
-            }
-            return district;
+            });
+            // for (var district in districts) {
+            //     if (district.cityId === cityId) {
+            //         filteredDistrict.push(district);
+            //     }
+            // }
+            return filteredDistrict;
         }
     };
 });

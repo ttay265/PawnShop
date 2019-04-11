@@ -97,9 +97,9 @@ sap.ui.define([
             switch (paymentType) {
                 case 1:
                     return 'Lãi ngày';
-                case 2:
-                    return 'Lãi tháng';
                 case 3:
+                    return 'Lãi tháng';
+                case 2:
                     return 'Lãi tuần';
             }
         },

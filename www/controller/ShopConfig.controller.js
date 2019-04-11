@@ -192,14 +192,25 @@ sap.ui.define([
                 addressId: shopConfig.address.id,
                 policy: shopConfig.policy,
                 address: shopConfig.address.fullAddress,
+                districtId: shopConfig.address.districtId,
                 longtitude: shopConfig.address.longtitude,
                 latitude: shopConfig.address.latitude,
-                latitude: shopConfig.address.latitude,
-                latitude: shopConfig.address.latitude,
+                avaUrl: shopConfig.avatarUrl !== "" ? shopConfig.avatarUrl : "shop: https://i.imgur.com/BF7JbOU.png",
+                status: 4
             };
             var result = models.postChangeShopInfo(submitData);
             if (result.result) {
-
+                var accountModel = this.getModel("account");
+                if (!accountModel) {
+                    accountModel = new JSONModel();
+                    this.getOwnerComponent().setModel(accountModel, "account");
+                }
+                accountModel.setProperty("/shop", result.response);
+                accountModel.updateBindings(true);
+                var shopConfigModel = this.getModel("shopConfig");
+                shopConfigModel.setProperty("/isEditing", false);
+                shopConfigModel.updateBindings(true);
+                MessageToast.show(this.getResourceBundle().getText("msgChangeInfoShopSuccessfully"))
             }
         },
         onCityChanged: function (e) {
@@ -242,20 +253,36 @@ sap.ui.define([
             }
             return check;
         },
-        getLocationFromInput: function () {
-            var that = this;
+        getFullAddress: function () {
+            var selectCity = this.byId("selectCity");
+            var selectDistrict = this.byId("selectDistrict");
+            var cityName = selectCity.getSelectedItem().getBindingContext("city").getProperty("cityName");
+            var districtName = selectDistrict.getSelectedItem().getBindingContext("district").getProperty("districtName");
             var shopConfigModel = this.getModel("shopConfig");
             if (!shopConfigModel) {
                 return;
             }
             var shopConfig = shopConfigModel.getProperty("/");
-            shopConfig.shop.address
+            var fullAddress = shopConfig.shop.address.fullAddress;
+            if (districtName !== "") {
+                fullAddress = fullAddress + ", " + districtName;
+            }
+            if (cityName !== "") {
+                fullAddress = fullAddress + ", " + cityName;
+            }
+            return fullAddress;
+        },
+        getLocationFromInput: function () {
+            var that = this;
+
             var geocoder = new google.maps.Geocoder();
+            var fullAddress = this.getFullAddress();
             geocoder.geocode({
-                'address': getAddress
+                'address': fullAddress
             }, function (results, status) {
                 if (status === 'OK') {
                     gMap.setCenter(results[0].geometry.location);
+                    gMap.setZoom(17);
                     var marker = new google.maps.Marker({
                         map: gMap,
                         position: results[0].geometry.location,

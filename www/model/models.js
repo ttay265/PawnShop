@@ -154,15 +154,13 @@ sap.ui.define([
             } else {
                 url = serverInfo.url + "/thay-doi-thong-tin-cua-hang";
             }
-
             $.ajax({
                 data: data,
                 url: url,
-                type: method,
                 async: false,
                 //end-local
                 dataType: "json",
-                method: "PUT",
+                type: "PUT",
                 context: this,
                 success: function (res, status, xhr) {
                     returnCallback.result = true;

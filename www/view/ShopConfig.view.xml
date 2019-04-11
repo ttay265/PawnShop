@@ -41,7 +41,7 @@
             <sections>
                 <ObjectPageSection>
                     <subSections>
-                        <ObjectPageSubSection>
+                        <ObjectPageSubSection title="{i18n>general_info}">
                             <blocks>
                                 <ObjectPageLazyLoader
                                         id="shopOwnerLazyLoader">
@@ -93,7 +93,8 @@
                                                     <core:Item key="{city>id}" text="{city>cityName}"/>
                                                 </m:items>
                                             </m:Select>
-                                            <m:Select selectedKey="{shopConfig>/shop/address/districtId}"
+                                            <m:Select id="selectDistrict"
+                                                      selectedKey="{shopConfig>/shop/address/districtId}"
                                                       change="onDistrictChanged" enabled="{shopConfig>/isEditing}"
                                                       items="{district>/}">
                                                 <m:items>
@@ -104,7 +105,7 @@
                                                     labelFor="ip_address"
                                                     text=""/>
                                             <m:Input editable="{shopConfig>/isEditing}" id="ip_address"
-                                                     value="{shopConfig>/shop/fullAddress}"
+                                                     value="{shopConfig>/shop/address/fullAddress}"
                                                      change="getLocationFromInput" type="Text"
                                                      placeholder="{i18n>input_register_address}"/>
                                         </f:content>
@@ -112,24 +113,29 @@
                                 </ObjectPageLazyLoader>
                             </blocks>
                         </ObjectPageSubSection>
-                        <ObjectPageSubSection>
+                        <ObjectPageSubSection title="{i18n>address}">
                             <blocks>
                                 <ObjectPageLazyLoader>
-                                    <m:VBox width="100%" height="50rem">
-                                        <m:HBox id="map_canvas" fitContainer="true" justifyContent="Center"
+                                    <m:VBox width="100%" height="20rem">
+                                        <m:VBox id="map_canvas" fitContainer="true" justifyContent="Center"
                                                 alignItems="Center"
-                                                class="custom-map-register"></m:HBox>
+                                                class="custom-map-register"></m:VBox>
                                     </m:VBox>
                                 </ObjectPageLazyLoader>
                             </blocks>
                         </ObjectPageSubSection>
-                        <ObjectPageSubSection>
+                        <ObjectPageSubSection title="{i18n>Policy}">
                             <blocks>
                                 <ObjectPageLazyLoader>
-                                   <f:SimpleForm>
-                                       <m:Label text="{i18n>policay}"/>
-                                       <m:
-                                   </f:SimpleForm>
+                                    <f:SimpleForm columnsL="2"
+                                                  columnsM="2"
+                                                  editable="true"
+                                                  layout="ResponsiveGridLayout">
+                                        <m:Label text="{i18n>policy}"/>
+                                        <m:TextArea editable="{shopConfig>/isEditing}" height="8rem"
+                                                    growingMaxLines="10"
+                                                    value="{shopConfig>/shop/policy}"/>
+                                    </f:SimpleForm>
                                 </ObjectPageLazyLoader>
                             </blocks>
                         </ObjectPageSubSection>

@@ -28,7 +28,8 @@
                             <Toolbar>
                                 <Title text="{i18n>LIQUIDATE_INFO}" level="H4" titleStyle="H4"/>
                                 <ToolbarSpacer/>
-                                <Button type="Transparent" press="onUpdateSalesItemPressed" text="{i18n>update}"
+                                <Button visible="{= ${currentSalesItem>/saleItem/status} === 1 }" type="Transparent"
+                                        press="onUpdateSalesItemPressed" text="{i18n>update}"
                                         icon="sap-icon://save"/>
                             </Toolbar>
                         </f:toolbar>
@@ -38,7 +39,8 @@
                                     <Label required="false" text="{i18n>ITEM_NAME}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input value="{currentSalesItem>/saleItem/itemName}"
+                                    <Input editable="{= ${currentSalesItem>/saleItem/status} === 1 }"
+                                           value="{currentSalesItem>/saleItem/itemName}"
                                            placeholder="{i18n>ITEM_NAME}"/>
                                     <Select enabled="false" selectedKey="{currentSalesItem>/saleItem/categoryId}"
                                             items="{category>/}"
@@ -72,7 +74,8 @@
                                     <Label required="false" text="{i18n>salesPrice}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input width="100%" fieldWidth="80%" description="VND" textAlign="Right"
+                                    <Input editable="{= ${currentSalesItem>/saleItem/status} === 1 }" width="100%"
+                                           fieldWidth="80%" description="VND" textAlign="Right"
                                            valueLiveUpdate="true"
                                            value="{
     parts: [
@@ -91,7 +94,8 @@
                                     <Label required="false" text="{i18n>description}"/>
                                 </f:label>
                                 <f:fields>
-                                    <TextArea value="{currentSalesItem>/saleItem/description}"/>
+                                    <TextArea editable="{= ${currentSalesItem>/saleItem/status} === 1 }"
+                                              value="{currentSalesItem>/saleItem/description}"/>
                                 </f:fields>
                             </f:FormElement>
 
@@ -118,7 +122,8 @@
                                         <l:content>
                                             <Toolbar>
                                                 <content>
-                                                    <u:FileUploader iconOnly="true" multiple="false"
+                                                    <u:FileUploader visible="{= ${currentSalesItem>/saleItem/status} === 1 }"
+                                                                    iconOnly="true" multiple="false"
                                                                     buttonOnly="true"
                                                                     icon="sap-icon://add-photo" uploadOnChange="false"
                                                                     useMultipart="false"
@@ -127,7 +132,7 @@
                                                                     typeMissmatch="onTypeMissmatch"
                                                                     change="onUploadPress"/>
                                                     <ToolbarSpacer/>
-                                                    <Button visible="{= ${currentSalesItem>/pictureList}.length > 0 ? true : false }"
+                                                    <Button visible="{= ${currentSalesItem>/saleItem/status} === 1 &amp;&amp; ${currentSalesItem>/pictureList}.length > 0 ? true : false }"
                                                             text="{i18n>del_pic}"
                                                             press="onDeletePic"
                                                             icon="sap-icon://delete"/>
@@ -150,8 +155,10 @@
             </f:Form>
         </content>
         <buttons>
-            <Button press="onSetAsSold" text="{i18n>BTN_SET_SOLD}" type="Accept"/>
-            <Button press="onCancelSalesItem" text="{i18n>BTN_CANCEL}" type="Reject"/>
+            <Button visible="{= ${currentSalesItem>/saleItem/status} === 1 }" press="onSetAsSold" text="{i18n>BTN_SET_SOLD}"
+                    type="Accept"/>
+            <Button visible="{= ${currentSalesItem>/saleItem/status} === 1 }" press="onCancelSalesItem" text="{i18n>BTN_CANCEL}"
+                    type="Reject"/>
             <Button press="onDialogClose" text="{i18n>BTN_CLOSE}" type="Transparent"/>
         </buttons>
     </Dialog>

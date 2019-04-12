@@ -50,7 +50,7 @@
                                     <Label required="true" text="{i18n>EMAIL}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Input maxLength="50" change="onPawneeChanged" showValueHelp="true"
+                                    <Input maxLength="50" change="onPawneeChanged"
                                            value="{createTrans>/email}"/>
                                 </f:fields>
                             </f:FormElement>
@@ -83,22 +83,23 @@
                                     <Label required="false" text="{i18n>ADDRESS}"/>
                                 </f:label>
                                 <f:fields>
-                                    <ComboBox items="{city>/}" value="{createTrans>/addressObject/city}"
+                                    <ComboBox selectionChange="onCityChanged" items="{city>/}"
+                                              value="{createTrans>/addressObject/city}"
                                               placeholder="{i18n>CITY}">
                                         <layoutData>
                                             <l:GridData span="XL4 L3 M8 S6"/>
                                         </layoutData>
                                         <items>
-                                            <core:Item text="{city>desc}" key="{city>id}"/>
+                                            <core:Item text="{city>cityName}" key="{city>id}"/>
                                         </items>
                                     </ComboBox>
-                                    <ComboBox items="{dist>/}" value="{createTrans>/addressObject/district}"
+                                    <ComboBox items="{district>/}" value="{createTrans>/addressObject/district}"
                                               placeholder="{i18n>DISTRICT}">
                                         <layoutData>
                                             <l:GridData indentM="3" span="XL4 L3 M8 S6"/>
                                         </layoutData>
                                         <items>
-                                            <core:Item text="{dist>desc}" key="{dist>id}"/>
+                                            <core:Item text="{district>districtName}" key="{district>id}"/>
                                         </items>
                                     </ComboBox>
                                     <Input maxLength="100" value="{createTrans>/addressObject/streetName}"

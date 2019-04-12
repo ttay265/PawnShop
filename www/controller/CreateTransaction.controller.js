@@ -81,10 +81,19 @@ sap.ui.define([
             this.changeCurrentCateConfig(data);
         },
 
-        districtByCity: function (cityId) {
-            //get District Model -> data
-
-
+        onCityChanged: function (e) {
+            var cityId = e.getParameter("selectedItem").getBindingContext("city").getProperty("id");
+            this.filterDistrictByCity(cityId);
+        },
+        filterDistrictByCity: function (cityId) {
+            var districts = models.getDistrictsByCity(cityId);
+            var districtModel = this.getModel("district");
+            if (!districtModel) {
+                districtModel = new JSONModel();
+                this.setModel(districtModel, "district");
+            }
+            districtModel.setProperty("/", districts);
+            districtModel.updateBindings(true);
         },
 
         _onObjectMatched: function (oEvent) {

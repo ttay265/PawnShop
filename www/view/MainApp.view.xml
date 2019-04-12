@@ -74,15 +74,6 @@
                         <tnt:NavigationListItem select="" enabled="false"
                                                 text="{account>/shop/shopName}"
                                                 icon="sap-icon://employee"/>
-                        <tnt:NavigationListItem select="" enabled="false"
-                                                text="{globalProperties>/SiteDesc}"
-                                                icon="sap-icon://building"/>
-                        <tnt:NavigationListItem select="onUpdateAppPressed"
-                                                text="{i18n>LBL_UPDATE_APP}"
-                                                icon="sap-icon://download-from-cloud"/>
-                        <tnt:NavigationListItem select="changePasswordPress"
-                                                text="{i18n>navChangePass}"
-                                                icon="sap-icon://user-edit"/>
                         <tnt:NavigationListItem select="logout"
                                                 text="{i18n>logout}"
                                                 icon="sap-icon://log"/>

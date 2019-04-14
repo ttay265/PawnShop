@@ -44,7 +44,6 @@ sap.ui.define([
             // }
             //Attachment matched
             this.getRouter().getRoute("dashboard").attachPatternMatched(this._onObjectMatched, this);
-
         },
         _onObjectMatched: function () {
             this.bindCateConfigModel();
@@ -84,6 +83,20 @@ sap.ui.define([
             this.changePassDialog.open();
         },
         onAfterRendering: function () {
+            var notiModel = this.getModel("noti");
+            if (!notiModel) {
+                notiModel = new JSONModel();
+                this.setModel(notiModel, "noti");
+            }
+            var accountModel = this.getModel("account");
+            if (!accountModel) {
+                //re-login if account data is empty. #Security-mechanism
+                this.logout();
+                return;
+            }
+            var accountId = accountModel.getProperty("/").user.id;
+            var notifications = models.getNotifications(accountId) || [];
+            notiModel.setProperty("/", notifications);
         },
         doNav: function (view, source) {
             this.getRouter().navTo(view, true);
@@ -154,7 +167,14 @@ sap.ui.define([
                 }
             }
         },
+        onMessagePopoverPress: function (oEvent) {
+            var notiList = this.byId("notiList");
+            this.bindNotiModel();
+            notiList.openBy(oEvent.getSource());
+        },
+        bindNotiModel() {
 
+        },
         doChangePass: function () {
             var that = this;
             var onSuccess = function (data) {
@@ -191,6 +211,7 @@ sap.ui.define([
         },
         logout: function () {
             this.getGlobalModel().setProperty("/", null, null, true);
+            this.removeLocalLoginData();
             this.getRouter().navTo("login", true);
             this.page.setSideExpanded(false);
             var msg = this.getResourceBundle().getText("msgLogout");

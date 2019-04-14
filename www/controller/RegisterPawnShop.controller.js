@@ -57,15 +57,15 @@ sap.ui.define([
         //     // }
         // },
         _onObjectMatched: function () {
-            if (!this.login()) {
-                this.getRouter().navTo("login", true);
-            } else {
-                this.Pernr = this.getGlobalModel().getProperty("/user");
-                var status = this.getGlobalModel().getProperty("/status");
-                if (status === "N") {
-                    this.forceChangePass();
+                if (!this.login()) {
+                    this.getRouter().navTo("login", true);
+                } else {
+                    this.Pernr = this.getGlobalModel().getProperty("/user");
+                    var status = this.getGlobalModel().getProperty("/status");
+                    if (status === "N") {
+                        this.forceChangePass();
+                    }
                 }
-            }
         },
         forceChangePass: function () {
             this.changePasswordPress();

@@ -2,7 +2,8 @@
           xmlns:layout="sap.ui.layout"
           xmlns="sap.m"
           controllerName="mortgage.pawnshop.controller.Dashboard">
-    <Page class="sapMShellGlobalOuterBackground" backgroundDesign="Transparent" showNavButton="false" showHeader="false">
+    <Page class="sapMShellGlobalOuterBackground" backgroundDesign="Transparent" showNavButton="false"
+          showHeader="false">
         <content>
             <layout:VerticalLayout class="sapUiResponsiveMargin">
                 <Title
@@ -70,7 +71,5 @@
                 </layout:HorizontalLayout>
             </layout:VerticalLayout>
         </content>
-
-
     </Page>
 </mvc:View>

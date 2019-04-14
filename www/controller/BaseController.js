@@ -378,6 +378,10 @@ sap.ui.define([
                 password: localStorage.getItem("password")
             };
         },
+        removeLocalLoginData: function () {
+            localStorage.removeItem("username");
+            localStorage.removeItem("password");
+        },
         doAutoLogin: function () {
             var loginInfo = this.getSavedLoginData();
             var logon = this.login(loginInfo.username, loginInfo.password);

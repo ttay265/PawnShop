@@ -68,25 +68,17 @@ sap.ui.define([
             var oFileUploader = oEvt.getSource();
             var aFiles = oEvt.getParameters().files;
             var currentFile = aFiles[0];
+            var msgUploadingPic = this.getResourceBundle().getText("msgUploadingPic");
+            var msgPleaseWait = this.getResourceBundle().getText("msgPleaseWait");
+            this.openBusyDialog({
+                title: msgUploadingPic,
+                text: msgPleaseWait,
+                showCancelButton: true
+            });
             this.resizeAndUpload(currentFile, {
                 success: function (oEvt) {
                     oFileUploader.setValue("");
-                    console.log(oEvt);
-                    //Here the image is on the backend, so i call it again and set the image
-                    var model = that.salesItemDialog.getModel("currentSalesItem");
-                    if (!model) {
-                        return;
-                    }
-                    var pics = model.getProperty("/pictureList");
-                    pics.push({
-                        pictureUrl: encodeURI(oEvt.data.link),
-                        idCloud: oEvt.data.id,
-                        deleteHash: oEvt.data.deletehash
-                    });
-                    model.setProperty("/pictureList", pics, null, false);
-                    model.updateBindings(true);
-                    var a = that.byId("carUploadedImg");
-                    console.log(a.getBinding("pages"));
+                    that.postProcessUpdateAvatar(oEvt.data.link);
                     // that.byId("carUploadedImg").addPage(
                     //     new sap.m.Image({
                     //         width: '80%',
@@ -94,13 +86,48 @@ sap.ui.define([
                     //         decorative: false,
                     //         src: encodeURI(oEvt.data.link)
                     //     }));
+                    that.closeBusyDialog();
                 },
                 error: function (oEvt) {
                     //Handle error here
+                    that.closeBusyDialog();
                 }
             });
         },
-
+        postProcessUpdateAvatar: function (avatarUrl) {
+            var shopConfigModel = this.getModel("shopConfig");
+            if (!shopConfigModel) {
+                return;
+            }
+            var shopConfig = shopConfigModel.getProperty("/shop");
+            var submitData = {
+                shopId: shopConfig.id,
+                shopName: shopConfig.shopName,
+                facebook: shopConfig.facebook,
+                email: shopConfig.email,
+                phoneNumber: shopConfig.phoneNumber,
+                addressId: shopConfig.address.id,
+                policy: shopConfig.policy,
+                address: shopConfig.address.fullAddress,
+                districtId: shopConfig.address.districtId,
+                longtitude: shopConfig.address.longtitude,
+                latitude: shopConfig.address.latitude,
+                avaUrl: avatarUrl,
+                status: 4
+            };
+            var result = models.postChangeShopInfo(submitData);
+            if (result.result) {
+                var accountModel = this.getModel("account");
+                if (!accountModel) {
+                    accountModel = new JSONModel();
+                    this.getOwnerComponent().setModel(accountModel, "account");
+                }
+                accountModel.setProperty("/shop", result.response);
+                accountModel.updateBindings(true);
+                shopConfigModel.updateBindings(true);
+                MessageToast.show(this.getResourceBundle().getText("msgChangeInfoShopSuccessfully"))
+            }
+        },
         onDeletePic: function () {
             var that = this;
             var carousel = this.byId("carUploadedImg");

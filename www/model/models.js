@@ -84,6 +84,33 @@ sap.ui.define([
             });
             return data;
         },
+        getNotifications: function (accountId) {
+            var data = [];
+            var url;
+            if (serverInfo.useLocal) {
+                url = serverInfo.localUrl + "/notification.json";
+            } else {
+                url = serverInfo.url + "/get-new-notification";
+            }
+            var ajaxData = {
+                id : accountId
+            };
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: ajaxData,
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                },
+                error: function (e) {
+
+                }
+
+            });
+            return data;
+        },
         postCreateTransaction: function (data) {
 
             var returnCallback = {

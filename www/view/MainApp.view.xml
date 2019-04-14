@@ -25,14 +25,23 @@
                 <!--</Button>-->
                 <Button
                         icon="sap-icon://message-popup"
-                        type="Emphasized"
-                        text="Bạn có thông báo mới"
+                        type="{= ${noti>/}.length > 0 ? 'Emphasized' : 'Transparent' }"
+                        text="{= ${noti>/}.length > 0 ? ${i18n>msgNewNoti} : '' }"
                         press="onMessagePopoverPress"
                         tooltip="{i18n>errorButtonTooltip}">
                     <layoutData>
                         <OverflowToolbarLayoutData closeOverflowOnInteraction="false"/>
                     </layoutData>
                 </Button>
+                <ResponsivePopover showHeader="false" id="notiList" placement="VerticalPreferedBottom">
+                    <content>
+                        <List items="{noti>/}" noDataText="{i18n>msgNoNewNoti}">
+                            <items>
+                                <NotificationListItem title="{noti>objectId}" authorName="{noti>dateCreate}" description="{noti>message}"/>
+                            </items>
+                        </List>
+                    </content>
+                </ResponsivePopover>
             </tnt:ToolHeader>
         </tnt:header>
         <tnt:sideContent>

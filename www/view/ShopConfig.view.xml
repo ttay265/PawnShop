@@ -18,7 +18,7 @@
                     <actions>
                         <ObjectPageHeaderActionButton
                                 id="save"
-                                text="{i18n>save}"
+                                text="{i18n>submitChangeRequest}"
                                 hideText="false"
                                 press="onSavePressed"
                                 visible="{shopConfig>/isEditing}"

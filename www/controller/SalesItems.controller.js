@@ -38,6 +38,19 @@ sap.ui.define([
             var data = models.getSalesItems(shopId);
             model.setProperty("/", data);
         },
+        handleUserInput: function (oEvent) {
+            var check = false;
+            var sUserInput = oEvent.getParameter("value");
+            var oInputControl = oEvent.getSource();
+            if (!sUserInput || sUserInput == "") {
+                oInputControl.setValueState(sap.ui.core.ValueState.Error);
+                this.checkRegister = false;
+            } else {
+                oInputControl.setValueState(sap.ui.core.ValueState.Success);
+                check = true;
+            }
+            return check;
+        },
         onUploadPress: function (oEvt) {
             var that = this;
             var oFileUploader = oEvt.getSource();

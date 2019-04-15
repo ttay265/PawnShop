@@ -12,14 +12,25 @@ sap.ui.define([
     return BaseController.extend("mortgage.pawnshop.controller.ShopConfig", {
         formatter: formatter,
         onInit: function () {
-            this.getView().byId("map_canvas").addStyleClass("myMap");
+
             this.getRouter().getRoute("shopConfig").attachPatternMatched(this._onObjectMatched, this);
 
         },
         _onObjectMatched: function (oEvent) {
+            if (!this.checkLogin()) {
+                this.getRouter().navTo("login", true);
+            }
+            // var mapOptions = {
+            //     center: new google.maps.LatLng(0, 0),
+            //     zoom: 1,
+            //     mapTypeId: google.maps.MapTypeId.ROADMAP
+            // };
+            // gMap = new google.maps.Map(this.getView().byId("map_canvas").getDomRef(), mapOptions);
+            // this.initialModelBinding();
             //whenever page is called, it comes to this func
+            // this.loadMap(0, 0);
+            // this.getView().byId("map_canvas").addStyleClass("myMap");
 
-            this.initialModelBinding();
         },
         initialModelBinding: function () {
             var bindCompleted = this.bindShopConfigModel();
@@ -59,7 +70,7 @@ sap.ui.define([
             };
             shopConfig.isEditing = false;
             model.setProperty("/", shopConfig);
-            this.setLocation(shopConfig.shop.address.latitude, shopConfig.shop.address.longtitude);
+            this.setLocationShop(shopConfig.shop.address.latitude, shopConfig.shop.address.longtitude);
             model.updateBindings(true);
             return true;
         },
@@ -222,7 +233,7 @@ sap.ui.define([
                 districtId: shopConfig.address.districtId,
                 longtitude: shopConfig.address.longtitude,
                 latitude: shopConfig.address.latitude,
-                avaUrl: shopConfig.avatarUrl !== "" ? shopConfig.avatarUrl : "shop: https://i.imgur.com/BF7JbOU.png",
+                avaUrl: shopConfig.avatarUrl !== "" ? shopConfig.avatarUrl : "https://i.imgur.com/BF7JbOU.png",
                 status: 4
             };
             var result = models.postChangeShopInfo(submitData);
@@ -267,19 +278,7 @@ sap.ui.define([
                 getId.setValueState(sap.ui.core.ValueState.Success);
             }
         },
-        handleUserInput: function (oEvent) {
-            var check = false;
-            var sUserInput = oEvent.getParameter("value");
-            var oInputControl = oEvent.getSource();
-            if (!sUserInput || sUserInput == "") {
-                oInputControl.setValueState(sap.ui.core.ValueState.Error);
-                this.checkRegister = false;
-            } else {
-                oInputControl.setValueState(sap.ui.core.ValueState.Success);
-                check = true;
-            }
-            return check;
-        },
+
         getFullAddress: function () {
             var selectCity = this.byId("selectCity");
             var selectDistrict = this.byId("selectDistrict");
@@ -301,7 +300,6 @@ sap.ui.define([
         },
         getLocationFromInput: function () {
             var that = this;
-
             var geocoder = new google.maps.Geocoder();
             var fullAddress = this.getFullAddress();
             geocoder.geocode({
@@ -315,59 +313,53 @@ sap.ui.define([
                         position: results[0].geometry.location,
                         draggable: true
                     });
-                    that.getLatLng(marker);
+                    that.setLatLngToModel(marker);
                 } else {
                     MessageBox.error("Địa chỉ bạn nhập chưa đúng!");
                 }
             });
         },
-
-        getLatLng: function (marker) {
+        setLatLngToModel: function (marker) {
+            var latLng = marker.position;
+            var currentLatitude = latLng.lat();
+            var currentLongitude = latLng.lng();
+            this.getModel("shopConfig").setProperty("/shop/address/latitude", currentLatitude);
+            this.getModel("shopConfig").setProperty("/shop/address/longtitude", currentLongitude);
+        },
+        setLocationShop: function (lat, lng) {
             var that = this;
-            google.maps.event.addListener(marker, 'dragend', function (marker) {
+            var latLong = new google.maps.LatLng(lat, lng);
+            if (!this.marker) {
+                this.marker = new google.maps.Marker({
+                    position: latLong
+                });
+                this.marker.setMap(gMap);
+            } else {
+                this.marker.setPosition(latLong);
+            }
+            this.marker.setMap(gMap);
+            gMap.setZoom(15);
+            gMap.setCenter(this.marker.getPosition());
+            google.maps.event.addListener(this.marker, 'dragend', function (marker) {
                 var latLng = marker.latLng;
                 var currentLatitude = latLng.lat();
                 var currentLongitude = latLng.lng();
-                that.getModel("shopConfig").setProperty("/lat", currentLatitude);
-                that.getModel("shopConfig").setProperty("/lng", currentLongitude);
+                that.getModel("shopConfig").setProperty("/shop/address/latitude", currentLatitude);
+                that.getModel("shopConfig").setProperty("/shop/address/longtitude", currentLongitude);
             });
-        },
-
-        setLocation: function (lat, lng) {
-            var that = this;
-            var latLong = new google.maps.LatLng(lat, lng);
-            var shopName = this.getModel("shopConfig").getProperty("/shop/shopName");
-            var content = "<h3>" + shopName + "</h3>";
-
-            var marker = new google.maps.Marker({
-                position: latLong,
-                map: gMap,
-                draggable: true
-            });
-            var infowindow = new google.maps.InfoWindow({
-                content: content
-            });
-            marker.addListener('click', function () {
-                infowindow.open(gMap, marker);
-            });
-            google.maps.event.addListener(marker, 'dragend', function (marker) {
-                var latLng = marker.latLng;
-                // var currentLatitude = latLng.lat();
-                // var currentLongitude = latLng.lng();
-                // console.log(currentLatitude, currentLongitude);
-            });
-            marker.setMap(gMap);
-
-            gMap.setZoom(17);
-            gMap.setCenter(marker.getPosition());
         },
         onAfterRendering: function () {
+            if (!this.checkLogin()) {
+                this.getRouter().navTo("login", true);
+                return;
+            }
             var mapOptions = {
                 center: new google.maps.LatLng(0, 0),
-                zoom: 10,
+                zoom: 1,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             gMap = new google.maps.Map(this.getView().byId("map_canvas").getDomRef(), mapOptions);
+            this.initialModelBinding();
         }
     });
 });

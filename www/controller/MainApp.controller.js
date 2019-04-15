@@ -49,6 +49,7 @@ sap.ui.define([
             this.bindCateConfigModel();
         },
         bindCateConfigModel: function () {
+
             var accountModel = this.getModel("account");
             if (!accountModel) {
                 this.getRouter().navTo("login", true);
@@ -82,7 +83,15 @@ sap.ui.define([
         changePasswordPress: function () {
             this.changePassDialog.open();
         },
+        onBeforeRendering: function () {
+            if (!this.checkLogin()) {
+                this.getRouter().navTo("login", true);
+            }
+        },
         onAfterRendering: function () {
+            if (!this.checkLogin()) {
+                this.getRouter().navTo("login", true);
+            }
             var notiModel = this.getModel("noti");
             if (!notiModel) {
                 notiModel = new JSONModel();
@@ -172,9 +181,6 @@ sap.ui.define([
             this.bindNotiModel();
             notiList.openBy(oEvent.getSource());
         },
-        bindNotiModel() {
-
-        },
         doChangePass: function () {
             var that = this;
             var onSuccess = function (data) {
@@ -209,14 +215,7 @@ sap.ui.define([
             var expanded = this.page.getSideExpanded();
             this.page.setSideExpanded(!expanded);
         },
-        logout: function () {
-            this.getGlobalModel().setProperty("/", null, null, true);
-            this.removeLocalLoginData();
-            this.getRouter().navTo("login", true);
-            this.page.setSideExpanded(false);
-            var msg = this.getResourceBundle().getText("msgLogout");
-            MessageToast.show(msg);
-        },
+
         __toViewCart: function () {
             this.getRouter().navTo("cart", false);
         },

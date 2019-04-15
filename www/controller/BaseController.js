@@ -379,8 +379,11 @@ sap.ui.define([
             };
         },
         removeLocalLoginData: function () {
+            this.getOwnerComponent().setModel(null, "account");
             localStorage.removeItem("username");
             localStorage.removeItem("password");
+            localStorage.removeItem("accountId");
+
         },
         doAutoLogin: function () {
             var loginInfo = this.getSavedLoginData();
@@ -394,15 +397,9 @@ sap.ui.define([
             this.busyDialog.close();
             return logon;
         },
-
         logout: function () {
-            this.getGlobalModel().setProperty("/accountId", "");
-            this.getGlobalModel().setProperty("/username", "");
-            this.getGlobalModel().setProperty("/role", "");
-            this.getGlobalModel().setProperty("/password", "");
-
-            //Set Local Storage
-            localStorage.removeItem("username");
+            this.removeLocalLoginData();
+            this.getRouter().navTo("login", true);
         },
 
         filterTable: function (aCurrentFilterValues) {

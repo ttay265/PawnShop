@@ -154,7 +154,11 @@ sap.ui.define([
             createTransData.paymentTerm = replacedTrans.transaction.paymentTerm;
             createTransData.paymentType = replacedTrans.transaction.paymentType;
             createTransData.basePrice = replacedTrans.transaction.basePrice;
-            createTransData.startDate = new Date();
+            createTransData.startDate = function () {
+                var da = new Date();
+                da.setHours(7);
+                return da;
+            };
             createTransData.liquidateAfter = replacedTrans.transaction.liquidateAfter;
             createTransData.transId = replacedTrans.transaction.id;
             for (var i = 0; i < replacedTrans.pictureList.length; i++) {
@@ -396,6 +400,7 @@ sap.ui.define([
             data.attributes = attrs.join(",");
             //send category id
             data.categoryId = currentConfig.category.id;
+            data.startDate.setHours(7);
             //parse Pictures json to  string
             data.pictures = JSON.stringify(data.picturesObj);
             return data;

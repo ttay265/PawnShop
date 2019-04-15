@@ -113,7 +113,7 @@ sap.ui.define([
                 longtitude: shopConfig.address.longtitude,
                 latitude: shopConfig.address.latitude,
                 avaUrl: avatarUrl,
-                status: 4
+                status: shopConfig.status
             };
             var result = models.postChangeShopInfo(submitData);
             if (result.result) {

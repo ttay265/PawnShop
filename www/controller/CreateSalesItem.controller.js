@@ -37,7 +37,7 @@ sap.ui.define([
                 picturesObj: transData.pictureList,
                 description: "",
                 categoryId: "",
-                transId: ""
+                transId: transData.transaction.id
             };
             var createSalesModel = this.getModel("createSalesItem");
             if (!createSalesModel) {
@@ -162,7 +162,6 @@ sap.ui.define([
             };
             reader.readAsDataURL(file);
         },
-
         uploadFile: function (dataURL, mParams, file) {
             var xhr = new XMLHttpRequest();
             var BASE64_MARKER = 'data:' + file.type + ';base64,';
@@ -219,6 +218,12 @@ sap.ui.define([
             }
             var data = models.postCreateSalesItem(submitData);
             if (data) {
+                var liqData = {
+                    transactionId: submitData.transId,
+                    description: "Thanh lý"
+                };
+
+                data = models.postLiquidate(liqData);
                 var sucMsg = this.getResourceBundle().getText("msgCreateSuccessful");
                 MessageToast.show(sucMsg);
                 this.back();

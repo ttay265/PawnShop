@@ -260,7 +260,7 @@ sap.ui.define([
                 this.getOwnerComponent().setModel(passModel, "pasModel");
             }
             var value = passModel.getProperty("/" + key);
-            passModel.setProperty("/" + key, null, null, false);
+            passModel.setProperty("/" + key, undefined, null, false);
             return value;
         },
 

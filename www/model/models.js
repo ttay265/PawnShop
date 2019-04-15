@@ -93,7 +93,7 @@ sap.ui.define([
                 url = serverInfo.url + "/get-new-notification";
             }
             var ajaxData = {
-                id : accountId
+                id: accountId
             };
             $.ajax({
                 url: url,
@@ -515,7 +515,32 @@ sap.ui.define([
             });
             return returnCallback;
         },
+        postLiquidate: function (data) {
+            var url;
+            if (serverInfo.useLocal) {
+                return true;
+            } else {
+                url = serverInfo.url + "/thanh-ly-phieu-cam-do";
+            }
+            var returnCallback = false;
+            $.ajax({
+                url: url,
+                context: this,
+                dataType: 'json',
+                data: data,
+                method: 'POST',
+                async: false,
+                success: function (d, r, xhr) {
+                    data = d;
+                    returnCallback = true;
+                },
+                error: function (e) {
 
+                }
+
+            });
+            return returnCallback;
+        },
         postRedeem: function (data) {
             var url;
             if (serverInfo.useLocal) {

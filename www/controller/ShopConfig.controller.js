@@ -124,7 +124,7 @@ sap.ui.define([
                 }
                 accountModel.setProperty("/shop", result.response);
                 accountModel.updateBindings(true);
-                shopConfigModel.updateBindings(true);
+                this.bindShopConfigModel();
                 MessageToast.show(this.getResourceBundle().getText("msgChangeInfoShopSuccessfully"))
             }
         },

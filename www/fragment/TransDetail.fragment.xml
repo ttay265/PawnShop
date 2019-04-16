@@ -54,7 +54,7 @@
                                     <Label text="{i18n>liquidateAfter}"/>
                                 </f:label>
                                 <f:fields>
-                                    <Text text="{ path : 'transDetail>/transaction/liquidateAfter'}"/>
+                                    <Text text="{transDetail>/transaction/liquidateAfter} ngày"/>
                                 </f:fields>
                             </f:FormElement>
                             <f:FormElement>

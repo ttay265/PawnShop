@@ -257,6 +257,7 @@ sap.ui.define([
             };
             var result = models.changeSalesItem(submitData);
             if (result) {
+                this.bindShopConfigModel();
                 MessageToast.show(this.getResourceBundle().getText("msgSalesItemCanceled"));
                 this.salesItemDialog.close();
             }
@@ -273,6 +274,7 @@ sap.ui.define([
             };
             var result = models.changeSalesItem(submitData);
             if (result) {
+                this.bindShopConfigModel();
                 MessageToast.show(this.getResourceBundle().getText("msgSetAsSold"));
                 this.salesItemDialog.close();
             }

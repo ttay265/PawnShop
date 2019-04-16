@@ -76,9 +76,15 @@ sap.ui.define([
                 //Handle error loading shop CateConfig here
                 return;
             }
-            var data = cateConfigModel.getProperty("/0/");
+            var validCate = [];
+            var data = cateConfigModel.getProperty("/");
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].status === 1) {
+                    validCate.push(data[i]);
+                }
+            }
             //     model.setProperty("/", data);
-            this.changeCurrentCateConfig(data);
+            this.changeCurrentCateConfig(validCate[0]);
         },
 
         onCityChanged: function (e) {

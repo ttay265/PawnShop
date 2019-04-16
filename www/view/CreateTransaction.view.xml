@@ -128,7 +128,9 @@
                                     </Input>
                                     <Select forceSelection="false" selectedKey="{= ${currentConfig>/id}}"
                                             change="onCateConfigChanged"
-                                            items="{cateConfig>/}"
+                                            items="{path: 'cateConfig>/',
+                                                    filters : [
+                                                        { path : 'status', operator : 'EQ', value1 : 1}]}"
                                             placeholder="{i18n>ITEM_TYPE}">
                                         <layoutData>
                                             <l:GridData span="XL3 L3 M4 S6"/>

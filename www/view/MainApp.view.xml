@@ -33,11 +33,25 @@
                         <OverflowToolbarLayoutData closeOverflowOnInteraction="false"/>
                     </layoutData>
                 </Button>
-                <ResponsivePopover showHeader="false" id="notiList" placement="VerticalPreferedBottom">
+                <Button text="DEMO: Send Notifications"
+                        type="Transparent"
+                        press="onSendNoti"
+                        tooltip="{i18n>errorButtonTooltip}">
+                    <layoutData>
+                        <OverflowToolbarLayoutData closeOverflowOnInteraction="false"/>
+                    </layoutData>
+                </Button>
+                <ResponsivePopover modal="false" showHeader="false" id="notiList" placement="VerticalPreferedBottom">
+                    <beginButton>
+                        <Button visible="{device>/system/phone}" type="Transparent" text="{i18n>close}"
+                                press="onDialogClose"/>
+                    </beginButton>
                     <content>
-                        <List items="{noti>/}" noDataText="{i18n>msgNoNewNoti}">
+                        <List items="{noti>/}"
+                              noDataText="{i18n>msgNoNewNoti}">
                             <items>
-                                <NotificationListItem title="{noti>objectId}" authorName="{noti>dateCreate}" description="{noti>message}"/>
+                                <NotificationListItem title="{noti>objectId}" authorName="{noti>dateCreate}"
+                                                      description="{noti>message}"/>
                             </items>
                         </List>
                     </content>

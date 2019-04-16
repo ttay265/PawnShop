@@ -105,7 +105,14 @@ sap.ui.define([
             }
             var accountId = accountModel.getProperty("/").user.id;
             var notifications = models.getNotifications(accountId) || [];
-            notiModel.setProperty("/", notifications);
+            //filter type 3 & 4
+            var validNoti = [];
+            for (var i = 0; i < notifications.length; i++) {
+                if (notifications[i].type === 3 || notifications[i].type === 4) {
+                    validNoti.push(notifications[i]);
+                }
+            }
+            notiModel.setProperty("/", validNoti);
         },
         doNav: function (view, source) {
             this.getRouter().navTo(view, true);
@@ -152,6 +159,9 @@ sap.ui.define([
             }
             this.changePassDialog.close();
         },
+        onSendNoti: function() {
+            models.demoSendNoti();
+        },
         navToArtTypeItems: function (oEvent) {
             var articleType = oEvent.getSource().getBindingContext().getProperty("Mtart");
             this.page.setSideExpanded(false);
@@ -178,7 +188,7 @@ sap.ui.define([
         },
         onMessagePopoverPress: function (oEvent) {
             var notiList = this.byId("notiList");
-            this.bindNotiModel();
+            // this.bindNotiModel();
             notiList.openBy(oEvent.getSource());
         },
         doChangePass: function () {

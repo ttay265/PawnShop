@@ -203,6 +203,50 @@ sap.ui.define([
             });
             return returnCallback;
         },
+        demoSendNoti: function () {
+
+            var returnCallback = {
+                result: false,
+                response: null
+            };
+            var onSuccess = function (res, status, xhr) {
+
+                },
+                onError = function (jqXHR, textStatus, errorThrown) {
+                    //Mock-backend test login
+
+                    // that._LoginDialog.getModel("loginResult").setProperty("/failed", true);
+                    // console.log("Got an error response: " + textStatus + errorThrown);
+                    // //Off-Busy after proceed
+                };
+            var serverInfo = this.getServerInfo();
+            var url = "";
+            if (serverInfo.useLocal) {
+                url = serverInfo.localUrl + "/account.json";
+            } else {
+                url = serverInfo.url + "/check-scheduled";
+            }
+            $.ajax({
+                url: url,
+                async: false,
+                //end-local
+                dataType: "json",
+                type: "GET",
+                context: this,
+                success: function (res, status, xhr) {
+                    returnCallback.result = true;
+                    // returnCallback.response = res;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //Mock-backend test login
+                    returnCallback.result = null;
+                    // that._LoginDialog.getModel("loginResult").setProperty("/failed", true);
+                    // console.log("Got an error response: " + textStatus + errorThrown);
+                    // //Off-Busy after proceed
+                }
+            });
+            return returnCallback;
+        },
         getCateConfigSet: function (shopId) {
             var data = [];
             var url;

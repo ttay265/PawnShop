@@ -51,6 +51,14 @@
                             </f:FormElement>
                             <f:FormElement>
                                 <f:label>
+                                    <Label text="{i18n>liquidateAfter}"/>
+                                </f:label>
+                                <f:fields>
+                                    <Text text="{ path : 'transDetail>/transaction/liquidateAfter'}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement>
+                                <f:label>
                                     <Label text="{i18n>description}"/>
                                 </f:label>
                                 <f:fields>

@@ -4,7 +4,7 @@
         controllerName="mortgage.pawnshop.controller.SalesItems">
     <Page showHeader="false">
         <content>
-            <List growing="true" growingScrollToLoad="true" growingThreshold="5"
+            <List growing="true" growingScrollToLoad="true" growingThreshold="6"
                   mode="SingleSelectMaster" includeItemInSelection="true" itemPress="onSalesPressed"
                   inset="{= !${device>/support/touch}}" items="{sales>/}">
                 <headerToolbar>
@@ -18,7 +18,7 @@
                 </headerToolbar>
                 <items>
                     <ObjectListItem type="Active"
-                                    firstStatus="{sales>saleItem/status}"
+                                    firstStatus     ="{sales>saleItem/status}"
                                     highlight="{ path: 'sales>saleItem/status',
                                                 formatter: '.formatter.salesStatusState'}"
                                     iconDensityAware="false" icon="{sales>saleItem/picUrl}"
